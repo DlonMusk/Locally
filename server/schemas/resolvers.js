@@ -1,6 +1,6 @@
 // Setting up file requirements
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Store } = require("../models");
+const { User, Store, Product, Post } = require("../models");
 const { signToken } = require("../utils/auth");
 const { ObjectId } = require('mongoose').Types;
 
@@ -51,32 +51,89 @@ const resolvers = {
         },
 
         addProduct: async (parent, productData) => {
+            
+            if (productData) {
+                const product = await Product.create(productData)
+
+                return product;
+            }
+
+            throw new AuthenticationError("Unable to add Product");
+        },
+
+        removeProduct: async (parent, { productID }) => {
+
+            if (productID) {
+                const updatedProduct = await Store.findOneAndUpdate(
+                    { _id: productID },
+                    { $pull: { products: { productID } } },
+                    { new: true },
+                )
+
+                return updatedProduct;
+            };
+
+            throw new AuthenticationError("Unable to delete Product");
 
         },
 
-        removeProduct: async (parent, productId) => {
+        updateProduct: async (_, { productID, productTitle, productDescription, productPrice, productImage, productStock, productTags }) => { 
+            const updatedProduct = await Store.findOneAndUpdate(products, { _id: productID }); 
+            if (!updatedProduct) {
+                throw new AuthenticationError("Unable to update Product");
+            }
+            updatedProduct.productTitle = productTitle;
+            updatedProduct.productDescription = productDescription;
+            updatedProduct.ProductPrice = productPrice;
+            updatedProduct.ProductImage = productImage;
+            updatedProduct.stock = productStock;
+            updatedProduct.tags = productTags;
 
-        },
-
-        updateProduct: async (parent, productData) => {
-
+            return updatedProduct;
         },
 
         addPostReview: async (parent, postReviewData) => {
-
-        },
-
-        removePostReview: async (parent, postReviewId) => {
-
-        },
-
-        updatePostReview: async (parent, postReviewData) => {
             
-        }
+            if (postReviewData) {
+                const postReview = await Post.create(postReviewData)
 
+                return postReview;
+            }
 
+            throw new AuthenticationError("Unable to add Post/Review");
+        },
 
-    
+        removePostReview: async (parent, { postReviewID }) => {
+
+            if (postReviewID) {
+                const updatedPostReview = await User.findOneAndUpdate(
+                    { _id: postReviewID },
+                    { $pull: { reviews: { postReviewID } } },
+                    { new: true },
+                )
+
+                return updatedPostReview;
+            };
+
+            throw new AuthenticationError("Unable to delete Post/Review");
+
+        },
+
+        // // Add update Post/Review here later
+        // updatePostReview: async (_, { productID, productTitle, productDescription, productPrice, productImage, productStock, productTags }) => { 
+        //     const updatedProduct = await Store.findOneAndUpdate(products, { _id: productID }); 
+        //     if (!updatedProduct) {
+        //         throw new AuthenticationError("Unable to update Product");
+        //     }
+        //     updatedProduct.productTitle = productTitle;
+        //     updatedProduct.productDescription = productDescription;
+        //     updatedProduct.ProductPrice = productPrice;
+        //     updatedProduct.ProductImage = productImage;
+        //     updatedProduct.stock = productStock;
+        //     updatedProduct.tags = productTags;
+
+        //     return updatedProduct;
+        // },
     },
 };
 
