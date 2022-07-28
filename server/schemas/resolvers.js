@@ -4,35 +4,28 @@ const { User } = require("../models");
 const { signToken } = require("../utils/auth");
 
 const resolvers = {
+	Query: {
+		me: async (parent, { email, password }) => {
+			if (userData) {
+				const userData = await User.findOne({ email }).select("-__v -password");
 
-    Query: {
+				return userData;
+			}
 
-        me: async (parent, userData) => {
+			throw new AuthenticationError("User doesnt exist");
+		},
+	},
 
-            if (userData) {
+	Mutation: {
+		login: async (parent, { email, password }) => {
+			const user = await User.findOne({ email });
+		},
+		addUser: async (parent, { username, email, password }) => {
+			const user = await User.create({ username, email, password });
 
-                const userData = await User
-                    .findOne({ _id: userData._id })
-                    .select("-__v -password")
-
-                return userData;
-            };
-
-            throw new AuthenticationError("User doesnt exist");
-        },
-    },
-
-    Mutation: {
-
-        addUser: async (parent, userData) => {
-            
-            if (userData) {
-                const user = await User.create(userData)
-
-                return user;
-            }
-
-            throw new AuthenticationError("Didnt work");
-        },
-    },
+			return user;
+		},
+	},
 };
+
+module.exports = resolvers;

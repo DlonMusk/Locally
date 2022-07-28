@@ -1,10 +1,12 @@
 import logo from "./logo.svg";
 import "./App.css";
-
 import React from "react";
-//import React router
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// then import the Route and Link components
+import { Routes, Route, Link } from "react-router-dom";
+// import Header from "./components/Header";
+// import Navigation from "./components/Navigation";
+// import Home from "./components/Home";
+// import Store from "./components/Store";
+// import Product from "./components/Product";
 
 function App() {
 	return (
@@ -14,7 +16,7 @@ function App() {
 				<p>
 					Edit <code>src/App.js</code> and save to reload.
 				</p>
-				
+
 				<a
 					className="App-link"
 					href="https://reactjs.org"
