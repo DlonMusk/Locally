@@ -5,8 +5,13 @@ const { signToken } = require("../utils/auth");
 const { ObjectId } = require('mongoose').Types;
 
 const resolvers = {
+	Query: {
+		me: async (parent, { email, password }) => {
+			if (userData) {
+				const userData = await User.findOne({ email }).select("-__v -password");
 
-    Query: {
+				return userData;
+			}
 
         me: async (parent, userData) => {
             if (userData) {
@@ -34,6 +39,7 @@ const resolvers = {
             throw new AuthenticationError("User doesnt exist");
         },
     },
+}
 
     Mutation: {
 
