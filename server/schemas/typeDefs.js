@@ -4,6 +4,7 @@ const { User, Store, Product, Post } = require("../models/");
 
 
 
+
 const typeDefs = gql`
     scalar Date
 

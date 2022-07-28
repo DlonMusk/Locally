@@ -22,6 +22,10 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Store'
     },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
     reviews: [
       {
         type: Schema.Types.ObjectId,
