@@ -1,8 +1,5 @@
 // Setting up file requirements
 const { gql } = require("apollo-server-express");
-const { User, Store, Product, Post } = require("../models/");
-
-
 
 
 const typeDefs = gql`
@@ -79,12 +76,12 @@ const typeDefs = gql`
     type Mutation {
         login(email: String!, password: String!): User
         addUser(username: String!, email: String!, password: String!): User
-        addProduct(productData: ProductInput!): Store
-        removeProduct(_id: ID!): Store
-        updateProduct(productData: ProductInput!): Store
-        addPostReview(postReviewData: PostReviewInput!): Store
-        removePostReview(_id: ID!): Store
-        updatePostReview(postReviewData: PostReviewInput!): Store
+        addProduct(productData: ProductInput!): User
+        removeProduct(_id: ID!): User
+        updateProduct(productData: ProductInput!): User
+        addPostReview(postReviewData: PostReviewInput!): User
+        removePostReview(_id: ID!): User
+        updatePostReview(postReviewData: PostReviewInput!): User
     }
 `;
 
