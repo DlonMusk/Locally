@@ -4,10 +4,11 @@
 	"private": true,
 	"scripts": {
 		"start": "node server.js",
-		"watch": "nodemon ./bin/www --ignore client"
+
 	},
 	"dependencies": {
 		"apollo-server-express": "^3.10.0",
+		"bcrypt": "^5.0.1",
 		"cookie-parser": "~1.4.4",
 		"debug": "~2.6.9",
 		"express": "~4.17.1",
