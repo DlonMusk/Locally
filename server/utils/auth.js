@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+// const User = require('../models/User');
 
 // set token secret and expiration date
 const secret = 'mysecretsshhhhh';
@@ -7,6 +8,17 @@ const expiration = '2h';
 module.exports = {
   // function for our authenticated routes
   authMiddleware: function ({req}) {
+
+    // const userData = {
+    //   username: "Jeff",
+    //   email: "Jeff@jeffs.com",
+    //   _id: "62e2d4c8c4b392054329d1f5"
+    // }
+
+    // // const user = await User.create(userData)
+    
+    // req.user = userData;
+    // return req;
     // allows token to be sent via  req.query or headers
     let token = req.body.token || req.query.token || req.headers.authorization;
 
@@ -22,7 +34,7 @@ module.exports = {
     // verify token and get user data out of it
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      req.user = data;
+      req.user = data
     } catch {
       console.log('Invalid token');
     }

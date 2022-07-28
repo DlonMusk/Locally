@@ -4,7 +4,6 @@
 	"private": true,
 	"scripts": {
 		"start": "node server.js"
-
 	},
 	"dependencies": {
 		"apollo-server-express": "^3.10.0",
