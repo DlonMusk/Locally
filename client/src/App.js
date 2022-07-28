@@ -1,6 +1,11 @@
 import logo from "./logo.svg";
 import "./App.css";
 
+import React from "react";
+//import React router
+// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+// then import the Route and Link components
+
 function App() {
 	return (
 		<div className="App">
