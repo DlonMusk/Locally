@@ -40,11 +40,29 @@ const Products = () => {
 			likes: 40,
 			Tags: ["tag1", "tag2"],
 		},
+		{
+			productTitle: "Product 5",
+			productDescription: "Product 5 description",
+			productPrice: "$500",
+			productImage: "https://source.unsplash.com/random",
+			stock: 50,
+			likes: 50,
+			Tags: ["tag1", "tag2"],
+		},
+		{
+			productTitle: "Product 6",
+			productDescription: "Product 6 description",
+			productPrice: "$600",
+			productImage: "https://source.unsplash.com/random",
+			stock: 60,
+			likes: 60,
+			Tags: ["tag1", "tag2"],
+		},
 	];
 
 	return (
 		<section className="products-section">
-			<SimpleGrid columns={2} spacing={8}>
+			<SimpleGrid columns={3} spacing={4}>
 				{productData.map((product) => {
 					return (
 						<ProductCard
