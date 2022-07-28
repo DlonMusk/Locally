@@ -2,17 +2,21 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Store, Product, Post } = require("../models");
 const { signToken } = require("../utils/auth");
+const { ObjectId } = require('mongoose').Types;
 
 const resolvers = {
 
     Query: {
 
         me: async (parent, userData) => {
-
+            console.log(userData);
             if (userData) {
                 const user = await User
                     .findOne({ _id: userData._id })
                     .select("-__v -password")
+                    .populate('store')
+
+                    console.log(user);
 
                 return user;
             };
@@ -22,6 +26,10 @@ const resolvers = {
     },
 
     Mutation: {
+
+        login: async(parent, userData) => {
+
+        },
 
         addUser: async (parent, userData) => {
             
@@ -33,7 +41,11 @@ const resolvers = {
 
             // add store to user
             const store = await Store.create({email: userData.email})
-            user.store = store;
+            await user.update({store: store._id},{new: true});
+
+            console.log(user);
+            console.log(user.store)
+            console.log(store);
 
             return user;
         },
