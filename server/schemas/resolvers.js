@@ -27,6 +27,10 @@ const resolvers = {
 
     Mutation: {
 
+        login: async(parent, userData) => {
+
+        },
+
         addUser: async (parent, userData) => {
             
             const user = await User.create(userData);
@@ -37,7 +41,7 @@ const resolvers = {
 
             // add store to user
             const store = await Store.create({email: userData.email})
-            await user.update({store: store._id})
+            await user.update({store: store._id},{new: true});
 
             console.log(user);
             console.log(user.store)
@@ -45,6 +49,32 @@ const resolvers = {
 
             return user;
         },
+
+        addProduct: async (parent, productData) => {
+
+        },
+
+        removeProduct: async (parent, productId) => {
+
+        },
+
+        updateProduct: async (parent, productData) => {
+
+        },
+
+        addPostReview: async (parent, postReviewData) => {
+
+        },
+
+        removePostReview: async (parent, postReviewId) => {
+
+        },
+
+        updatePostReview: async (parent, postReviewData) => {
+            
+        }
+
+
 
     
     },
