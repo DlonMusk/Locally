@@ -5,14 +5,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 // import Home from "./components/Home";
 // import Store from "./components/Store";
-// import Product from "./components/Product";
+import Products from "./components/Products";
 
 function App() {
 	return (
 		<>
 			<Header />
-
-			<header className="App-header"></header>
+			<Products />
 			<Footer />
 		</>
 	);

@@ -13,7 +13,7 @@ function Header() {
 							type="button"
 						>
 							<div className="block flex-grow flex-shrink overflow-hidden">
-								Where Search will go
+								Login/Logout
 							</div>
 							<div className="flex items-center justify-center relative  h-8 w-8 rounded-full"></div>
 						</button>
