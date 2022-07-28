@@ -22,6 +22,7 @@ const productSchema = new Schema({
 	},
 	likes: {
 		type: Number,
+		default: 0
 	},
 	Tags: {
 		type: [String],
