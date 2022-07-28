@@ -1,0 +1,25 @@
+{
+	"name": "locally",
+	"version": "1.0.0",
+	"description": "THIS IS THE LOCALLY APP",
+	"main": "index.js",
+	"scripts": {
+		"start": "node server/bin/www",
+		"develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+		"install": "cd server && npm i && cd ../client && npm i",
+		"build": "cd client && npm run build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/DlonMusk/Locally.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/DlonMusk/Locally/issues"
+	},
+	"homepage": "https://github.com/DlonMusk/Locally#readme",
+	"dependencies": {
+		"concurrently": "^7.3.0"
+	}
+}
