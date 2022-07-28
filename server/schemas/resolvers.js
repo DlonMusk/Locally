@@ -26,13 +26,17 @@ const resolvers = {
 
         addUser: async (parent, userData) => {
             
-            if (userData) {
-                const user = await User.create(userData)
+            const user = await User.create(userData);
 
-                return user;
+            if(!user){
+                throw new AuthenticationError("Didnt work");
             }
 
-            throw new AuthenticationError("Didnt work");
+            return user;
+
+            
         },
     },
 };
+
+module.exports = resolvers;
