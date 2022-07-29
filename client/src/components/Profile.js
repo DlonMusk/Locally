@@ -1,4 +1,4 @@
-import { MailIcon, PhoneIcon } from "@heroicons/react/solid";
+import { MailIcon, PhoneIcon, PencilIcon } from "@heroicons/react/solid";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -14,69 +14,64 @@ import Reviews from "./Reviews";
 // Rabias stuff
 
 const profile = {
-    name: "John Doe",
-    email: "John.Doe@example.com",
-    avatar: "https://source.unsplash.com/random/400x400",
-    backgroundImage:
-        "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-    fields: [
-        ["Phone", "(647) 123-4567"],
-        ["Email", "John.Doe@example.com"],
-        ["Title", "Senior Front-End Developer"],
-        ["Team", "Product Development"],
-        ["Location", "Toronto, ON"],
-        ["Sits", "UofT, 4th floor"],
-        ["Salary", "$145,000"],
-        ["Birthday", "June 8, 1990"],
-    ],
+	name: "John Doe",
+	email: "John.Doe@example.com",
+	avatar: "https://source.unsplash.com/random/400x400",
+	backgroundImage:
+		"https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+	fields: [
+		["Phone", "(647) 123-4567"],
+		["Email", "John.Doe@example.com"],
+		["Title", "Senior Front-End Developer"],
+		["Team", "Product Development"],
+		["Location", "Toronto, ON"],
+		["Sits", "UofT, 4th floor"],
+		["Salary", "$145,000"],
+		["Birthday", "June 8, 1990"],
+	],
 };
 
-export default function Profile() {
+export default function profileContainer() {
+	////// Commented this bit out because Im attempting to work with Apollo Client
 
+	// const [userData, setUserData] = useState([
+	//     // This object will come from the base User that is grabbed
+	//     {
+	//         username: "Guy",
+	//     },
+	//     // This object will come from the Store child for the user
+	//     {
+	//         address: "16 Rad St",
+	//         email: "Rad@Cool.com",
+	//         phoneNumber: "555-222-8000",
+	//         tags: ["fun", "art"],
+	//     }
+	// ]);
 
-    ////// Commented this bit out because Im attempting to work with Apollo Client
+	// useEffect(() => {
+	//     // Will add code later to populate userData with actual database info later
+	// }, []);
 
-    // const [userData, setUserData] = useState([
-    //     // This object will come from the base User that is grabbed
-    //     {
-    //         username: "Guy",
-    //     },
-    //     // This object will come from the Store child for the user
-    //     {
-    //         address: "16 Rad St",
-    //         email: "Rad@Cool.com",
-    //         phoneNumber: "555-222-8000",
-    //         tags: ["fun", "art"],
-    //     }
-    // ]);
+	//////////////////////
 
-    // useEffect(() => {
-    //     // Will add code later to populate userData with actual database info later
-    // }, []);
+	// NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
 
-    //////////////////////
+	const testingID = "62e362627a57c366aabd62ae";
 
-    // NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
-    
+	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
+		variables: { id: testingID },
+	});
 
-    const testingID = "62e362627a57c366aabd62ae";
+	console.log("Data is---------------------");
+	console.log(data);
+	console.log("loading is " + loading);
+	console.log("error is--------------------");
+	console.log(error);
 
-    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {variables: { id: testingID},});
+	const userData = data?.getUserStore || { "Didnt Get": "The Data" };
+	console.log(userData);
 
-    console.log("Data is---------------------");
-    console.log(data)
-    console.log("loading is " + loading);
-    console.log("error is--------------------")
-    console.log(error)
-
-
-
-    const userData = data?.getUserStore || {"Didnt Get": "The Data"};
-    console.log(userData);
-
-
-
-    /////////////////////
+	/////////////////////
 
 	let tabIndex = 0;
 
@@ -140,6 +135,16 @@ export default function Profile() {
 							</button>
 							<button
 								type="button"
+								className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							>
+								<PencilIcon
+									className="-ml-1 mr-2 h-5 w-5 text-gray-500"
+									aria-hidden="true"
+								/>
+								Edit
+							</button>
+							<button
+								type="button"
 								className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>
 								Create Store
@@ -200,4 +205,3 @@ export default function Profile() {
 		</div>
 	);
 }
-
