@@ -47,7 +47,7 @@ export default function Profile() {
     };
 
     return (
-        <Routes>
+        
             <div className="profileContainer">
 
                 <h2> Username: {userData[0].username}</h2>
@@ -68,34 +68,41 @@ export default function Profile() {
 
                         {/* initially mounted */}
                         <TabPanel>
+                        <Routes>
                             <Route
                                 path="/products"
                                 element={<Products />}
                             />
+                        </Routes>
                         </TabPanel>
                         {/* initially not mounted */}
                         <TabPanel>
+                        <Routes>
                             <Route
                                 path="/posts"
                                 element={<Posts />}
                             />
+                        </Routes>
                         </TabPanel>
                         <TabPanel>
+                        <Routes>
                             <Route
                                 path="/reviews"
                                 element={<Reviews />}
                             />
+                        </Routes>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
-
+                <Routes>
                 <Route
                     path="*"
                     element={<h1>Page routing error</h1>}
                 />
+                </Routes>
 
             </div>
-        </Routes>
+        
     );
 };
 
