@@ -33,6 +33,14 @@ const resolvers = {
             throw new AuthenticationError("You are currently not logged in!");
         },
 
+        getUser: async (_, { _id }) => {
+            const user = await User.findOne(_id);
+
+            if (!user) throw new AuthenticationError("No user found!");
+
+            return user;
+        },
+
         // query to get current users store information for the storefront page
         // make ID optional, if its passed in use it
         getUserStore: async (parent, args, context) => {
@@ -311,7 +319,7 @@ const resolvers = {
                 { new: true }
             );
 
-            if(!updatedPost) throw new AuthenticationError("Unable to update post!");
+            if (!updatedPost) throw new AuthenticationError("Unable to update post!");
 
             return updatedPost;
         },
