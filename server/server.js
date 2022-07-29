@@ -7,14 +7,15 @@ const { authMiddleware } = require('./utils/auth')
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
+const PORT = process.env.PORT || 3001;
+const app = express();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   //context: authMiddleware
 });
 
-const PORT = process.env.PORT || 3001;
-const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
