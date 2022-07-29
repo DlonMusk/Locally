@@ -2,7 +2,6 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Store, Product, Post } = require("../models");
 const { signToken } = require("../utils/auth");
-const { ObjectId } = require('mongoose').Types;
 
 const resolvers = {
 
@@ -46,7 +45,7 @@ const resolvers = {
                     .populate('products');
             }
 
-            if(!store) throw new AuthenticationError("Something went wrong!")
+            if (!store) throw new AuthenticationError("Something went wrong!")
 
             return store;
         },
@@ -60,7 +59,7 @@ const resolvers = {
                 product = await Product.findOne({ _id: context._id })
             }
 
-            if(!product) throw new AuthenticationError("Something went wrong!")
+            if (!product) throw new AuthenticationError("Something went wrong!")
 
             return product;
         },
@@ -73,7 +72,7 @@ const resolvers = {
                 user = await User.findOne({ _id: context._id })
             }
 
-            if(!user) throw new AuthenticationError("Something went wrong!")
+            if (!user) throw new AuthenticationError("Something went wrong!")
 
             return user.posts;
         },
@@ -133,16 +132,16 @@ const resolvers = {
             if (!user) {
                 throw new AuthenticationError("Something went wrong! Could not create user.");
             }
-            
+
             const token = signToken(user);
 
             return { token, user };
         },
 
         addUserStore: async (parent, storeData, context) => {
-            const user = await User.findOne({_id: context.user._id});
+            const user = await User.findOne({ _id: context.user._id });
 
-            if(!user) throw new AuthenticationError("You must be logged in to create a store");
+            if (!user) throw new AuthenticationError("You must be logged in to create a store");
 
             const store = await Store.create(storeData)
             await user.update({ store: store._id }, { new: true });
@@ -165,7 +164,7 @@ const resolvers = {
                 { new: true }
             );
 
-            if(!store) throw new AuthenticationError("You must first create your store");
+            if (!store) throw new AuthenticationError("You must first create your store");
 
             return store;
 
@@ -205,45 +204,45 @@ const resolvers = {
 
         // LAST TO DO
         //if a user removes a post from there posts it will remove it from the appropriate store
-        addPostReview: async (parent, {destinationId, postData}, context) => {
+        addPostReview: async (parent, { destinationId, postData }, context) => {
 
             // takes in review input and a store or product ID
 
             // get the user making the post
-            const user = await User.findOne({_id: context.user._id});
+            const user = await User.findOne({ _id: context.user._id });
 
-            if(!user) throw new AuthenticationError("You must be logged in");
+            if (!user) throw new AuthenticationError("You must be logged in");
 
 
 
             // find a store with the ID
-            const store = await Store.findOne({_id: destinationId})
+            const store = await Store.findOne({ _id: destinationId })
             // if no store find a product with the ID
-            const product = await Product.findOne({_id: destinationId});
+            const product = await Product.findOne({ _id: destinationId });
             // if none throw error
-            if(!store && !product) throw new AuthenticationError("No store or product found");
+            if (!store && !product) throw new AuthenticationError("No store or product found");
             // create the post
             const post = await Post.create(postData);
             // add the post to the store or product
-            if(store){
+            if (store) {
                 await Store.findOneAndUpdate(
-                    {_id: store._id},
-                    {$addToSet: {reviews: post}},
-                    {new: true}
+                    { _id: store._id },
+                    { $addToSet: { reviews: post } },
+                    { new: true }
                 );
-            } else if(product){
+            } else if (product) {
                 await Product.findOneAndUpdate(
-                    {_id: product._id},
-                    {$addToSet: {reviews: post}},
-                    {new: true}
+                    { _id: product._id },
+                    { $addToSet: { reviews: post } },
+                    { new: true }
                 )
             }
 
             const updatedUser = await User.findOneAndUpdate(
-                {_id: context.user._id},
-                {$addToSet: {posts: post}},
-                {new: true}
-            ) 
+                { _id: context.user._id },
+                { $addToSet: { posts: post } },
+                { new: true }
+            )
 
             return updatedUser;
         },
@@ -253,73 +252,69 @@ const resolvers = {
 
             // removes the post from the user
             const user = await User.findOneAndUpdate(
-                {_id: context.user._id},
-                {$pull: {posts: postId}},
-                {new: true}
+                { _id: context.user._id },
+                { $pull: { posts: postId } },
+                { new: true }
             );
 
-            if(!user) throw new AuthenticationError("Must be logged in");
+            if (!user) throw new AuthenticationError("Must be logged in");
 
 
 
 
             // gets the post data
-            const post = await Post.findOne({_id: postId});
-            
-            if(!post) throw new AuthenticationError("could not find post");
+            const post = await Post.findOne({ _id: postId });
+
+            if (!post) throw new AuthenticationError("could not find post");
 
 
 
 
 
             // find the store or product the post is attached to
-            const store = await Store.findOne({_id: post.destinationId});
+            const store = await Store.findOne({ _id: post.destinationId });
 
-            const product = await Product.findOne({_id: post.destinationId});
+            const product = await Product.findOne({ _id: post.destinationId });
 
-            if(!store && !product) throw new AuthenticationError("Something went wrong!");
+            if (!store && !product) throw new AuthenticationError("Something went wrong!");
 
 
 
             // remove the post from the store or product it is attached to
-            if(store){
+            if (store) {
                 await Store.findOneAndUpdate(
-                    {_id: store._id},
-                    {$pull: {reviews: postId}},
-                    {new: true}
+                    { _id: store._id },
+                    { $pull: { reviews: postId } },
+                    { new: true }
                 );
-            } else if(product){
+            } else if (product) {
                 await Product.findOneAndUpdate(
-                    {_id: product._id},
-                    {$pull: {reviews: postId}},
-                    {new: true}
+                    { _id: product._id },
+                    { $pull: { reviews: postId } },
+                    { new: true }
                 )
             }
 
 
-            
             // delete the post
-            await Post.findOneAndDelete({_id: post._id})
+            await Post.findOneAndDelete({ _id: post._id })
 
             return user;
 
         },
 
-        // // Add update Post/Review here later
-        // updatePostReview: async (_, { productID, productTitle, productDescription, productPrice, productImage, productStock, productTags }) => { 
-        //     const updatedProduct = await Store.findOneAndUpdate(products, { _id: productID }); 
-        //     if (!updatedProduct) {
-        //         throw new AuthenticationError("Unable to update Product");
-        //     }
-        //     updatedProduct.productTitle = productTitle;
-        //     updatedProduct.productDescription = productDescription;
-        //     updatedProduct.ProductPrice = productPrice;
-        //     updatedProduct.ProductImage = productImage;
-        //     updatedProduct.stock = productStock;
-        //     updatedProduct.tags = productTags;
+        // Add update Post/Review here later
+        updatePostReview: async (parent, postData) => {
+            const updatedPost = Post.findOneAndUpdate(
+                { _id: postData._id },
+                { ...postData },
+                { new: true }
+            );
 
-        //     return updatedProduct;
-        // },
+            if(!updatedPost) throw new AuthenticationError("Unable to update post!");
+
+            return updatedPost;
+        },
     },
 };
 
