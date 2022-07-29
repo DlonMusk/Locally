@@ -4,24 +4,22 @@ export const QUERY_GET_USER_STORE = gql`
     {
         getUserStore {
             _id
-            username
-            store {
+            products {
                 _id
-                email
-                address
-                phoneNumber
+                productTitle
+                productDescription
+                ProductPrice
+                ProductImage
+                stock
+                likes
                 tags
-                products {
-                    _id
-                    productTitle
-                    productDescription
-                    productPrice
-                    productImage
-                    stock
-                    likes
-                    tags
-                }
             }
+            rating
+            address
+            email
+            phoneNumber
+            tags
+            createdAt
         }
     }
 `;
