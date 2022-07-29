@@ -28,7 +28,7 @@ export default function Footer() {
 				<Stack direction={"row"} spacing={6}>
 					<Link href={"#"}>Home</Link>
 				</Stack>
-				<Text>© 2022 Locally </Text>
+				<Text>© {new Date().getFullYear()} Locally </Text>
 			</Container>
 		</Box>
 	);
