@@ -10,6 +10,7 @@ import { QUERY_GET_USER_STORE, QUERY_GET_USER } from "../utils/queries";
 import Products from "./Products";
 import Posts from "./Posts";
 import Reviews from "./Reviews";
+import FormStore from "./FormStore";
 
 // Rabias stuff
 
@@ -36,6 +37,11 @@ const profile = {
 
 
 export default function ProfileContainer() {
+	const [isShownStoreForm, setIsShownStoreForm] = useState(false);
+
+	const handleClick = (event) => {
+		setIsShownStoreForm(!isShownStoreForm);
+	};
 
     ////// Commented this bit out because Im attempting to work with Apollo Client
 
@@ -172,6 +178,9 @@ export default function ProfileContainer() {
 							<button
 								type="button"
 								className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+								onClick={() => {
+									handleClick();
+								}}
 							>
 								Create Store
 							</button>
@@ -183,6 +192,7 @@ export default function ProfileContainer() {
 						{profile.name}
 					</h1>
 				</div>
+				{isShownStoreForm && <FormStore />}
 			</div>
 
 			{/* <h2> Username: {userData[0].username}</h2>
