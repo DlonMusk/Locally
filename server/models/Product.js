@@ -28,6 +28,16 @@ const productSchema = new Schema({
 	Tags: {
 		type: [String],
 	},
+	reviews: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Post'
+		}
+	],
+	createdAt: {
+		type: Date,
+		default: Date.now
+	}
 });
 
 const Product = model('Product', productSchema);

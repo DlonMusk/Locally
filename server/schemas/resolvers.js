@@ -8,10 +8,10 @@ const resolvers = {
 
     Query: {
         // change this to use context
-        me: async (parent, userData) => {
-            if (userData) {
+        me: async (parent, args, context) => {
+            if (context.user) {
                 const user = await User
-                    .findOne({ _id: userData._id })
+                    .findOne({ _id: context.user._id })
                     .select("-__v -password")
                     .populate({
                         path: 'store',
@@ -31,7 +31,7 @@ const resolvers = {
                 return user;
             };
 
-            throw new AuthenticationError("User doesnt exist");
+            throw new AuthenticationError("You are currently not logged in!");
         },
 
         // query to get current users store information for the storefront page
@@ -46,6 +46,7 @@ const resolvers = {
                     .populate('products');
             }
 
+            if(!store) throw new AuthenticationError("Something went wrong!")
 
             return store;
         },
@@ -59,7 +60,22 @@ const resolvers = {
                 product = await Product.findOne({ _id: context._id })
             }
 
+            if(!product) throw new AuthenticationError("Something went wrong!")
+
             return product;
+        },
+
+        getUserPosts: async (parent, args, context) => {
+            let user;
+            if (args._id) {
+                user = await User.findOne({ _id: args._id })
+            } else {
+                user = await User.findOne({ _id: context._id })
+            }
+
+            if(!user) throw new AuthenticationError("Something went wrong!")
+
+            return user.posts;
         },
 
         getStores: async (parent, args) => {
@@ -91,102 +107,201 @@ const resolvers = {
 
     Mutation: {
 
-        login: async (parent, userData) => {
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
 
+            if (!user) {
+                throw new AuthenticationError("Can't find this user");
+            }
+
+            const correctPw = await user.isCorrectPassword(password);
+
+            if (!correctPw) {
+                throw new AuthenticationError("Wrong password!");
+            }
+
+            const token = signToken(user);
+
+            return { token, user };
         },
 
         addUser: async (parent, userData) => {
+            // email password
 
             const user = await User.create(userData);
 
             if (!user) {
-                throw new AuthenticationError("Didnt work");
+                throw new AuthenticationError("Something went wrong! Could not create user.");
             }
+            
+            const token = signToken(user);
 
-            // add store to user
-            const store = await Store.create({ email: userData.email })
+            return { token, user };
+        },
+
+        addUserStore: async (parent, storeData, context) => {
+            const user = await User.findOne({_id: context.user._id});
+
+            if(!user) throw new AuthenticationError("You must be logged in to create a store");
+
+            const store = await Store.create(storeData)
             await user.update({ store: store._id }, { new: true });
 
             return user;
         },
 
-        // change this to use context
-        addProduct: async (parent, productData) => {
+        //FINAL
+        addProduct: async (parent, productData, context) => {
 
-            const user = await User.findOne({ _id: productData._id });
-            
-            if(!user) throw new AuthenticationError("You must be logged in to add products");
+            const user = await User.findOne({ _id: context.user._id });
 
-            const product = await Product.create(productData.productData);
+            if (!user) throw new AuthenticationError("You must be logged in to add products");
 
-            await Store.updateOne(
-                {_id: user.store._id}, 
+            const product = await Product.create(productData);
+
+            const store = await Store.updateOne(
+                { _id: user.store._id },
                 { $addToSet: { products: product._id } },
-                {new: true}
-                );
-
-            return user;
-
-        },
-
-        
-        removeProduct: async (parent, { productId, storeId }) => {
-
-                const updatedStore = await Store.findOneAndUpdate(
-                    { _id: storeId },
-                    { $pull: { products: productId } },
-                    { new: true },
-                ).populate('products')
-
-                await Product.findOneAndDelete({_id: productId});
-
-                console.log(updatedStore)
-
-                if(!updatedStore) throw new AuthenticationError("Unable to delete product");
-
-                return updatedStore;
-        },
-
-        updateProduct: async (parent, args ) => {
-
-            console.log(args.productData)
-           const updatedProduct = await Product.findOneAndUpdate(
-            {_id: args.productId},
-            {...args.productData},
-            {new: true}
+                { new: true }
             );
 
-            console.log(updatedProduct);
+            if(!store) throw new AuthenticationError("You must first create your store");
 
-            if(!updatedProduct) throw new AuthenticationError("Unable to update product");
+            return store;
+
+        },
+
+        //FINAL
+        removeProduct: async (parent, { productId }, context) => {
+
+            const updatedStore = await Store.findOneAndUpdate(
+                { _id: context.user.store._id },
+                { $pull: { products: productId } },
+                { new: true },
+            ).populate('products');
+
+            if (!updatedStore) throw new AuthenticationError("Unable to delete product");
+
+            await Product.findOneAndDelete({ _id: productId });
+
+            return updatedStore;
+        },
+
+        updateProduct: async (parent, args) => {
+
+            const updatedProduct = await Product.findOneAndUpdate(
+                { _id: args.productId },
+                { ...args.productData },
+                { new: true }
+            );
+
+            if (!updatedProduct) throw new AuthenticationError("Unable to update product");
 
             return updatedProduct;
         },
 
-        addPostReview: async (parent, postReviewData) => {
 
-            if (postReviewData) {
-                const postReview = await Post.create(postReviewData)
 
-                return postReview;
+
+        // LAST TO DO
+        //if a user removes a post from there posts it will remove it from the appropriate store
+        addPostReview: async (parent, {destinationId, postData}, context) => {
+
+            // takes in review input and a store or product ID
+
+            // get the user making the post
+            const user = await User.findOne({_id: context.user._id});
+
+            if(!user) throw new AuthenticationError("You must be logged in");
+
+
+
+            // find a store with the ID
+            const store = await Store.findOne({_id: destinationId})
+            // if no store find a product with the ID
+            const product = await Product.findOne({_id: destinationId});
+            // if none throw error
+            if(!store && !product) throw new AuthenticationError("No store or product found");
+            // create the post
+            const post = await Post.create(postData);
+            // add the post to the store or product
+            if(store){
+                await Store.findOneAndUpdate(
+                    {_id: store._id},
+                    {$addToSet: {reviews: post}},
+                    {new: true}
+                );
+            } else if(product){
+                await Product.findOneAndUpdate(
+                    {_id: product._id},
+                    {$addToSet: {reviews: post}},
+                    {new: true}
+                )
             }
 
-            throw new AuthenticationError("Unable to add Post/Review");
+            const updatedUser = await User.findOneAndUpdate(
+                {_id: context.user._id},
+                {$addToSet: {posts: post}},
+                {new: true}
+            ) 
+
+            return updatedUser;
         },
 
-        removePostReview: async (parent, { postReviewID }) => {
+        // removes a post not a review from the users posts
+        removePostReview: async (parent, { postId }, context) => {
 
-            if (postReviewID) {
-                const updatedPostReview = await User.findOneAndUpdate(
-                    { _id: postReviewID },
-                    { $pull: { reviews: { postReviewID } } },
-                    { new: true },
+            // removes the post from the user
+            const user = await User.findOneAndUpdate(
+                {_id: context.user._id},
+                {$pull: {posts: postId}},
+                {new: true}
+            );
+
+            if(!user) throw new AuthenticationError("Must be logged in");
+
+
+
+
+            // gets the post data
+            const post = await Post.findOne({_id: postId});
+            
+            if(!post) throw new AuthenticationError("could not find post");
+
+
+
+
+
+            // find the store or product the post is attached to
+            const store = await Store.findOne({_id: post.destinationId});
+
+            const product = await Product.findOne({_id: post.destinationId});
+
+            if(!store && !product) throw new AuthenticationError("Something went wrong!");
+
+
+
+            // remove the post from the store or product it is attached to
+            if(store){
+                await Store.findOneAndUpdate(
+                    {_id: store._id},
+                    {$pull: {reviews: postId}},
+                    {new: true}
+                );
+            } else if(product){
+                await Product.findOneAndUpdate(
+                    {_id: product._id},
+                    {$pull: {reviews: postId}},
+                    {new: true}
                 )
+            }
 
-                return updatedPostReview;
-            };
 
-            throw new AuthenticationError("Unable to delete Post/Review");
+            
+            // delete the post
+            await Post.findOneAndDelete({_id: post._id})
+
+            return user;
 
         },
 

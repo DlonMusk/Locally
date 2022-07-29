@@ -2,6 +2,10 @@ const { Schema, model } = require('mongoose');
 
 const storeSchema = new Schema(
     {
+        storeTitle: {
+            type: String,
+            required: true
+        },
         products: [
             {
                 type: Schema.Types.ObjectId,
@@ -26,7 +30,10 @@ const storeSchema = new Schema(
         phoneNumber: {
             type: String
         },
-        tags: [String]
+        tags: [String],
+        createdAt: {
+            type: Date
+        }
     }
 );
 

@@ -11,11 +11,13 @@ const typeDefs = gql`
         email: String
         password: String
         store: Store
-        reviews: [Post]
+        posts: [Post]
+        createdAt: Date
     }
 
     type Store {
         _id: ID!
+        storeTitle: String
         products: [Product]
         rating: Int
         reviews: [Post]
@@ -24,6 +26,14 @@ const typeDefs = gql`
         phoneNumber: String
         tags: [String]
         createdAt: Date
+    }
+
+    input StoreInput {
+        storeTitle: String!
+        storeEmail: String!
+        address: String!
+        phoneNumber: String
+        tags: [String]
     }
 
     type Product {
@@ -35,20 +45,8 @@ const typeDefs = gql`
         stock: Int
         likes: Int
         tags: [String]
-
-    }
-
-    type Post {
-        _id: ID!
-        postContent: String
-        likes: Int
-        review: Boolean
+        reviews: [Post]
         createdAt: Date
-    }
-
-    type Auth {
-        token: ID!
-        user: User
     }
 
     input ProductInput {
@@ -60,29 +58,46 @@ const typeDefs = gql`
         tags: [String]
     }
 
+    type Post {
+        _id: ID!
+        postContent: String
+        likes: Int
+        review: Boolean
+        destinationId: ID!
+        createdAt: Date
+    }
+
     input PostReviewInput {
         postContent: String
         review: Boolean
         createdAt: Date
     }
 
+    type Auth {
+        token: ID!
+        user: User
+    }
+
+    
     type Query {
-        me(_id: ID!): User
+        me: User
         getUserStore(_id: ID): Store
         getUserProduct(_id: ID): Product
+        getUserPosts(_id: ID): [Post]
         getStores: [Store]
         getProducts: [Product]
         getPosts: [Post]
     }
 
     type Mutation {
-        login(_id: ID!, email: String!, password: String!): User
-        addUser(username: String!, email: String!, password: String!): User
-        addProduct(_id: ID!, productData: ProductInput!): User
-        removeProduct(productId: ID!, storeId: ID!): Store
+        login(email: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
+        addUserStore(storeData: StoreInput!): User
+        addProduct(productData: ProductInput!): Store
+        removeProduct(productId: ID!): Store
         updateProduct(productId: ID!, productData: ProductInput!): Product
-        addPostReview(_id: ID!, postReviewData: PostReviewInput!): User
-        removePostReview(_id: ID!): User
+        addPostReview(destinationId: ID!, postReviewData: PostReviewInput!): User
+        removePostReview(postId: ID!): User
         updatePostReview(_id: ID!, postReviewData: PostReviewInput!): User
     }
 `;
