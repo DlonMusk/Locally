@@ -1,4 +1,18 @@
+import React, { useState } from 'react';
+import { useMutation } from "@apollo/client";
+import { ADD_USER } from "../../utils/mutations";
+import Auth from "../../utils/auth";
+
+
 const SignUp = () => {
+
+	// set initial form state
+	const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
+	// set state for form validation
+	const [validated] = useState(false);
+	// set state for alert
+	const [showAlert, setShowAlert] = useState(false);
+
 	return (
 		<div className="mt-16 sm:mt-24 lg:mt-0 lg:col-span-6">
 			<div className="bg-white sm:max-w-md sm:w-full sm:mx-auto sm:rounded-lg sm:overflow-hidden">
