@@ -68,20 +68,22 @@ const typeDefs = gql`
 
     type Query {
         me(_id: ID!): User
+        getUserStore(_id: ID): Store
+        getUserProduct(_id: ID): Product
         getStores: [Store]
         getProducts: [Product]
         getPosts: [Post]
     }
 
     type Mutation {
-        login(email: String!, password: String!): User
+        login(_id: ID!, email: String!, password: String!): User
         addUser(username: String!, email: String!, password: String!): User
-        addProduct(productData: ProductInput!): User
-        removeProduct(_id: ID!): User
-        updateProduct(productData: ProductInput!): User
-        addPostReview(postReviewData: PostReviewInput!): User
+        addProduct(_id: ID!, productData: ProductInput!): User
+        removeProduct(productId: ID!, storeId: ID!): Store
+        updateProduct(productId: ID!, productData: ProductInput!): Product
+        addPostReview(_id: ID!, postReviewData: PostReviewInput!): User
         removePostReview(_id: ID!): User
-        updatePostReview(postReviewData: PostReviewInput!): User
+        updatePostReview(_id: ID!, postReviewData: PostReviewInput!): User
     }
 `;
 
