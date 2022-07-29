@@ -15,6 +15,8 @@ import Reviews from './Reviews';
 
 export default function Profile() {
 
+    ////// Commented this bit out because Im attempting to work with Apollo Client
+
     // const [userData, setUserData] = useState([
     //     // This object will come from the base User that is grabbed
     //     {
@@ -33,10 +35,17 @@ export default function Profile() {
     //     // Will add code later to populate userData with actual database info later
 	// }, []);
 
+//////////////////////
+
+    /* NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
+
     const { loading, data } = useQuery(QUERY_GET_USER_STORE);
 
     const userData = data?.me || {};
     console.log(userData);
+    */
+
+/////////////////////
 
     let tabIndex = 0
 

@@ -5,33 +5,18 @@ const { signToken } = require("../utils/auth");
 const { ObjectId } = require('mongoose').Types;
 
 const resolvers = {
-	Query: {
-		me: async (parent, { email, password }) => {
-			if (userData) {
-				const userData = await User.findOne({ email }).select("-__v -password");
 
-				return userData;
-			}
+    Query: {
 
         me: async (parent, userData) => {
+            console.log(userData);
             if (userData) {
                 const user = await User
                     .findOne({ _id: userData._id })
                     .select("-__v -password")
-                    .populate({
-                        path: 'store',
-                        populate: {
-                            path: 'products',
-                            model: 'Product'
-                        }
-                    })
-                    .populate({
-                        path: 'store',
-                        populate: {
-                            path: 'reviews',
-                            model: 'Post'
-                        }
-                    })
+                    .populate('store')
+
+                    console.log(user);
 
                 return user;
             };
@@ -39,12 +24,11 @@ const resolvers = {
             throw new AuthenticationError("User doesnt exist");
         },
     },
-}
 
     Mutation: {
 
         login: async(parent, userData) => {
-            
+
         },
 
         addUser: async (parent, userData) => {
@@ -59,23 +43,19 @@ const resolvers = {
             const store = await Store.create({email: userData.email})
             await user.update({store: store._id},{new: true});
 
+            console.log(user);
+            console.log(user.store)
+            console.log(store);
+
             return user;
         },
 
         addProduct: async (parent, productData) => {
-
-            const user = await User.findOne({_id: productData._id});
-
-            const store = await Store.findOne({_id: user.store._id});
-
-            
             
             if (productData) {
-                const product = await Product.create(productData.productData);
+                const product = await Product.create(productData)
 
-                await store.update({$addToSet: {products: product._id}})
-
-                return user;
+                return product;
             }
 
             throw new AuthenticationError("Unable to add Product");
