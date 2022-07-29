@@ -35,7 +35,7 @@ const profile = {
 
 
 
-export default function Profile() {
+export default function profileContainer() {
 
     ////// Commented this bit out because Im attempting to work with Apollo Client
 
