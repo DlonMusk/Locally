@@ -14,69 +14,64 @@ import Reviews from "./Reviews";
 // Rabias stuff
 
 const profile = {
-    name: "John Doe",
-    email: "John.Doe@example.com",
-    avatar: "https://source.unsplash.com/random/400x400",
-    backgroundImage:
-        "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-    fields: [
-        ["Phone", "(647) 123-4567"],
-        ["Email", "John.Doe@example.com"],
-        ["Title", "Senior Front-End Developer"],
-        ["Team", "Product Development"],
-        ["Location", "Toronto, ON"],
-        ["Sits", "UofT, 4th floor"],
-        ["Salary", "$145,000"],
-        ["Birthday", "June 8, 1990"],
-    ],
+	name: "John Doe",
+	email: "John.Doe@example.com",
+	avatar: "https://source.unsplash.com/random/400x400",
+	backgroundImage:
+		"https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+	fields: [
+		["Phone", "(647) 123-4567"],
+		["Email", "John.Doe@example.com"],
+		["Title", "Senior Front-End Developer"],
+		["Team", "Product Development"],
+		["Location", "Toronto, ON"],
+		["Sits", "UofT, 4th floor"],
+		["Salary", "$145,000"],
+		["Birthday", "June 8, 1990"],
+	],
 };
 
-export default function Profile() {
+export default function profileContainer() {
+	////// Commented this bit out because Im attempting to work with Apollo Client
 
+	// const [userData, setUserData] = useState([
+	//     // This object will come from the base User that is grabbed
+	//     {
+	//         username: "Guy",
+	//     },
+	//     // This object will come from the Store child for the user
+	//     {
+	//         address: "16 Rad St",
+	//         email: "Rad@Cool.com",
+	//         phoneNumber: "555-222-8000",
+	//         tags: ["fun", "art"],
+	//     }
+	// ]);
 
-    ////// Commented this bit out because Im attempting to work with Apollo Client
+	// useEffect(() => {
+	//     // Will add code later to populate userData with actual database info later
+	// }, []);
 
-    // const [userData, setUserData] = useState([
-    //     // This object will come from the base User that is grabbed
-    //     {
-    //         username: "Guy",
-    //     },
-    //     // This object will come from the Store child for the user
-    //     {
-    //         address: "16 Rad St",
-    //         email: "Rad@Cool.com",
-    //         phoneNumber: "555-222-8000",
-    //         tags: ["fun", "art"],
-    //     }
-    // ]);
+	//////////////////////
 
-    // useEffect(() => {
-    //     // Will add code later to populate userData with actual database info later
-    // }, []);
+	// NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
 
-    //////////////////////
+	const testingID = "62e362627a57c366aabd62ae";
 
-    // NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
-    
+	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
+		variables: { id: testingID },
+	});
 
-    const testingID = "62e362627a57c366aabd62ae";
+	console.log("Data is---------------------");
+	console.log(data);
+	console.log("loading is " + loading);
+	console.log("error is--------------------");
+	console.log(error);
 
-    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {variables: { id: testingID},});
+	const userData = data?.getUserStore || { "Didnt Get": "The Data" };
+	console.log(userData);
 
-    console.log("Data is---------------------");
-    console.log(data)
-    console.log("loading is " + loading);
-    console.log("error is--------------------")
-    console.log(error)
-
-
-
-    const userData = data?.getUserStore || {"Didnt Get": "The Data"};
-    console.log(userData);
-
-
-
-    /////////////////////
+	/////////////////////
 
 	let tabIndex = 0;
 
@@ -210,4 +205,3 @@ export default function Profile() {
 		</div>
 	);
 }
-
