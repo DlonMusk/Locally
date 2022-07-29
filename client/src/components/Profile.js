@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_USER_STORE } from "../utils/queries";
+import { QUERY_GET_USER_STORE, QUERY_GET_USER } from "../utils/queries";
 // import helper from "../utils/helpers";
 
 import Products from './Products';
@@ -62,8 +62,22 @@ export default function Profile() {
     // NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
 
     const testingID = "62e362627a57c366aabd62ae";
+    const testingID2 = "62e362617a57c366aabd62ac";
 
+    // const queryMultiple = () => {
+    //     const res1 = useQuery(QUERY_GET_USER);
+    //     const res2 = useQuery(QUERY_GET_USER_STORE);
+    //     return [res1, res2];
+    // }
+      
+    // const [
+    //     { loading: loading1, data: data1 },
+    //     { loading: loading2, data: data2 }
+    // ] = queryMultiple()
+
+    // const {loading, data } = useQuery(getCharactersQuery);
     const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {variables: { id: testingID},});
+    const {loading: userQueryLoad, data: userQueryData, error: userQueryError} = useQuery(QUERY_GET_USER, {variables: { id: testingID2},});
 
     console.log("Data is---------------------");
     console.log(data)
@@ -71,10 +85,20 @@ export default function Profile() {
     console.log("error is--------------------")
     console.log(error)
 
+    console.log("userQueryData is---------------------");
+    console.log(userQueryData)
+    console.log("userQueryLoad is " + userQueryLoad);
+    console.log("userQueryError is--------------------")
+    console.log(userQueryError)
 
 
-    const userData = data?.getUserStore || {"Didnt Get": "The Data"};
+
+    const storeData = data?.getUserStore || {"Didnt Get": "The Data"};
+    console.log(storeData);
+
+    const userData = userQueryData?.getUser || {"Didnt Get": "The Data"};
     console.log(userData);
+
 
 
     /////////////////////
@@ -129,7 +153,7 @@ export default function Profile() {
                                     className="-ml-1 mr-2 h-5 w-5 text-gray-400"
                                     aria-hidden="true"
                                 />
-                                <span>Email: {userData.email}</span>
+                                <span>Email: {storeData.email}</span>
                             </button>
                             <button
                                 type="button"
@@ -139,7 +163,7 @@ export default function Profile() {
                                     className="-ml-1 mr-2 h-5 w-5 text-gray-400"
                                     aria-hidden="true"
                                 />
-                                <span>Call: {userData.phoneNumber}</span>
+                                <span>Call: {storeData.phoneNumber}</span>
                             </button>
                         </div>
                     </div>
