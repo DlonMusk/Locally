@@ -21,6 +21,7 @@ import Profile from "./components/Profile";
 import Posts from './components/Posts';
 import Signup from "./components/Auth/SignupForm";
 import Reviews from "./components/Reviews";
+import ProfileTabs from "./components/ProfileTabs";
 
 // Constructing an http link, assigning uri to the URL of the GraphQL endpoint to send requests to
 const httpLink = createHttpLink({
@@ -72,25 +73,16 @@ const Store = () => {
 	);
 };
 
-// const ProfileProducts = () => {
-// 	return (
-// 		<>
-// 			<Profile>
-// 				<Products />
-// 			</Profile>
-// 		</>
-// 	);
-// };
 
-// const ProfilePosts = () => {
-// 	return (
-// 		<>
-// 			<Profile>
-// 				<Posts />
-// 			</Profile>
-// 		</>
-// 	);
-// };
+const Profile = () => {
+	return (
+		<>
+			<ProfileLayout />
+			<ProfileTabs />
+		</>
+	);
+};
+
 
 const Login = () => {
 	return (
