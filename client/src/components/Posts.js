@@ -2,11 +2,11 @@
 import React from "react";
 
 
-const Reviews = () => {
+const Posts = () => {
 
 	return (
-		<h2>Testing</h2>
+		<h2>Did this work?</h2>
 	);
 };
 
-export default Reviews;
+export default Posts;
