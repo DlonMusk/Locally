@@ -12,6 +12,7 @@ import SignupForm from "./components/Auth/SignupForm";
 import AuthLayout from "./components/Auth/Layout";
 import ProfileLayout from "./components/Profile";
 import Signup from "./components/Auth/SignupForm";
+import Reviews from "./components/Reviews";
 
 const Home = () => {
 	return (
