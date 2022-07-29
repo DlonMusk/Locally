@@ -40,7 +40,6 @@ export default function ProfileTabs() {
 					))}
 				</nav>
 			</div>
-
 			{selectedTab === "Products" && <Products />}
 			{selectedTab === "Reviews" && <Reviews />}
 		</>
