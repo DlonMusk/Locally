@@ -5,14 +5,60 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 // import Home from "./components/Home";
 // import Store from "./components/Store";
-// import Products from "./components/Products";
-import Profile from "./components/Profile";
+import Products from "./components/Products";
+import ProductList from "./components/ProductList";
+import LoginForm from "./components/Auth/LoginForm";
+import SignupForm from "./components/Auth/SignupForm";
+import AuthLayout from "./components/Auth/Layout";
+
+import Signup from "./components/Auth/SignupForm";
+
+const Home = () => {
+	return (
+		<>
+			<ProductList />
+		</>
+	);
+};
+
+const Store = () => {
+	return (
+		<>
+			<ProductList />
+		</>
+	);
+};
+
+const Login = () => {
+	return (
+		<>
+			<AuthLayout>
+				<LoginForm />
+			</AuthLayout>
+		</>
+	);
+};
+
+const SignUp = () => {
+	return (
+		<>
+			<AuthLayout>
+				<SignupForm />
+			</AuthLayout>
+		</>
+	);
+};
 
 function App() {
 	return (
 		<>
 			<Header />
-			<Profile />
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="store" element={<Store />} />
+				<Route path="login" element={<Login />} />
+				<Route path="signup" element={<SignUp />} />
+			</Routes>
 			<Footer />
 		</>
 	);
