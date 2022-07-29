@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const QUERY_GET_USER_STORE = gql`
-    {
-        getUserStore {
+query GetUserStore($id: ID) {
+  getUserStore(_id: $id) {
             _id
             products {
                 _id
@@ -23,3 +23,4 @@ export const QUERY_GET_USER_STORE = gql`
         }
     }
 `;
+

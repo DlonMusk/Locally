@@ -61,13 +61,16 @@ export default function Profile() {
 
     // NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
 
-    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE);
+    const testingID = "62e362627a57c366aabd62ae";
+
+    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {variables: { id: testingID},});
 
     console.log("Data is---------------------");
     console.log(data)
     console.log("loading is " + loading);
     console.log("error is--------------------")
     console.log(error)
+
 
 
     const userData = data?.getUserStore || {"Didnt Get": "The Data"};
