@@ -17,7 +17,8 @@ import ProductList from "./components/ProductList";
 import LoginForm from "./components/Auth/LoginForm";
 import SignupForm from "./components/Auth/SignupForm";
 import AuthLayout from "./components/Auth/Layout";
-import ProfileLayout from "./components/Profile";
+import Profile from "./components/Profile";
+import Posts from './components/Posts';
 import Signup from "./components/Auth/SignupForm";
 
 // Constructing an http link, assigning uri to the URL of the GraphQL endpoint to send requests to
@@ -63,13 +64,25 @@ const Store = () => {
 	);
 };
 
-const Profile = () => {
-	return (
-		<>
-			<Profile />
-		</>
-	);
-};
+// const ProfileProducts = () => {
+// 	return (
+// 		<>
+// 			<Profile>
+// 				<Products />
+// 			</Profile>
+// 		</>
+// 	);
+// };
+
+// const ProfilePosts = () => {
+// 	return (
+// 		<>
+// 			<Profile>
+// 				<Posts />
+// 			</Profile>
+// 		</>
+// 	);
+// };
 
 const Login = () => {
 	return (
@@ -101,7 +114,7 @@ function App() {
 						<Route path="store" element={<Store />} />
 						<Route path="login" element={<Login />} />
 						<Route path="signup" element={<SignUp />} />
-						<Route path="profile" element={<Profile />} />
+						<Route path="profile/*" element={<Profile />} />
 					</Routes>
 					<Footer />
 				</>
