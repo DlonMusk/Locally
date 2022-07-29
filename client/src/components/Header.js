@@ -113,7 +113,7 @@ export default function Header() {
 											<Menu.Item>
 												{({ active }) => (
 													<a
-														href="#"
+														href="/profile"
 														className={classNames(
 															active ? "bg-gray-100" : "",
 															"block px-4 py-2 text-sm text-gray-700"
@@ -203,7 +203,7 @@ export default function Header() {
 							<div className="mt-3 space-y-1">
 								<Disclosure.Button
 									as="a"
-									href="#"
+									href="/profile"
 									className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
 								>
 									Your Profile
