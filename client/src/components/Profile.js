@@ -129,7 +129,7 @@ export default function Profile() {
                                     className="-ml-1 mr-2 h-5 w-5 text-gray-400"
                                     aria-hidden="true"
                                 />
-                                <span>Email</span>
+                                <span>Email: {userData.email}</span>
                             </button>
                             <button
                                 type="button"
@@ -139,7 +139,7 @@ export default function Profile() {
                                     className="-ml-1 mr-2 h-5 w-5 text-gray-400"
                                     aria-hidden="true"
                                 />
-                                <span>Call</span>
+                                <span>Call: {userData.phoneNumber}</span>
                             </button>
                         </div>
                     </div>
