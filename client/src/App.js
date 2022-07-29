@@ -10,7 +10,7 @@ import ProductList from "./components/ProductList";
 import LoginForm from "./components/Auth/LoginForm";
 import SignupForm from "./components/Auth/SignupForm";
 import AuthLayout from "./components/Auth/Layout";
-
+import ProfileLayout from "./components/Profile";
 import Signup from "./components/Auth/SignupForm";
 
 const Home = () => {
@@ -25,6 +25,14 @@ const Store = () => {
 	return (
 		<>
 			<ProductList />
+		</>
+	);
+};
+
+const Profile = () => {
+	return (
+		<>
+			<ProfileLayout />
 		</>
 	);
 };
@@ -58,6 +66,7 @@ function App() {
 				<Route path="store" element={<Store />} />
 				<Route path="login" element={<Login />} />
 				<Route path="signup" element={<SignUp />} />
+				<Route path="profile" element={<Profile />} />
 			</Routes>
 			<Footer />
 		</>
