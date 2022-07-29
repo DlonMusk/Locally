@@ -13,6 +13,7 @@ import AuthLayout from "./components/Auth/Layout";
 import ProfileLayout from "./components/Profile";
 import Signup from "./components/Auth/SignupForm";
 import Reviews from "./components/Reviews";
+import ProfileTabs from "./components/ProfileTabs";
 
 const Home = () => {
 	return (
@@ -34,6 +35,7 @@ const Profile = () => {
 	return (
 		<>
 			<ProfileLayout />
+			<ProfileTabs />
 		</>
 	);
 };
