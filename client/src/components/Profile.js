@@ -101,7 +101,6 @@ export default function Profile() {
     let storeItems = storeData.products
     console.log(storeItems)
 
-    console.log("DOES THIS STUFF WORK CHECK--------------")
     
 
 
