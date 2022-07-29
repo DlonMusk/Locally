@@ -146,7 +146,7 @@ const resolvers = {
             return { token, user };
         },
 
-        addUserStore: async (parent, storeData, context) => {
+        addStore: async (parent, storeData, context) => {
             const user = await User.findOne({ _id: context.user._id });
 
             if (!user) throw new AuthenticationError("You must be logged in to create a store");

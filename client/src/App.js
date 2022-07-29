@@ -5,8 +5,8 @@ import {
 	InMemoryCache,
 	ApolloProvider,
 	createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import { Routes, Route, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -17,24 +17,25 @@ import ProductList from "./components/ProductList";
 import LoginForm from "./components/Auth/LoginForm";
 import SignupForm from "./components/Auth/SignupForm";
 import AuthLayout from "./components/Auth/Layout";
-import Profile from "./components/Profile";
-import Posts from './components/Posts';
+import ProfileContainer from "./components/Profile";
+import Posts from "./components/Posts";
 import Signup from "./components/Auth/SignupForm";
 import Reviews from "./components/Reviews";
+import ProfileTabs from "./components/ProfileTabs";
 
 // Constructing an http link, assigning uri to the URL of the GraphQL endpoint to send requests to
 const httpLink = createHttpLink({
-	uri: 'http://localhost:3001/graphql'
-})
+	uri: "http://localhost:3001/graphql",
+});
 
-console.log("httpLink Is ----------")
-console.log(httpLink)
+console.log("httpLink Is ----------");
+console.log(httpLink);
 
 const authLink = setContext((_, { headers }) => {
 	// Getting the authentication token from local storage
 	const token = localStorage.getItem("id_token");
 
-	console.log("token is " + token)
+	console.log("token is " + token);
 	// Returning the headers to the context so httpLink can read them
 	return {
 		headers: {
@@ -44,8 +45,6 @@ const authLink = setContext((_, { headers }) => {
 	};
 });
 
-
-
 // Creating a new ApolloClient (This is an Apollo Client constructor)
 const client = new ApolloClient({
 	// Chaining the HTTP link and the authorization link
@@ -53,8 +52,6 @@ const client = new ApolloClient({
 	// Assigning cache to InMemoryCache object, this stores the results of its GraphQL queries in cache
 	cache: new InMemoryCache(),
 });
-
-
 
 const Home = () => {
 	return (
@@ -72,25 +69,14 @@ const Store = () => {
 	);
 };
 
-// const ProfileProducts = () => {
-// 	return (
-// 		<>
-// 			<Profile>
-// 				<Products />
-// 			</Profile>
-// 		</>
-// 	);
-// };
-
-// const ProfilePosts = () => {
-// 	return (
-// 		<>
-// 			<Profile>
-// 				<Posts />
-// 			</Profile>
-// 		</>
-// 	);
-// };
+const Profile = () => {
+	return (
+		<>
+			<ProfileContainer />
+			<ProfileTabs />
+		</>
+	);
+};
 
 const Login = () => {
 	return (
@@ -115,17 +101,17 @@ const SignUp = () => {
 function App() {
 	return (
 		<ApolloProvider client={client}>
-				<>
-					<Header />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="store" element={<Store />} />
-						<Route path="login" element={<Login />} />
-						<Route path="signup" element={<SignUp />} />
-						<Route path="profile/*" element={<Profile />} />
-					</Routes>
-					<Footer />
-				</>
+			<>
+				<Header />
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="store" element={<Store />} />
+					<Route path="login" element={<Login />} />
+					<Route path="signup" element={<SignUp />} />
+					<Route path="profile/*" element={<Profile />} />
+				</Routes>
+				<Footer />
+			</>
 		</ApolloProvider>
 	);
 }
