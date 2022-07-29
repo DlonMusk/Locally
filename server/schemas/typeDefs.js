@@ -98,7 +98,7 @@ const typeDefs = gql`
         updateProduct(productId: ID!, productData: ProductInput!): Product
         addPostReview(destinationId: ID!, postReviewData: PostReviewInput!): User
         removePostReview(postId: ID!): User
-        updatePostReview(_id: ID!, postReviewData: PostReviewInput!): User
+        updatePostReview(postReviewData: PostReviewInput!): Post
     }
 `;
 
