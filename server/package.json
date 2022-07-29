@@ -3,7 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "nodemon server.js"
+		"start": "nodemon server.js",
+		"watch": "nodemon server.js"
 	},
 	"dependencies": {
 		"apollo-server-express": "^3.10.0",

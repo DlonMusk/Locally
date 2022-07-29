@@ -23,12 +23,17 @@ import Signup from "./components/Auth/SignupForm";
 
 // Constructing an http link, assigning uri to the URL of the GraphQL endpoint to send requests to
 const httpLink = createHttpLink({
-	uri: '/graphql'
+	uri: 'http://localhost:3001/graphql'
 })
+
+console.log("httpLink Is ----------")
+console.log(httpLink)
 
 const authLink = setContext((_, { headers }) => {
 	// Getting the authentication token from local storage
 	const token = localStorage.getItem("id_token");
+
+	console.log("token is " + token)
 	// Returning the headers to the context so httpLink can read them
 	return {
 		headers: {
@@ -37,6 +42,8 @@ const authLink = setContext((_, { headers }) => {
 		},
 	};
 });
+
+
 
 // Creating a new ApolloClient (This is an Apollo Client constructor)
 const client = new ApolloClient({
