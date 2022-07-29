@@ -1,4 +1,4 @@
-import { MailIcon, PhoneIcon } from "@heroicons/react/solid";
+import { MailIcon, PhoneIcon, PencilIcon } from "@heroicons/react/solid";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -123,6 +123,16 @@ export default function Profile() {
 									aria-hidden="true"
 								/>
 								<span>Call</span>
+							</button>
+							<button
+								type="button"
+								className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							>
+								<PencilIcon
+									className="-ml-1 mr-2 h-5 w-5 text-gray-500"
+									aria-hidden="true"
+								/>
+								Edit
 							</button>
 							<button
 								type="button"
