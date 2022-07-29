@@ -34,7 +34,7 @@ const resolvers = {
         },
 
         getUser: async (_, { _id }) => {
-            const user = await User.findOne(_id);
+            const user = await User.findOne({_id: _id});
 
             if (!user) throw new AuthenticationError("No user found!");
 
