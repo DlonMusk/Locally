@@ -81,7 +81,7 @@ export default function ProfileContainer() {
 
 
 
-    const storeData = data?.getUserStore || {"Didnt Get": "The Data"};
+    const storeData = data?.getStore || {"Didnt Get": "The Data"};
     console.log(storeData);
 
     const userData = userQueryData?.getUser || {"Didnt Get": "The Data"};
@@ -135,7 +135,7 @@ export default function ProfileContainer() {
 					<div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
 						<div className="sm:hidden md:block mt-6 min-w-0 flex-1">
 							<h1 className="text-2xl font-bold text-gray-900 truncate">
-								{profile.name}
+								{userData.username}
 							</h1>
 						</div>
 						<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
@@ -147,7 +147,7 @@ export default function ProfileContainer() {
 									className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 									aria-hidden="true"
 								/>
-								<span>Email: {userData.email}</span>
+								<span>Email: {storeData.email}</span>
 							</button>
 							<button
 								type="button"
@@ -157,7 +157,7 @@ export default function ProfileContainer() {
 									className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 									aria-hidden="true"
 								/>
-								<span>Call: {userData.phoneNumber}</span>
+								<span>Call: {storeData.phoneNumber}</span>
 							</button>
 							<button
 								type="button"

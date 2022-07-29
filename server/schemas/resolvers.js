@@ -43,7 +43,9 @@ const resolvers = {
 
         // query to get current users store information for the storefront page
         // make ID optional, if its passed in use it
-        getUserStore: async (parent, args, context) => {
+        getStore: async (parent, args, context) => {
+            console.log("ARGS CHECK----------")
+            console.log(args.id)
             let store;
             if (args._id) {
                 store = await Store.findOne({ _id: args._id })
