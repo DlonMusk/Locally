@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/solid";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useLocation } from "react-router-dom";
+import Auth from '../utils/auth';
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -139,6 +140,7 @@ export default function Header() {
 											<Menu.Item>
 												{({ active }) => (
 													<a
+														onClick={Auth.logout}
 														href="/login"
 														className={classNames(
 															active ? "bg-gray-100" : "",

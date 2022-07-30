@@ -34,86 +34,90 @@ const profile = {
 };
 
 export default function ProfileContainer() {
+
 	const [showStoreForm, setShowStoreForm] = useState(false);
 
 	const handleClick = (event) => {
 		setShowStoreForm(!showStoreForm);
 	};
 
-	////// Commented this bit out because Im attempting to work with Apollo Client
+    ////// Commented this bit out because Im attempting to work with Apollo Client
 
-	// const [userData, setUserData] = useState([
-	//     // This object will come from the base User that is grabbed
-	//     {
-	//         username: "Guy",
-	//     },
-	//     // This object will come from the Store child for the user
-	//     {
-	//         address: "16 Rad St",
-	//         email: "Rad@Cool.com",
-	//         phoneNumber: "555-222-8000",
-	//         tags: ["fun", "art"],
-	//     }
-	// ]);
+    // const [userData, setUserData] = useState([
+    //     // This object will come from the base User that is grabbed
+    //     {
+    //         username: "Guy",
+    //     },
+    //     // This object will come from the Store child for the user
+    //     {
+    //         address: "16 Rad St",
+    //         email: "Rad@Cool.com",
+    //         phoneNumber: "555-222-8000",
+    //         tags: ["fun", "art"],
+    //     }
+    // ]);
 
-	// useEffect(() => {
-	//     // Will add code later to populate userData with actual database info later
-	// }, []);
+    // useEffect(() => {
+    //     // Will add code later to populate userData with actual database info later
+    // }, []);
 
-	//////////////////////
+    //////////////////////
 
-	// NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
+    // NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
 
-	const testingID = "62e362627a57c366aabd62ae";
-	const testingID2 = "62e362617a57c366aabd62ac";
+    const testingID = "62e362627a57c366aabd62ae";
+    const testingID2 = "62e362617a57c366aabd62ac";
 
-	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
-		variables: { id: testingID },
-	});
-	const {
-		loading: userQueryLoad,
-		data: userQueryData,
-		error: userQueryError,
-	} = useQuery(QUERY_GET_USER, { variables: { id: testingID2 } });
+    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {variables: { id: testingID},});
+    const {loading: userQueryLoad, data: userQueryData, error: userQueryError} = useQuery(QUERY_GET_USER, {variables: { id: testingID2},});
 
-	console.log("Data is---------------------");
-	console.log(data);
-	console.log("loading is " + loading);
-	console.log("error is--------------------");
-	console.log(error);
+    console.log("Data is---------------------");
+    console.log(data)
+    console.log("loading is " + loading);
+    console.log("error is--------------------")
+    console.log(error)
 
-	console.log("userQueryData is---------------------");
-	console.log(userQueryData);
-	console.log("userQueryLoad is " + userQueryLoad);
-	console.log("userQueryError is--------------------");
-	console.log(userQueryError);
+    console.log("userQueryData is---------------------");
+    console.log(userQueryData)
+    console.log("userQueryLoad is " + userQueryLoad);
+    console.log("userQueryError is--------------------")
+    console.log(userQueryError)
 
-	const storeData = data?.getUserStore || { "Didnt Get": "The Data" };
-	console.log(storeData);
 
-	const userData = userQueryData?.getUser || { "Didnt Get": "The Data" };
-	console.log(userData);
 
-	/////////////////////
+    const storeData = data?.getStore || {"Didnt Get": "The Data"};
+    console.log(storeData);
 
-	let tabIndex = 0;
+    const userData = userQueryData?.getUser || {"Didnt Get": "The Data"};
+    console.log(userData);
 
-	let disableValue = false;
 
-	console.log("Product value check-----------------");
-	console.log(storeData.products);
 
-	let storeItems = storeData.products;
-	console.log(storeItems);
+    /////////////////////
 
-	const storeCheck = () => {
-		if (storeItems !== undefined) {
-			tabIndex = 0;
-			disableValue = false;
-		}
-		tabIndex = 1;
-		disableValue = true;
-	};
+    let tabIndex = 0
+
+    let disableValue = false;
+
+    console.log("Product value check-----------------");
+    console.log(storeData.products);
+
+    let storeItems = storeData.products
+    console.log(storeItems)
+
+    
+
+
+
+    const storeCheck = () => {
+        if (storeItems !== undefined) {
+            tabIndex = 0;
+            disableValue = false;
+        }
+        tabIndex = 1;
+        disableValue = true;
+    };
+=======
 
 	return (
 		<div className="profileContainer">
@@ -136,7 +140,7 @@ export default function ProfileContainer() {
 					<div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
 						<div className="sm:hidden md:block mt-6 min-w-0 flex-1">
 							<h1 className="text-2xl font-bold text-gray-900 truncate">
-								{profile.name}
+								{userData.username}
 							</h1>
 						</div>
 						<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
@@ -148,7 +152,9 @@ export default function ProfileContainer() {
 									className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 									aria-hidden="true"
 								/>
-								<span>Email:</span>
+
+								<span>Email: {storeData.email}</span>
+
 							</button>
 							<button
 								type="button"
@@ -158,7 +164,9 @@ export default function ProfileContainer() {
 									className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 									aria-hidden="true"
 								/>
-								<span>Call: </span>
+
+								<span>Call: {storeData.phoneNumber}</span>
+
 							</button>
 							<button
 								type="button"
