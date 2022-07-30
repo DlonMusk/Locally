@@ -12,17 +12,16 @@ query Query($id: ID!) {
 `;
 
 
-
 export const QUERY_GET_USER_STORE = gql`
-query GetUserStore($id: ID) {
-  getUserStore(_id: $id) {
+query getStore($id: ID) {
+  getStore(_id: $id) {
             _id
             products {
                 _id
                 productTitle
                 productDescription
-                ProductPrice
-                ProductImage
+                productPrice
+                productImage
                 stock
                 likes
                 tags
@@ -34,6 +33,6 @@ query GetUserStore($id: ID) {
             tags
             createdAt
         }
-    }
+}
 `;
 

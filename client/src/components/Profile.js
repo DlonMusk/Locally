@@ -92,7 +92,7 @@ export default function ProfileContainer() {
 	console.log("userQueryError is--------------------");
 	console.log(userQueryError);
 
-	const storeData = data?.getUserStore || { "Didnt Get": "The Data" };
+	const storeData = data?.getStore || { "Didnt Get": "The Data" };
 	console.log(storeData);
 
 	const userData = userQueryData?.getUser || { "Didnt Get": "The Data" };
@@ -167,7 +167,7 @@ export default function ProfileContainer() {
 						<div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
 							<div className="sm:hidden md:block mt-6 min-w-0 flex-1">
 								<h1 className="text-2xl font-bold text-gray-900 truncate">
-									{profile.name}
+									{userData.username}
 								</h1>
 							</div>
 							<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
@@ -179,7 +179,8 @@ export default function ProfileContainer() {
 										className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 										aria-hidden="true"
 									/>
-									<span>Email:</span>
+
+									<span>Email: {storeData.email}</span>
 								</button>
 								<button
 									type="button"
@@ -189,7 +190,8 @@ export default function ProfileContainer() {
 										className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 										aria-hidden="true"
 									/>
-									<span>Call: </span>
+
+									<span>Call: {storeData.phoneNumber}</span>
 								</button>
 								<button
 									type="button"
@@ -218,22 +220,16 @@ export default function ProfileContainer() {
 							</div>
 						</div>
 					</div>
-					<div className="hidden sm:block md:hidden mt-6 min-w-0 flex-1">
-						<h1 className="text-2xl font-bold text-gray-900 truncate">
-							{profile.name}
-						</h1>
-					</div>
-				</div>
 
-				{/* <h2> Username: {userData[0].username}</h2>
+					{/* <h2> Username: {userData[0].username}</h2>
 
                 <h2> Address: {userData[1].address}</h2>
                 <h2> Email: {userData[1].email}</h2>
                 <h2> Phone Number: {userData[1].phoneNumber}</h2>
                 <h2> Tags: {userData[1].tags}</h2>
                  */}
-				{storeCheck()}
-				{/* <Tabs isLazy defaultIndex={tabIndex}>
+					{storeCheck()}
+					{/* <Tabs isLazy defaultIndex={tabIndex}>
 				<TabList>
 					<Tab isDisabled={disableValue} as={Link} to="/products">
 						Products
@@ -245,16 +241,16 @@ export default function ProfileContainer() {
 						Reviews
 					</Tab>
 				</TabList> */}
-				{/* initially mounted */}
-				{/* <TabPanels>
+					{/* initially mounted */}
+					{/* <TabPanels>
 		
 					<TabPanel>
 						<Routes>
 							<Route path="/products" element={<Products />} />
 						</Routes>
 					</TabPanel> */}
-				{/* initially not mounted */}
-				{/* <TabPanel>
+					{/* initially not mounted */}
+					{/* <TabPanel>
 						<Routes>
 							<Route path="/posts" element={<Posts />} />
 						</Routes>
@@ -266,9 +262,10 @@ export default function ProfileContainer() {
 					</TabPanel>
 				</TabPanels>
 			</Tabs> */}
-				{/* <Routes>
+					{/* <Routes>
 				<Route path="*" element={<h1>Page routing error</h1>} />
 			</Routes> */}
+				</div>
 			</div>
 		</>
 	);
