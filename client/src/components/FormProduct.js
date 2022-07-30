@@ -71,7 +71,7 @@ export default function FormProduct(props) {
 	};
 
 	return (
-		<form className="space-y-8 divide-y divide-gray-200">
+		<div className="space-y-8 divide-y divide-gray-200">
 			<div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
 				<div>
 					<div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
@@ -259,6 +259,6 @@ export default function FormProduct(props) {
 					</button>
 				</div>
 			</div>
-		</form>
+		</div>
 	);
 }
