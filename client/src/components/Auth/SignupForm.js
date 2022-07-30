@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
-import { validateEmail } from "../../utils/helpers";
+import { validateEmail, validatePassword } from "../../utils/helpers";
 
 
 const SignUp = () => {
@@ -13,13 +13,6 @@ const SignUp = () => {
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const { username, email, password } = userFormData;
-
-	/*
-	// set state for form validation
-	const [validated] = useState(false);
-	// set state for alert
-	const [showAlert, setShowAlert] = useState(false);
-	*/
 
 	/* Assigning an array containing the addUser resolver and an error object,
 	addUser will use the ADD_USER mutation, and error will log errors that occur
@@ -35,23 +28,13 @@ const SignUp = () => {
 		event.preventDefault();
 
 		const validCheck = validateEmail(email);
+		const passwordCheck = validatePassword(password)
 
-		if (!validCheck || username === '' || password === '') {
+		if (!validCheck || username === '' || !passwordCheck) {
             setErrorMessage("Please fill out a username, valid email, and password")
         } else {
 			// If checks are passed, then the program will use emailJS and send the required information to be used to send an email to my inbox
 			console.log("Form data SUBMIT check", userFormData)
-		
-			/*
-			// check if form has everything (as per react-bootstrap docs)
-			const form = event.currentTarget;
-			if (form.checkValidity() === false) {
-			event.preventDefault();
-			event.stopPropagation();
-			}
-			console.log("VALID CHECK-------------")
-			console.log(form.checkValidity());
-			*/
 		
 			try {
 			const { data } = await addUser({
@@ -134,7 +117,7 @@ const SignUp = () => {
 									id="password"
 									name="password"
 									type="password"
-									placeholder="Password"
+									placeholder="Password (minimum 8 characters)"
 									autoComplete="current-password"
 									onChange={handleInputChange}
 									value={password}
@@ -149,7 +132,7 @@ const SignUp = () => {
 										userFormData.username && 
 										userFormData.email && 
 										userFormData.password
-										)}
+									)}
 									type="submit"
 									className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 									variant="success"
