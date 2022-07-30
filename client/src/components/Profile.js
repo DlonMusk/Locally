@@ -7,7 +7,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_STORE, QUERY_GET_USER } from "../utils/queries";
 // import helper from "../utils/helpers";
 
-import Products from "./Products";
+import Products from "./ProductList";
 import Posts from "./Posts";
 import Reviews from "./Reviews";
 import FormStore from "./FormStore";
@@ -32,93 +32,87 @@ const profile = {
 	],
 };
 
-
-
-
-
 export default function ProfileContainer() {
-	const [isShownStoreForm, setIsShownStoreForm] = useState(false);
+	const [showStoreForm, setShowStoreForm] = useState(false);
 
 	const handleClick = (event) => {
-		setIsShownStoreForm(!isShownStoreForm);
+		setShowStoreForm(!showStoreForm);
 	};
 
-    ////// Commented this bit out because Im attempting to work with Apollo Client
+	////// Commented this bit out because Im attempting to work with Apollo Client
 
-    // const [userData, setUserData] = useState([
-    //     // This object will come from the base User that is grabbed
-    //     {
-    //         username: "Guy",
-    //     },
-    //     // This object will come from the Store child for the user
-    //     {
-    //         address: "16 Rad St",
-    //         email: "Rad@Cool.com",
-    //         phoneNumber: "555-222-8000",
-    //         tags: ["fun", "art"],
-    //     }
-    // ]);
+	// const [userData, setUserData] = useState([
+	//     // This object will come from the base User that is grabbed
+	//     {
+	//         username: "Guy",
+	//     },
+	//     // This object will come from the Store child for the user
+	//     {
+	//         address: "16 Rad St",
+	//         email: "Rad@Cool.com",
+	//         phoneNumber: "555-222-8000",
+	//         tags: ["fun", "art"],
+	//     }
+	// ]);
 
-    // useEffect(() => {
-    //     // Will add code later to populate userData with actual database info later
-    // }, []);
+	// useEffect(() => {
+	//     // Will add code later to populate userData with actual database info later
+	// }, []);
 
-    //////////////////////
+	//////////////////////
 
-    // NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
+	// NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
 
-    const testingID = "62e362627a57c366aabd62ae";
-    const testingID2 = "62e362617a57c366aabd62ac";
+	const testingID = "62e362627a57c366aabd62ae";
+	const testingID2 = "62e362617a57c366aabd62ac";
 
-    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {variables: { id: testingID},});
-    const {loading: userQueryLoad, data: userQueryData, error: userQueryError} = useQuery(QUERY_GET_USER, {variables: { id: testingID2},});
+	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
+		variables: { id: testingID },
+	});
+	const {
+		loading: userQueryLoad,
+		data: userQueryData,
+		error: userQueryError,
+	} = useQuery(QUERY_GET_USER, { variables: { id: testingID2 } });
 
-    console.log("Data is---------------------");
-    console.log(data)
-    console.log("loading is " + loading);
-    console.log("error is--------------------")
-    console.log(error)
+	console.log("Data is---------------------");
+	console.log(data);
+	console.log("loading is " + loading);
+	console.log("error is--------------------");
+	console.log(error);
 
-    console.log("userQueryData is---------------------");
-    console.log(userQueryData)
-    console.log("userQueryLoad is " + userQueryLoad);
-    console.log("userQueryError is--------------------")
-    console.log(userQueryError)
+	console.log("userQueryData is---------------------");
+	console.log(userQueryData);
+	console.log("userQueryLoad is " + userQueryLoad);
+	console.log("userQueryError is--------------------");
+	console.log(userQueryError);
 
+	const storeData = data?.getUserStore || { "Didnt Get": "The Data" };
+	console.log(storeData);
 
+	const userData = userQueryData?.getUser || { "Didnt Get": "The Data" };
+	console.log(userData);
 
-    const storeData = data?.getUserStore || {"Didnt Get": "The Data"};
-    console.log(storeData);
+	/////////////////////
 
-    const userData = userQueryData?.getUser || {"Didnt Get": "The Data"};
-    console.log(userData);
+	let tabIndex = 0;
 
+	let disableValue = false;
 
+	console.log("Product value check-----------------");
+	console.log(storeData.products);
 
-    /////////////////////
+	let storeItems = storeData.products;
+	console.log(storeItems);
 
-    let tabIndex = 0
-
-    let disableValue = false;
-
-    console.log("Product value check-----------------");
-    console.log(storeData.products);
-
-    let storeItems = storeData.products
-    console.log(storeItems)
-
-    
-
-
-
-    const storeCheck = () => {
-        if (storeItems !== undefined) {
-            tabIndex = 0;
-            disableValue = false;
-        }
-        tabIndex = 1;
-        disableValue = true;
-    };
+	const storeCheck = () => {
+		if (storeItems !== undefined) {
+			tabIndex = 0;
+			disableValue = false;
+		}
+		tabIndex = 1;
+		disableValue = true;
+	};
 
 	return (
 		<div className="profileContainer">
@@ -153,7 +147,7 @@ export default function ProfileContainer() {
 									className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 									aria-hidden="true"
 								/>
-								<span>Email: {userData.email}</span>
+								<span>Email: </span>
 							</button>
 							<button
 								type="button"
@@ -163,7 +157,7 @@ export default function ProfileContainer() {
 									className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 									aria-hidden="true"
 								/>
-								<span>Call: {userData.phoneNumber}</span>
+								<span>Call: </span>
 							</button>
 							<button
 								type="button"
@@ -192,7 +186,9 @@ export default function ProfileContainer() {
 						{profile.name}
 					</h1>
 				</div>
-				{isShownStoreForm && <FormStore />}
+				{showStoreForm && (
+					<FormStore onCancel={() => setShowStoreForm(!showStoreForm)} />
+				)}
 			</div>
 
 			{/* <h2> Username: {userData[0].username}</h2>
