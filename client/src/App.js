@@ -22,6 +22,7 @@ import Posts from "./components/Posts";
 import Signup from "./components/Auth/SignupForm";
 import Reviews from "./components/Reviews";
 import ProfileTabs from "./components/ProfileTabs";
+import ProductListing from "./components/ProductListing";
 
 // Constructing an http link, assigning uri to the URL of the GraphQL endpoint to send requests to
 const httpLink = createHttpLink({
@@ -52,6 +53,14 @@ const client = new ApolloClient({
 	// Assigning cache to InMemoryCache object, this stores the results of its GraphQL queries in cache
 	cache: new InMemoryCache(),
 });
+
+const Product = () => {
+	return (
+		<>
+			<ProductListing />
+		</>
+	);
+};
 
 const Home = () => {
 	return (
@@ -108,7 +117,8 @@ function App() {
 					<Route path="store" element={<Store />} />
 					<Route path="login" element={<Login />} />
 					<Route path="signup" element={<SignUp />} />
-					<Route path="profile/*" element={<Profile />} />
+					<Route path="profile" element={<Profile />} />
+					<Route path="product/:productId" element={<Product />} />
 				</Routes>
 				<Footer />
 			</>
