@@ -34,10 +34,11 @@ const Login = () => {
             setErrorMessage("Please fill out a valid email, and password")
 			console.log("button isnt working")
         } else {
-			// If checks are passed, then the program will use emailJS and send the required information to be used to send an email to my inbox
+			// If checks are passed, then the program will check for a matching email and password from the database for login
 			console.log("Form data SUBMIT check", userFormData)
 		
 			try {
+			// Using email.toLowerCase to make the query for matching email to be in lower case, as all email fields will be stored in lowercase to prevent case related errors
 			const { data } = await login({
 				variables: { email: email.toLowerCase(), password },
 			});
