@@ -11,6 +11,7 @@ import Products from "./ProductList";
 import Posts from "./Posts";
 import Reviews from "./Reviews";
 import FormStore from "./FormStore";
+import { UserAddIcon } from "@heroicons/react/outline";
 
 // Rabias stuff
 
@@ -147,7 +148,7 @@ export default function ProfileContainer() {
 									className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 									aria-hidden="true"
 								/>
-								<span>Email: </span>
+								<span>Email:</span>
 							</button>
 							<button
 								type="button"
