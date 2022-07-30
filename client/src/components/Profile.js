@@ -7,9 +7,11 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_STORE, QUERY_GET_USER } from "../utils/queries";
 // import helper from "../utils/helpers";
 
-import Products from "./Products";
+import Products from "./ProductList";
 import Posts from "./Posts";
 import Reviews from "./Reviews";
+import FormStore from "./FormStore";
+import { UserAddIcon } from "@heroicons/react/outline";
 
 // Rabias stuff
 
@@ -31,11 +33,13 @@ const profile = {
 	],
 };
 
-
-
-
-
 export default function ProfileContainer() {
+
+	const [showStoreForm, setShowStoreForm] = useState(false);
+
+	const handleClick = (event) => {
+		setShowStoreForm(!showStoreForm);
+	};
 
     ////// Commented this bit out because Im attempting to work with Apollo Client
 
@@ -113,6 +117,7 @@ export default function ProfileContainer() {
         tabIndex = 1;
         disableValue = true;
     };
+=======
 
 	return (
 		<div className="profileContainer">
@@ -147,7 +152,9 @@ export default function ProfileContainer() {
 									className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 									aria-hidden="true"
 								/>
+
 								<span>Email: {storeData.email}</span>
+
 							</button>
 							<button
 								type="button"
@@ -157,7 +164,9 @@ export default function ProfileContainer() {
 									className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 									aria-hidden="true"
 								/>
+
 								<span>Call: {storeData.phoneNumber}</span>
+
 							</button>
 							<button
 								type="button"
@@ -172,6 +181,9 @@ export default function ProfileContainer() {
 							<button
 								type="button"
 								className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+								onClick={() => {
+									handleClick();
+								}}
 							>
 								Create Store
 							</button>
@@ -183,6 +195,9 @@ export default function ProfileContainer() {
 						{profile.name}
 					</h1>
 				</div>
+				{showStoreForm && (
+					<FormStore onCancel={() => setShowStoreForm(!showStoreForm)} />
+				)}
 			</div>
 
 			{/* <h2> Username: {userData[0].username}</h2>

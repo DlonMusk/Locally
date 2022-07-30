@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import Like from "./Like";
 
 export default function ProductList() {
 	const [products, setProducts] = useState([
@@ -45,7 +47,11 @@ export default function ProductList() {
 
 				<div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:gap-x-8">
 					{products.map((product) => (
-						<a key={product.id} href={product.href} className="group">
+						<a
+							key={product.id}
+							href={`/product/${product.id}`}
+							className="group"
+						>
 							<div className="w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-w-2 sm:aspect-h-3">
 								<img
 									src={product.imageSrc}
@@ -55,10 +61,11 @@ export default function ProductList() {
 							</div>
 							<div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
 								<h3>{product.name}</h3>
-								<p>{product.price}</p>
+								<Like productId={product.id} />
 							</div>
-							<p className="mt-1 text-sm italic text-gray-500">
+							<p className="mt-1 text-sm italic text-gray-500 items-center justify-between ">
 								{product.description}
+								<p className="font-medium text-gray-900">{product.price}</p>
 							</p>
 						</a>
 					))}

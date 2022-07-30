@@ -1,6 +1,6 @@
 import react, { useState } from "react";
 import Reviews from "./Reviews";
-import Products from "./Products";
+import Products from "./ProductList";
 
 // update the tab to change from current false to current true
 
