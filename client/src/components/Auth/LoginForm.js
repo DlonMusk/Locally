@@ -39,7 +39,7 @@ const Login = () => {
 		
 			try {
 			const { data } = await login({
-				variables: { ...userFormData },
+				variables: { email: email.toLowerCase(), password },
 			});
 			Auth.login(data.login.token);
 			} catch (err) {

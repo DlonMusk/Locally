@@ -22,13 +22,20 @@ const SignUp = () => {
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
 		setUserFormData({ ...userFormData, [name]: value });
+		console.log("STATE CHECK------------------")
+		console.log(userFormData);
+		console.log(typeof username, typeof password, typeof email)
+		console.log(username)
 	};
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
+		console.log(typeof username, typeof password, typeof email)
 
 		const validCheck = validateEmail(email);
 		const passwordCheck = validatePassword(password)
+		// username.toLowerCase();
+		// email.toLowerCase();
 
 		if (!validCheck || username === '' || !passwordCheck) {
             setErrorMessage("Please fill out a username, valid email, and password")
@@ -38,7 +45,7 @@ const SignUp = () => {
 		
 			try {
 			const { data } = await addUser({
-				variables: { ...userFormData },
+				variables: { username: username.toLowerCase(), email: email.toLowerCase(), password },
 			});
 			Auth.login(data.addUser.token);
 			} catch (err) {
