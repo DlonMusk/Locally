@@ -51,7 +51,6 @@ const resolvers = {
             let store;
             if (args._id) {
                 store = await Store.findOne({ _id: args._id })
-                    .populate('products')
                     .populate({
                         path: 'products',
                         populate: {
@@ -62,7 +61,6 @@ const resolvers = {
                     
             } else {
                 store = await Store.findOne({ _id: context._id })
-                    .populate('products')
                     .populate({
                         path: 'products',
                         populate: {

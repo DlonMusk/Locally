@@ -78,6 +78,7 @@ query GetStore($id: ID) {
     products {
       _id
       productTitle
+      productImage
       reviews {
         _id
         postContent

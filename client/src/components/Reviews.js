@@ -79,49 +79,39 @@ export default function Reviews() {
 					reviewArray.push([
 						element._id, element.postContent, element.likes, element.destinationId, element.createdAt
 					])
-					//return [element._id, element.postContent, element.likes, element.destinationId, element.createdAt];
+					return [element._id, element.postContent, element.likes, element.destinationId, element.createdAt];
 				})
-				console.log(testMap)
+				console.log(reviewArray)
 				console.log("@@@@@@@@@@@@ ACCESSING ARRAY @@@@@@@@@@@")
-				//console.log(testMap[key][1])
-				reviewProductArray.push([
-					reviewNestedData[key]._id,
-					reviewNestedData[key].productTitle,
-					testMap[key]
-				])
+				console.log(reviewArray[key])
+				for (let i = 0; i < reviewNestedDataReviews.length; i++) {
+
+					reviewProductArray.push([
+						// product id INDEX 0
+						reviewNestedData[key]._id,
+						// product title INDEX 1
+						reviewNestedData[key].productTitle,
+						// product image INDEX 2
+						reviewNestedData[key].productImage,
+						// review id INDEX 3
+						reviewArray[i][0],
+						// review content INDEX 4
+						reviewArray[i][1],
+						// review likes INDEX 5
+						reviewArray[i][2],
+						// review destination id INDEX 6
+						reviewArray[i][3],
+						// review created at INDEX 7
+						reviewArray[i][4],
+						
+					])
+					
+				  }
 				console.log("P R O D U C T    P U S H     C H E C K --------")
 				console.log(reviewProductArray)
-
-				// if (reviewNestedDataReviews.hasOwnProperty(key)) {
-				// 	console.log("INSIDE NESTED DATA CHECK")
-				// 	console.log(reviewNestedDataReviews[key])
-				// }
-				// reviewArray.push([
-				// 	reviewNestedDataReviews
-				// ])
 			}
 			console.log("P U S H      C H E C K")
 			console.log(reviewArray)
-			// if (reviewNestedDataReviews.hasOwnProperty(key)) {
-			// 	console.log("INSIDE NESTED DATA CHECK")
-			// 	console.log(reviewNestedDataReviews[key])
-			// }
-			// reviewNestedData.push([
-			// 	// index 0
-			// 	reviewNestedData[key]._id,
-			// 	// index 1
-			// 	reviewNestedData[key].productTitle,
-			// 	// index 2
-			// 	reviewNestedData[key].productDescription,
-			// 	// index 3
-			// 	reviewNestedData[key].productPrice,
-			// 	// index 4
-			// 	reviewNestedData[key].productImage,
-			// 	// index 5
-			// 	reviewNestedData[key].likes,
-			// 	// index 6
-			// 	reviewNestedData[key].stock
-			// ])
 			console.log("MADE IT THERE")
 			
 		}
@@ -135,28 +125,28 @@ export default function Reviews() {
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div className="max-w-3xl mx-auto">
 				<ul role="list" className="divide-y divide-gray-200">
-					{reviewItems.map((reviewItem) => (
-						<li key={reviewItem.id} className="py-4">
+					{reviewProductArray.map((reviewItem) => (
+						<li key={reviewItem[3]} className="py-4">
 							<div className="flex space-x-3">
 								<img
 									className="h-6 w-6 rounded-full"
-									src={reviewItem.person.image}
+									src={reviewItem[2]}
 									alt=""
 								/>
 								<div className="flex-1 space-y-1">
 									<div className="flex items-center justify-between">
 										<h3 className="text-sm font-semibold">
-											{reviewItem.person.username}
+											{/*reviewItem[0]*/} USERS NAME
 										</h3>
 										<p className="text-sm font-medium text-gray-700">
-											{reviewItem.product}
+											{reviewItem[1]}
 										</p>
 										<p className="text-sm text-gray-500">
-											{reviewItem.createdAt}
+											{reviewItem[7]}
 										</p>
 									</div>
 									<p className="text-sm text-gray-500">
-										{reviewItem.postContent}
+										{reviewItem[4]}
 									</p>
 								</div>
 							</div>
