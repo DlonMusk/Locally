@@ -2,6 +2,7 @@ import React from "react";
 import ProductCard from "./ProductCard";
 import { SimpleGrid } from "@chakra-ui/react";
 
+
 const Products = () => {
 	const productData = [
 		{
@@ -59,6 +60,8 @@ const Products = () => {
 			Tags: ["tag1", "tag2"],
 		},
 	];
+
+
 
 	return (
 		<section className="products-section">

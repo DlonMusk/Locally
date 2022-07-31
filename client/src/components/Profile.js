@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_USER_STORE, QUERY_GET_USER } from "../utils/queries";
+import { QUERY_GET_USER_STORE_PROFILE, QUERY_GET_USER } from "../utils/queries";
 // import helper from "../utils/helpers";
 
 import Products from "./ProductList";
@@ -65,10 +65,10 @@ export default function ProfileContainer() {
 
     // NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
 
-    const testingID = "62e362627a57c366aabd62ae";
-    const testingID2 = "62e362617a57c366aabd62ac";
+    const testingID = "62e5b6e4820df4975ed9ce2f";
+    const testingID2 = "62e595024f09121c389aef19";
 
-    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {variables: { id: testingID},});
+    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE_PROFILE, {variables: { id: testingID},});
     const {loading: userQueryLoad, data: userQueryData, error: userQueryError} = useQuery(QUERY_GET_USER, {variables: { id: testingID2},});
 
     console.log("Data is---------------------");
@@ -117,7 +117,7 @@ export default function ProfileContainer() {
         tabIndex = 1;
         disableValue = true;
     };
-=======
+
 
 	return (
 		<div className="profileContainer">

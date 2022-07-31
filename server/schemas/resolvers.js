@@ -45,7 +45,9 @@ const resolvers = {
         // make ID optional, if its passed in use it
         getStore: async (parent, args, context) => {
             console.log("ARGS CHECK----------")
-            console.log(args.id)
+            console.log(args._id)
+            console.log(context.user._id)
+            //console.log(context)
             let store;
             if (args._id) {
                 store = await Store.findOne({ _id: args._id })
