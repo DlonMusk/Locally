@@ -79,11 +79,11 @@ export default function Reviews() {
 					reviewArray.push([
 						element._id, element.postContent, element.likes, element.destinationId, element.createdAt
 					])
-					return [element._id, element.postContent, element.likes, element.destinationId, element.createdAt];
+					//return [element._id, element.postContent, element.likes, element.destinationId, element.createdAt];
 				})
 				console.log(testMap)
 				console.log("@@@@@@@@@@@@ ACCESSING ARRAY @@@@@@@@@@@")
-				//console.log(testMap[key])
+				//console.log(testMap[key][1])
 				reviewProductArray.push([
 					reviewNestedData[key]._id,
 					reviewNestedData[key].productTitle,
