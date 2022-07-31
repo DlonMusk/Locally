@@ -13,6 +13,10 @@ const postSchema = new Schema(
         review: {
             type: Boolean
         },
+        destinationId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Product'
+        },
         createdAt: {
             type: Date,
             default: Date.now

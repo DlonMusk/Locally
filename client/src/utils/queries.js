@@ -12,6 +12,7 @@ query Query($id: ID!) {
 `;
 
 
+
 export const QUERY_GET_USER_STORE = gql`
 query getStore($id: ID) {
   getStore(_id: $id) {
@@ -36,3 +37,57 @@ query getStore($id: ID) {
 }
 `;
 
+export const QUERY_GET_USER_STORE_PROFILE = gql`
+query getStore($id: ID) {
+  getStore(_id: $id) {
+            _id
+            rating
+            address
+            email
+            phoneNumber
+            tags
+            createdAt
+        }
+}
+`;
+
+export const QUERY_GET_USER_PRODUCT = gql`
+query Query($id: ID) {
+  getUserProduct(_id: $id) {
+    _id
+    productTitle
+    productDescription
+    productPrice
+    productImage
+    stock
+    likes
+    tags
+    reviews {
+      _id
+    }
+    createdAt
+  }
+}
+`
+
+export const QUERY_GET_STORE_REVIEWS = gql`
+query GetStore($id: ID) {
+  getStore(_id: $id) {
+    _id
+    storeTitle
+    products {
+      _id
+      productTitle
+      productImage
+      reviews {
+        _id
+        postContent
+        likes
+        review
+        destinationId
+        createdAt
+      }
+    }
+  }
+}
+`

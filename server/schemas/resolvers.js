@@ -45,14 +45,30 @@ const resolvers = {
         // make ID optional, if its passed in use it
         getStore: async (parent, args, context) => {
             console.log("ARGS CHECK----------")
-            console.log(args.id)
+            console.log(args._id)
+            console.log(context.user._id)
+            //console.log(context)
             let store;
             if (args._id) {
                 store = await Store.findOne({ _id: args._id })
-                    .populate('products');
+                    .populate({
+                        path: 'products',
+                        populate: {
+                            path: 'reviews',
+                            model: 'Post'
+                        },
+                    })
+
+                    
             } else {
                 store = await Store.findOne({ _id: context._id })
-                    .populate('products');
+                    .populate({
+                        path: 'products',
+                        populate: {
+                            path: 'reviews',
+                            model: 'Post'
+                        }
+                    })
             }
 
             if (!store) throw new AuthenticationError("Something went wrong!")
@@ -65,8 +81,10 @@ const resolvers = {
             let product;
             if (args._id) {
                 product = await Product.findOne({ _id: args._id })
+                    .populate('reviews');
             } else {
                 product = await Product.findOne({ _id: context._id })
+                    .populate('reviews');
             }
 
             if (!product) throw new AuthenticationError("Something went wrong!")

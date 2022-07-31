@@ -64,6 +64,7 @@ const typeDefs = gql`
         likes: Int
         review: Boolean
         destinationId: ID!
+        userData: User
         createdAt: Date
     }
 

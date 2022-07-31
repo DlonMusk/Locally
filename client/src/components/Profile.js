@@ -9,8 +9,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_USER_STORE, QUERY_GET_USER } from "../utils/queries";
+import { QUERY_GET_USER_STORE_PROFILE, QUERY_GET_USER } from "../utils/queries";
 import { Dialog, Transition } from "@headlessui/react";
+
 // import helper from "../utils/helpers";
 
 import Products from "./ProductList";
@@ -44,80 +45,56 @@ export default function ProfileContainer() {
 	const [showProductForm, setShowProductForm] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
-	////// Commented this bit out because Im attempting to work with Apollo Client
 
-	// const [userData, setUserData] = useState([
-	//     // This object will come from the base User that is grabbed
-	//     {
-	//         username: "Guy",
-	//     },
-	//     // This object will come from the Store child for the user
-	//     {
-	//         address: "16 Rad St",
-	//         email: "Rad@Cool.com",
-	//         phoneNumber: "555-222-8000",
-	//         tags: ["fun", "art"],
-	//     }
-	// ]);
+    const testingID = "62e5b6e4820df4975ed9ce2f";
+    const testingID2 = "62e595024f09121c389aef19";
 
-	// useEffect(() => {
-	//     // Will add code later to populate userData with actual database info later
-	// }, []);
+    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE_PROFILE, {variables: { id: testingID},});
+    const {loading: userQueryLoad, data: userQueryData, error: userQueryError} = useQuery(QUERY_GET_USER, {variables: { id: testingID2},});
 
-	//////////////////////
+    console.log("Data is---------------------");
+    console.log(data)
+    console.log("loading is " + loading);
+    console.log("error is--------------------")
+    console.log(error)
 
-	// NEED APOLLO CLIENT SET UP TO RUN THIS, MADE PROGRESS ON IT BUT REMOVED IT FROM CODE TO NOT CONFLICT WITH THINGS IN MORNING MERGE
+    console.log("userQueryData is---------------------");
+    console.log(userQueryData)
+    console.log("userQueryLoad is " + userQueryLoad);
+    console.log("userQueryError is--------------------")
+    console.log(userQueryError)
 
-	const testingID = "62e362627a57c366aabd62ae";
-	const testingID2 = "62e362617a57c366aabd62ac";
 
-	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
-		variables: { id: testingID },
-	});
-	const {
-		loading: userQueryLoad,
-		data: userQueryData,
-		error: userQueryError,
-	} = useQuery(QUERY_GET_USER, { variables: { id: testingID2 } });
 
-	console.log("Data is---------------------");
-	console.log(data);
-	console.log("loading is " + loading);
-	console.log("error is--------------------");
-	console.log(error);
+    const storeData = data?.getStore || {"Didnt Get": "The Data"};
+    console.log(storeData);
 
-	console.log("userQueryData is---------------------");
-	console.log(userQueryData);
-	console.log("userQueryLoad is " + userQueryLoad);
-	console.log("userQueryError is--------------------");
-	console.log(userQueryError);
+    const userData = userQueryData?.getUser || {"Didnt Get": "The Data"};
+    console.log(userData);
 
-	const storeData = data?.getStore || { "Didnt Get": "The Data" };
-	console.log(storeData);
 
-	const userData = userQueryData?.getUser || { "Didnt Get": "The Data" };
-	console.log(userData);
 
-	/////////////////////
+    /////////////////////
 
-	let tabIndex = 0;
+    let tabIndex = 0
 
-	let disableValue = false;
+    let disableValue = false;
 
-	console.log("Product value check-----------------");
-	console.log(storeData.products);
+    console.log("Product value check-----------------");
+    console.log(storeData.products);
 
-	let storeItems = storeData.products;
-	console.log(storeItems);
+    let storeItems = storeData.products
+    console.log(storeItems)
 
-	const storeCheck = () => {
-		if (storeItems !== undefined) {
-			tabIndex = 0;
-			disableValue = false;
-		}
-		tabIndex = 1;
-		disableValue = true;
-	};
+    const storeCheck = () => {
+        if (storeItems !== undefined) {
+            tabIndex = 0;
+            disableValue = false;
+        }
+        tabIndex = 1;
+        disableValue = true;
+    };
+
 
 	return (
 		<>
