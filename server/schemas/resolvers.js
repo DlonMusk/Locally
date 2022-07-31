@@ -56,8 +56,9 @@ const resolvers = {
                         populate: {
                             path: 'reviews',
                             model: 'Post'
-                        }
+                        },
                     })
+
                     
             } else {
                 store = await Store.findOne({ _id: context._id })
