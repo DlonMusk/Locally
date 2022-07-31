@@ -55,7 +55,11 @@ const resolvers = {
                         path: 'products',
                         populate: {
                             path: 'reviews',
-                            model: 'Post'
+                            model: 'Post',
+                            populate: {
+                                path: 'userData',
+                                model: 'User'
+                            }
                         },
                     })
 
@@ -66,7 +70,11 @@ const resolvers = {
                         path: 'products',
                         populate: {
                             path: 'reviews',
-                            model: 'Post'
+                            model: 'Post',
+                            populate: {
+                                path: 'userData',
+                                model: 'User'
+                            }
                         }
                     })
             }
