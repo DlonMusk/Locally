@@ -69,3 +69,22 @@ query Query($id: ID) {
   }
 }
 `
+
+export const QUERY_GET_STORE_REVIEWS = gql`
+query GetStore($id: ID) {
+  getStore(_id: $id) {
+    _id
+    products {
+      _id
+      reviews {
+        _id
+        postContent
+        likes
+        review
+        destinationId
+        createdAt
+      }
+    }
+  }
+}
+`

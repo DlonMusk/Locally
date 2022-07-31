@@ -1,71 +1,12 @@
 import { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_USER_STORE,  } from "../utils/queries";
+import { QUERY_GET_USER_STORE  } from "../utils/queries";
 import Like from "./Like";
 
 export default function ProductList() {
-	const [products, setProducts] = useState([
-		{
-			id: 1,
-			name: "Paper",
-			href: "#",
-			price: "$13",
-			description: "Paper description",
-			imageSrc: "https://source.unsplash.com/random/400x400",
-			imageAlt: "alt text",
-		},
-		{
-			id: 2,
-			name: "Tea Cup",
-			href: "#",
-			price: "$64",
-			description: "Bone China",
-			imageSrc: "https://source.unsplash.com/random/400x400",
-			imageAlt: "Alt text",
-		},
-		{
-			id: 3,
-			name: "Coffee Mug",
-			href: "#",
-			price: "$32",
-			description: "Pastel",
-			imageSrc: "https://source.unsplash.com/random/400x400",
-			imageAlt: "Alt text",
-		},
-	]);
 
-	useEffect(() => {
-		// call api to get products
-		// set state to products
-	}, []);
-
-	
-	// Was using the WRONG query lol
-	/*
-	console.log("EEEEEEEEEE CONTEXT CHECK---------------")
-	console.log("")
-
-	const testingID = "62e5b6e4820df4975ed9ce2f";
-	const testingID2 = "62e595024f09121c389aef19";
-	const testProductID = "62e5b958820df4975ed9ce44"
-
-
-	const { loading, data, error } = useQuery(QUERY_GET_USER_PRODUCT, {variables: { id: testProductID},});
-
-	console.log("PRODUCT Data is---------------------");
-    console.log(data)
-    console.log("PRODUCT loading is " + loading);
-    console.log("PRODUCT error is--------------------")
-    console.log(error)
-
-
-
-	const productData = data?.getUserProduct || {"Didnt Get": "The Data"};
-	console.log("PRODUCT INFORMATION GRAB CHECK---------------")
-    console.log(productData);
-	*/
-
+	// store id
 	const testingID = "62e5b6e4820df4975ed9ce2f";
     const testingID2 = "62e362617a57c366aabd62ac";
 

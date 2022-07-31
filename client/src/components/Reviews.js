@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import ReviewForm from "./ReviewForm";
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_GET_STORE_REVIEWS  } from "../utils/queries";
 
 //Need to get the reviews from the database
 
@@ -40,6 +42,21 @@ const reviewItems = new Array(4).fill("").map((item, i) => ({
 
 export default function Reviews() {
 	const [showReviewForm, setShowReviewForm] = useState(false);
+
+	// store id
+	const testingID = "62e5b6e4820df4975ed9ce2f";
+    const testingID2 = "62e362617a57c366aabd62ac";
+
+    const { loading, data, error } = useQuery(QUERY_GET_STORE_REVIEWS, {variables: { id: testingID},});
+
+	console.log("REVIEW DATA IS---------------------");
+    console.log(data)
+    console.log("REVIEW LOADING IS " + loading);
+    console.log("REVIEW ERROR IS--------------------")
+    console.log(error)
+
+	const reviewData = data?.getStore || {"Didnt Get": "The Data"};
+    console.log(reviewData);
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
