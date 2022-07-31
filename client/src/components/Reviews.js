@@ -57,6 +57,64 @@ export default function Reviews() {
 
 	const reviewData = data?.getStore || {"Didnt Get": "The Data"};
     console.log(reviewData);
+	const reviewNestedData = reviewData.products
+	console.log(reviewNestedData)
+
+	let reviewProductArray = [];
+	let reviewArray = []
+
+	for (var key in reviewNestedData) {
+		if (reviewNestedData.hasOwnProperty(key)) {
+			console.log("Made it here")
+			console.log(key)
+			console.log(reviewNestedData[key])
+			// reviewProductArray.push([
+			// 	reviewNestedData[key]._id,
+			// 	reviewNestedData[key].productTitle
+			// ])
+			const reviewNestedDataReviews = reviewNestedData[key].reviews;
+			console.log("THIS IS THE NESTED THING CHECK")
+			console.log(reviewNestedDataReviews)
+			if (reviewNestedDataReviews !== null) {
+
+				if (reviewNestedDataReviews.hasOwnProperty(key)) {
+					console.log("INSIDE NESTED DATA CHECK")
+					console.log(reviewNestedDataReviews[key])
+				}
+				// reviewArray.push([
+				// 	reviewNestedDataReviews
+				// ])
+			}
+			console.log("P U S H      C H E C K")
+			console.log(reviewArray)
+			// if (reviewNestedDataReviews.hasOwnProperty(key)) {
+			// 	console.log("INSIDE NESTED DATA CHECK")
+			// 	console.log(reviewNestedDataReviews[key])
+			// }
+			// reviewNestedData.push([
+			// 	// index 0
+			// 	reviewNestedData[key]._id,
+			// 	// index 1
+			// 	reviewNestedData[key].productTitle,
+			// 	// index 2
+			// 	reviewNestedData[key].productDescription,
+			// 	// index 3
+			// 	reviewNestedData[key].productPrice,
+			// 	// index 4
+			// 	reviewNestedData[key].productImage,
+			// 	// index 5
+			// 	reviewNestedData[key].likes,
+			// 	// index 6
+			// 	reviewNestedData[key].stock
+			// ])
+			console.log("MADE IT THERE")
+			
+		}
+		}
+		console.log("THIS IS REVIEW ARRAYS")
+		console.log(reviewProductArray)
+		console.log(reviewArray)
+
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

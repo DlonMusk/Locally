@@ -63,7 +63,7 @@ const typeDefs = gql`
         postContent: String
         likes: Int
         review: Boolean
-        destinationId: ID!
+        destinationId: ID
         createdAt: Date
     }
 

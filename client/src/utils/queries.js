@@ -74,8 +74,10 @@ export const QUERY_GET_STORE_REVIEWS = gql`
 query GetStore($id: ID) {
   getStore(_id: $id) {
     _id
+    storeTitle
     products {
       _id
+      productTitle
       reviews {
         _id
         postContent
