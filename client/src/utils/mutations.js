@@ -25,7 +25,7 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_STORE = gql`
-	mutation addStore($storeData: StoreInput) {
+	mutation addStore($storeData: StoreInput!) {
 		addStore(storeData: $storeData) {
 			_id
 			username
