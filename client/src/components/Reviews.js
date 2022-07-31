@@ -68,19 +68,34 @@ export default function Reviews() {
 			console.log("Made it here")
 			console.log(key)
 			console.log(reviewNestedData[key])
-			// reviewProductArray.push([
-			// 	reviewNestedData[key]._id,
-			// 	reviewNestedData[key].productTitle
-			// ])
 			const reviewNestedDataReviews = reviewNestedData[key].reviews;
 			console.log("THIS IS THE NESTED THING CHECK")
 			console.log(reviewNestedDataReviews)
 			if (reviewNestedDataReviews !== null) {
+				console.log("222222222222222222222222222------------------------")
+				// console.log(reviewNestedDataReviews[key])
 
-				if (reviewNestedDataReviews.hasOwnProperty(key)) {
-					console.log("INSIDE NESTED DATA CHECK")
-					console.log(reviewNestedDataReviews[key])
-				}
+				let testMap = reviewNestedDataReviews.map(function(element){
+					reviewArray.push([
+						element._id, element.postContent, element.likes, element.destinationId, element.createdAt
+					])
+					return [element._id, element.postContent, element.likes, element.destinationId, element.createdAt];
+				})
+				console.log(testMap)
+				console.log("@@@@@@@@@@@@ ACCESSING ARRAY @@@@@@@@@@@")
+				//console.log(testMap[key])
+				reviewProductArray.push([
+					reviewNestedData[key]._id,
+					reviewNestedData[key].productTitle,
+					testMap[key]
+				])
+				console.log("P R O D U C T    P U S H     C H E C K --------")
+				console.log(reviewProductArray)
+
+				// if (reviewNestedDataReviews.hasOwnProperty(key)) {
+				// 	console.log("INSIDE NESTED DATA CHECK")
+				// 	console.log(reviewNestedDataReviews[key])
+				// }
 				// reviewArray.push([
 				// 	reviewNestedDataReviews
 				// ])
