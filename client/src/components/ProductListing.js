@@ -25,8 +25,7 @@ export default function ProductListing() {
 		<p>Product ID: ${productId}</p>
 	`,
 	});
-// NEED TO HAVE ROUTES WORKING FOR INDIVIDUAL PRODUCTS FIRST BEFORE I CAN USE PAGE TO TEST POPULATION
-/*
+
 	console.log("EEEEEEEEEE CONTEXT CHECK---------------")
 	console.log("")
 
@@ -48,7 +47,7 @@ export default function ProductListing() {
 	const productData = data?.getUserProduct || {"Didnt Get": "The Data"};
 	console.log("PRODUCT INFORMATION GRAB CHECK---------------")
     console.log(productData);
-*/
+
 
 	return (
 		<div className="bg-white">
