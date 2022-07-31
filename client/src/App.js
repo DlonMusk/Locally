@@ -18,6 +18,7 @@ import LoginForm from "./components/Auth/LoginForm";
 import SignupForm from "./components/Auth/SignupForm";
 import AuthLayout from "./components/Auth/Layout";
 import ProfileContainer from "./components/Profile";
+import SearchTabs from "./components/SearchTabs";
 import Posts from "./components/Posts";
 import Signup from "./components/Auth/SignupForm";
 import Reviews from "./components/Reviews";
@@ -56,6 +57,7 @@ const client = new ApolloClient({
 const Home = () => {
 	return (
 		<>
+			<SearchTabs />
 			<ProductList />
 		</>
 	);
