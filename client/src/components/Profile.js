@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_USER_STORE_PROFILE, QUERY_GET_USER } from "../utils/queries";
+import { QUERY_GET_USER_STORE_PROFILE, QUERY_GET_USER, GET_ME } from "../utils/queries";
 import { Dialog, Transition } from "@headlessui/react";
 
 // import helper from "../utils/helpers";
@@ -20,6 +20,7 @@ import Reviews from "./Reviews";
 import FormStore from "./FormStore";
 import Modal from "./Modal";
 import FormProduct from "./FormProduct";
+import { FaConnectdevelop } from "react-icons/fa";
 // Rabias stuff
 
 const profile = {
@@ -40,60 +41,69 @@ const profile = {
 	],
 };
 
+
 export default function ProfileContainer() {
 	const [showStoreForm, setShowStoreForm] = useState(false);
 	const [showProductForm, setShowProductForm] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
 
-    const testingID = "62e5b6e4820df4975ed9ce2f";
-    const testingID2 = "62e595024f09121c389aef19";
+    // const testingID = "62e5b6e4820df4975ed9ce2f";
+    // const testingID2 = "62e595024f09121c389aef19";
 
-    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE_PROFILE, {variables: { id: testingID},});
-    const {loading: userQueryLoad, data: userQueryData, error: userQueryError} = useQuery(QUERY_GET_USER, {variables: { id: testingID2},});
+    // const { loading, data, error } = useQuery(QUERY_GET_USER_STORE_PROFILE, {variables: { id: testingID},});
+    // const {loading: userQueryLoad, error: userQueryError, data: userQueryData} = useQuery(QUERY_GET_USER, {variables: { id: testingID2},});
 
-    console.log("Data is---------------------");
-    console.log(data)
-    console.log("loading is " + loading);
-    console.log("error is--------------------")
-    console.log(error)
+    // console.log("Data is---------------------");
+    // console.log(data)
+    // console.log("loading is " + loading);
+    // console.log("error is--------------------")
+    // console.log(error)
 
-    console.log("userQueryData is---------------------");
-    console.log(userQueryData)
-    console.log("userQueryLoad is " + userQueryLoad);
-    console.log("userQueryError is--------------------")
-    console.log(userQueryError)
-
-
-
-    const storeData = data?.getStore || {"Didnt Get": "The Data"};
-    console.log(storeData);
-
-    const userData = userQueryData?.getUser || {"Didnt Get": "The Data"};
-    console.log(userData);
+    // console.log("userQueryData is---------------------");
+    // console.log(userQueryData)
+    // console.log("userQueryLoad is " + userQueryLoad);
+    // console.log("userQueryError is--------------------")
+    // console.log(userQueryError)
 
 
 
-    /////////////////////
+    // const storeData = data?.getStore || {"Didnt Get": "The Data"};
+    // console.log(storeData);
 
-    let tabIndex = 0
+    // const userData = userQueryData?.getUser || {"Didnt Get": "The Data"};
+    // console.log(userData);
 
-    let disableValue = false;
 
-    console.log("Product value check-----------------");
-    console.log(storeData.products);
 
-    let storeItems = storeData.products
-    console.log(storeItems)
+    // /////////////////////
 
-    const storeCheck = () => {
-        if (storeItems !== undefined) {
-            tabIndex = 0;
-            disableValue = false;
-        }
-        tabIndex = 1;
-        disableValue = true;
-    };
+    // let tabIndex = 0
+
+    // let disableValue = false;
+
+    // console.log("Product value check-----------------");
+    // console.log(storeData.products);
+
+    // let storeItems = storeData.products
+    // console.log(storeItems)
+
+    // const storeCheck = () => {
+    //     if (storeItems !== undefined) {
+    //         tabIndex = 0;
+    //         disableValue = false;
+    //     }
+    //     tabIndex = 1;
+    //     disableValue = true;
+    // };
+
+
+	const { loading, data } = useQuery(GET_ME);
+
+	const userData = data?.me;
+
+	console.log(userData)
+
 
 
 	return (
@@ -157,7 +167,7 @@ export default function ProfileContainer() {
 										aria-hidden="true"
 									/>
 
-									<span>Email: {storeData.email}</span>
+									<span>Email: {userData.email}</span>
 								</button>
 								<button
 									type="button"
@@ -168,7 +178,7 @@ export default function ProfileContainer() {
 										aria-hidden="true"
 									/>
 
-									<span>Call: {storeData.phoneNumber}</span>
+									<span>Call: {}</span>
 								</button>
 								<button
 									type="button"
@@ -205,7 +215,7 @@ export default function ProfileContainer() {
                 <h2> Phone Number: {userData[1].phoneNumber}</h2>
                 <h2> Tags: {userData[1].tags}</h2>
                  */}
-					{storeCheck()}
+					{}
 					{/* <Tabs isLazy defaultIndex={tabIndex}>
 				<TabList>
 					<Tab isDisabled={disableValue} as={Link} to="/products">

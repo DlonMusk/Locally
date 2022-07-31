@@ -4,6 +4,7 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useLocation } from "react-router-dom";
 import Auth from '../utils/auth';
+import Typed from 'react-typed';
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -29,15 +30,28 @@ export default function Header() {
 	const inactiveNavStyle =
 		"border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium";
 
+	const [searchTerm, setSearchTerm] = useState('');
+
 	return (
-		<Disclosure as="nav" className="bg-white shadow">
+		<Disclosure as="nav" className="bg-white shadow py-3">
 			{({ open }) => (
 				<>
 					<div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
 						<div className="flex justify-between h-16">
 							<div className="flex px-2 lg:px-0">
-								<div className="flex-shrink-0 flex items-center">
-									<h1 className="text-3xl font-bold">Locally</h1>
+								<div className="flex-shrink-0 flex-col my-2">
+									<h1 className="text-3xl font-bold">
+										Locally
+									</h1>
+									<Typed className="text-xl text-gray-500 invisible sm:visible ml-7"
+										strings={[
+											'Made',
+											'Strong',
+											'Unique']}
+										typeSpeed={140}
+										backSpeed={130}
+										loop >
+									</Typed>
 								</div>
 								<div className="hidden lg:ml-6 lg:flex lg:space-x-8">
 									{navigationItems.map(({ name, path }) => (
@@ -73,6 +87,7 @@ export default function Header() {
 											className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 											placeholder="Search"
 											type="search"
+											onChange={event => setSearchTerm(event.target.value)}
 										/>
 									</div>
 								</div>

@@ -38,7 +38,7 @@ const SignUp = () => {
 		// email.toLowerCase();
 
 		if (!validCheck || username === '' || !passwordCheck) {
-            setErrorMessage("Please fill out a username, valid email, and password")
+            setErrorMessage("Please fill out a username, valid email, and password containing a upercase and lowercase letter")
         } else {
 			// If checks are passed, then the program will use emailJS and send the required information to be used to send an email to my inbox
 			console.log("Form data SUBMIT check", userFormData)

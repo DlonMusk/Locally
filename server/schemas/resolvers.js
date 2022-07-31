@@ -8,6 +8,7 @@ const resolvers = {
     Query: {
         // change this to use context
         me: async (parent, args, context) => {
+            
             if (context.user) {
                 const user = await User
                     .findOne({ _id: context.user._id })
@@ -26,6 +27,8 @@ const resolvers = {
                             model: 'Post'
                         }
                     })
+
+                    console.log("USER DATA: " + user)
 
                 return user;
             };
