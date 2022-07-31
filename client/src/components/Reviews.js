@@ -77,34 +77,45 @@ export default function Reviews() {
 
 				let testMap = reviewNestedDataReviews.map(function(element){
 					reviewArray.push([
-						element._id, element.postContent, element.likes, element.destinationId, element.createdAt
+						element._id, element.postContent, element.likes, element.destinationId, element.createdAt, element.userData._id, element.userData.username
 					])
-					return [element._id, element.postContent, element.likes, element.destinationId, element.createdAt];
+					return [element._id, element.postContent, element.likes, element.destinationId, element.createdAt, element.userData._id, element.userData.username];
 				})
 				console.log(reviewArray)
+				console.log(testMap)
 				console.log("@@@@@@@@@@@@ ACCESSING ARRAY @@@@@@@@@@@")
 				console.log(reviewArray[key])
-				for (let i = 0; i < reviewNestedDataReviews.length; i++) {
+				for (let i = 0; i < reviewArray.length; i++) {
+					console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+					console.log(i)
+					console.log("keyyyyyyyyyyyyyyyyyyyyyyyyy")
+					console.log(key)
+					if (reviewArray[i][3] === reviewNestedData[key]._id) {
+						reviewProductArray.push([
+							// product id INDEX 0
+							reviewNestedData[key]._id,
+							// product title INDEX 1
+							reviewNestedData[key].productTitle,
+							// product image INDEX 2
+							reviewNestedData[key].productImage,
+							// review id INDEX 3
+							reviewArray[i][0],
+							// review content INDEX 4
+							reviewArray[i][1],
+							// review likes INDEX 5
+							reviewArray[i][2],
+							// review destination id INDEX 6
+							reviewArray[i][3],
+							// review created at INDEX 7
+							reviewArray[i][4],
+							// user id (of the reviewer) at INDEX 8
+							reviewArray[i][5],
+							// username (of the reviewer) at INDEX 9
+							reviewArray[i][6],
+							
+						])
+					}
 
-					reviewProductArray.push([
-						// product id INDEX 0
-						reviewNestedData[key]._id,
-						// product title INDEX 1
-						reviewNestedData[key].productTitle,
-						// product image INDEX 2
-						reviewNestedData[key].productImage,
-						// review id INDEX 3
-						reviewArray[i][0],
-						// review content INDEX 4
-						reviewArray[i][1],
-						// review likes INDEX 5
-						reviewArray[i][2],
-						// review destination id INDEX 6
-						reviewArray[i][3],
-						// review created at INDEX 7
-						reviewArray[i][4],
-						
-					])
 					
 				  }
 				console.log("P R O D U C T    P U S H     C H E C K --------")
@@ -136,7 +147,7 @@ export default function Reviews() {
 								<div className="flex-1 space-y-1">
 									<div className="flex items-center justify-between">
 										<h3 className="text-sm font-semibold">
-											{/*reviewItem[0]*/} USERS NAME
+											{reviewItem[9]}
 										</h3>
 										<p className="text-sm font-medium text-gray-700">
 											{reviewItem[1]}

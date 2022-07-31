@@ -96,6 +96,10 @@ query GetStore($id: ID) {
         review
         destinationId
         createdAt
+        userData{
+          _id
+          username
+        }
       }
     }
   }
