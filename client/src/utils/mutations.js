@@ -1,131 +1,119 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const LOGIN_USER = gql`
-    mutation login($email: String!, $password: String!){
-        login(email: $email, password: $password){
-            token
-            user {
-                _id
-                username
-            }
-        }
-    }
-`
-
-
+	mutation login($email: String!, $password: String!) {
+		login(email: $email, password: $password) {
+			token
+			user {
+				_id
+				username
+			}
+		}
+	}
+`;
 
 export const ADD_USER = gql`
-    mutation addUser($username: String!, $email: String!, $password: String!){
-        addUser(username: $username, email: $email, password: $password){
-            token
-            user {
-                _id
-                username
-            }
-        }
-    }
-`
-
-
+	mutation addUser($username: String!, $email: String!, $password: String!) {
+		addUser(username: $username, email: $email, password: $password) {
+			token
+			user {
+				_id
+				username
+			}
+		}
+	}
+`;
 
 export const ADD_STORE = gql`
-    mutation addStore($storeData: StoreInput) {
-        addStore(storeData: $storeData){
-            _id
-            username
-            email
-            createdAt
-        }
-    }
-`
-
-
+	mutation addStore($storeData: StoreInput!) {
+		addStore(storeData: $storeData) {
+			_id
+			username
+			email
+			createdAt
+		}
+	}
+`;
 
 export const ADD_PRODUCT = gql`
-    mutation addProduct($productData: ProductInput) {
-        addProduct(productData: $productData){
-            _id
-            storeTitle
-            rating
-            address
-            email
-            phoneNumber
-            createdAt
-        }
-    }
-`
-
-
+	mutation addProduct($productData: ProductInput!) {
+		addProduct(productData: $productData) {
+			_id
+			storeTitle
+			rating
+			address
+			email
+			phoneNumber
+			createdAt
+		}
+	}
+`;
 
 export const REMOVE_PRODUCT = gql`
-    mutation removeProduct($productId: ID!) {
-        removeProduct(productId: $productId){
-            _id
-            storeTitle
-            rating
-            address
-            email
-            phoneNumber
-            createdAt
-        }
-    }
-`
-
-
+	mutation removeProduct($productId: ID!) {
+		removeProduct(productId: $productId) {
+			_id
+			storeTitle
+			rating
+			address
+			email
+			phoneNumber
+			createdAt
+		}
+	}
+`;
 
 export const UPDATE_PRODUCT = gql`
-    mutation updateProduct($productId: ID!, $productData: ProductInput!) {
-        updateProduct(productId: $productId, productData: $productData){
-            _id
-            productTitle
-            productDescription
-            productPrice
-            productImage
-            stock
-            likes
-            createdAt
-        }
-    }
-`
-
-
+	mutation updateProduct($productId: ID!, $productData: ProductInput!) {
+		updateProduct(productId: $productId, productData: $productData) {
+			_id
+			productTitle
+			productDescription
+			productPrice
+			productImage
+			stock
+			likes
+			createdAt
+		}
+	}
+`;
 
 export const ADD_POST_REVIEW = gql`
-    mutation addPostReview($destinationId: ID!, $postReviewData: PostReviewInput!) {
-        addPostReview(destinationId: $destinationId, postReviewData: $postReviewData){
-            _id
-            username
-            email
-            createdAt
-        }
-    }
-`
-
-
+	mutation addPostReview(
+		$destinationId: ID!
+		$postReviewData: PostReviewInput!
+	) {
+		addPostReview(
+			destinationId: $destinationId
+			postReviewData: $postReviewData
+		) {
+			_id
+			username
+			email
+			createdAt
+		}
+	}
+`;
 
 export const REMOVE_POST_REVIEW = gql`
-    mutation removePostReview($postId: ID!) {
-        removePostReview(postId: $postId){
-            _id
-            username
-            email
-            createdAt
-        }
-    }
-`
-
-
+	mutation removePostReview($postId: ID!) {
+		removePostReview(postId: $postId) {
+			_id
+			username
+			email
+			createdAt
+		}
+	}
+`;
 
 export const UPDATE_POST_REVIEW = gql`
-    mutation updatePostReview($postReviewData: PostReviewInput!) {
-        updatePostReview(postReviewData: $postReviewData){
-            _id
-            postContent
-            likes
-            destinationId
-            createdAt
-        }
-    }
-`
-
-
+	mutation updatePostReview($postReviewData: PostReviewInput!) {
+		updatePostReview(postReviewData: $postReviewData) {
+			_id
+			postContent
+			likes
+			destinationId
+			createdAt
+		}
+	}
+`;
