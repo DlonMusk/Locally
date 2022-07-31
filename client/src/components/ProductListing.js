@@ -3,11 +3,10 @@ import { Tab } from "@headlessui/react";
 import { HeartIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_USER_PRODUCT  } from "../utils/queries";
+import { QUERY_GET_USER_PRODUCT } from "../utils/queries";
 import Like from "./Like";
 
 export default function ProductListing() {
-
 	const { productId } = useParams();
 
 	const [product, setProduct] = useState({
@@ -25,8 +24,8 @@ export default function ProductListing() {
 		<p>Product ID: ${productId}</p>
 	`,
 	});
-// NEED TO HAVE ROUTES WORKING FOR INDIVIDUAL PRODUCTS FIRST BEFORE I CAN USE PAGE TO TEST POPULATION
-/*
+	// NEED TO HAVE ROUTES WORKING FOR INDIVIDUAL PRODUCTS FIRST BEFORE I CAN USE PAGE TO TEST POPULATION
+	/*
 	console.log("EEEEEEEEEE CONTEXT CHECK---------------")
 	console.log("")
 

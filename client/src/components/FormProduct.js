@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { ArchiveIcon } from "@heroicons/react/solid";
+import { ADD_PRODUCT } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
 
 export default function FormProduct(props) {
+	const [addProduct, { data, loading, error }] = useMutation(ADD_PRODUCT);
+
 	const [errors, setErrors] = useState([]);
 
 	const [product, setProduct] = useState({
@@ -10,7 +14,7 @@ export default function FormProduct(props) {
 		price: "",
 		image: "",
 		tags: [],
-		productPhoto: "",
+		stock: 10,
 	});
 
 	const checkFormErrors = () => {
@@ -32,7 +36,27 @@ export default function FormProduct(props) {
 			// do not submit form to api
 			return;
 		}
+
+		addProduct({
+			variables: {
+				productData: {
+					productTitle: product.name,
+					productDescription: product.description,
+					productPrice: parseInt(product.price),
+					productImage: product.image,
+					stock: product.stock,
+					tags: product.tags,
+				},
+			},
+		});
+		props.onCancel();
 	};
+
+	useEffect(() => {
+		console.log(data);
+		console.log(loading);
+		console.log(error);
+	}, [data, loading, error]);
 
 	useEffect(() => {
 		if (errors.length) {
