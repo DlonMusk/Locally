@@ -1,6 +1,7 @@
 import react, { useState } from "react";
 import Reviews from "./Reviews";
 import Products from "./ProductList";
+import Posts from "./Posts";
 
 // update the tab to change from current false to current true
 
@@ -42,6 +43,7 @@ export default function ProfileTabs() {
 			</div>
 			{selectedTab === "Products" && <Products />}
 			{selectedTab === "Reviews" && <Reviews />}
+			{selectedTab === "Posts" && <Posts />}
 		</>
 	);
 }

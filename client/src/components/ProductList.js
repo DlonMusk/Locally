@@ -1,55 +1,54 @@
 import { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_USER_STORE  } from "../utils/queries";
+import { QUERY_GET_USER_STORE } from "../utils/queries";
 import Like from "./Like";
 
 export default function ProductList() {
 
 	// store id
 	const testingID = "62e5b6e4820df4975ed9ce2f";
-    const testingID2 = "62e362617a57c366aabd62ac";
 
-    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {variables: { id: testingID},});
+	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, { variables: { id: testingID }, });
 
 	console.log("ENTIRE STORE DATA IS---------------------");
-    console.log(data)
-    console.log("ENTIRE STORE LOADING IS " + loading);
-    console.log("ENTIRE STORE ERROR IS--------------------")
-    console.log(error)
+	console.log(data)
+	console.log("ENTIRE STORE LOADING IS " + loading);
+	console.log("ENTIRE STORE ERROR IS--------------------")
+	console.log(error)
 
-	const storeData = data?.getStore || {"Didnt Get": "The Data"};
-    console.log(storeData);
-	const productTest = storeData.products
-	console.log(productTest)
+	const storeData = data?.getStore || { "Didnt Get": "The Data" };
+	console.log(storeData);
+	const productObject = storeData.products
+	console.log(productObject)
 	console.log("TYPE OF TESTING--------------")
-	console.log(typeof storeData, typeof productTest)
+	console.log(typeof storeData, typeof productObject)
 
 	let productArray = [];
 
-	for (var key in productTest) {
-	if (productTest.hasOwnProperty(key)) {
-		console.log("Made it here")
-		console.log(key)
-		productArray.push([
-			// index 0
-			productTest[key]._id,
-			// index 1
-			productTest[key].productTitle,
-			// index 2
-			productTest[key].productDescription,
-			// index 3
-			productTest[key].productPrice,
-			// index 4
-			productTest[key].productImage,
-			// index 5
-			productTest[key].likes,
-			// index 6
-			productTest[key].stock
-		])
-		console.log("MADE IT THERE")
-		
-	}
+	for (var key in productObject) {
+		if (productObject.hasOwnProperty(key)) {
+			console.log("Made it here")
+			console.log(key)
+			productArray.push([
+				// index 0 id of product
+				productObject[key]._id,
+				// index 1 title of product
+				productObject[key].productTitle,
+				// index 2 description of product
+				productObject[key].productDescription,
+				// index 3 price of product
+				productObject[key].productPrice,
+				// index 4 image of product
+				productObject[key].productImage,
+				// index 5 amount of likes for product
+				productObject[key].likes,
+				// index 6 stock of product
+				productObject[key].stock
+			])
+			console.log("MADE IT THERE")
+
+		}
 	}
 	console.log("THIS IS PRODUCT ARRAY")
 	console.log(productArray)

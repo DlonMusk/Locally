@@ -45,7 +45,6 @@ export default function Reviews() {
 
 	// store id
 	const testingID = "62e5b6e4820df4975ed9ce2f";
-    const testingID2 = "62e362617a57c366aabd62ac";
 
     const { loading, data, error } = useQuery(QUERY_GET_STORE_REVIEWS, {variables: { id: testingID},});
 
@@ -73,13 +72,12 @@ export default function Reviews() {
 			console.log(reviewNestedDataReviews)
 			if (reviewNestedDataReviews !== null) {
 				console.log("222222222222222222222222222------------------------")
-				// console.log(reviewNestedDataReviews[key])
 
 				let testMap = reviewNestedDataReviews.map(function(element){
 					reviewArray.push([
-						element._id, element.postContent, element.likes, element.destinationId, element.createdAt, element.userData._id, element.userData.username
+						element._id, element.postContent, element.likes, element.destinationId._id, element.createdAt, element.userData._id, element.userData.username
 					])
-					return [element._id, element.postContent, element.likes, element.destinationId, element.createdAt, element.userData._id, element.userData.username];
+					return [element._id, element.postContent, element.likes, element.destinationId._id, element.createdAt, element.userData._id, element.userData.username];
 				})
 				console.log(reviewArray)
 				console.log(testMap)

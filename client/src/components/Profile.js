@@ -11,6 +11,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_STORE_PROFILE, QUERY_GET_USER } from "../utils/queries";
 import { Dialog, Transition } from "@headlessui/react";
+import { useLocation, useParams } from "react-router-dom";
 
 // import helper from "../utils/helpers";
 
@@ -45,56 +46,56 @@ export default function ProfileContainer() {
 	const [showProductForm, setShowProductForm] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
+	const testingID = "62e5b6e4820df4975ed9ce2f";
+	const testingID2 = "62e595024f09121c389aef19";
 
-    const testingID = "62e5b6e4820df4975ed9ce2f";
-    const testingID2 = "62e595024f09121c389aef19";
+	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE_PROFILE, {
+		variables: { id: testingID },
+	});
+	const {
+		loading: userQueryLoad,
+		data: userQueryData,
+		error: userQueryError,
+	} = useQuery(QUERY_GET_USER, { variables: { id: testingID2 } });
 
-    const { loading, data, error } = useQuery(QUERY_GET_USER_STORE_PROFILE, {variables: { id: testingID},});
-    const {loading: userQueryLoad, data: userQueryData, error: userQueryError} = useQuery(QUERY_GET_USER, {variables: { id: testingID2},});
+	console.log("Data is---------------------");
+	console.log(data);
+	console.log("loading is " + loading);
+	console.log("error is--------------------");
+	console.log(error);
 
-    console.log("Data is---------------------");
-    console.log(data)
-    console.log("loading is " + loading);
-    console.log("error is--------------------")
-    console.log(error)
+	console.log("userQueryData is---------------------");
+	console.log(userQueryData);
+	console.log("userQueryLoad is " + userQueryLoad);
+	console.log("userQueryError is--------------------");
+	console.log(userQueryError);
 
-    console.log("userQueryData is---------------------");
-    console.log(userQueryData)
-    console.log("userQueryLoad is " + userQueryLoad);
-    console.log("userQueryError is--------------------")
-    console.log(userQueryError)
+	const storeData = data?.getStore || { "Didnt Get": "The Data" };
+	console.log(storeData);
 
+	const userData = userQueryData?.getUser || { "Didnt Get": "The Data" };
+	console.log(userData);
 
+	/////////////////////
 
-    const storeData = data?.getStore || {"Didnt Get": "The Data"};
-    console.log(storeData);
+	let tabIndex = 0;
 
-    const userData = userQueryData?.getUser || {"Didnt Get": "The Data"};
-    console.log(userData);
+	let disableValue = false;
 
+	console.log("Product value check-----------------");
+	console.log(storeData.products);
 
+	let storeItems = storeData.products;
+	console.log(storeItems);
 
-    /////////////////////
-
-    let tabIndex = 0
-
-    let disableValue = false;
-
-    console.log("Product value check-----------------");
-    console.log(storeData.products);
-
-    let storeItems = storeData.products
-    console.log(storeItems)
-
-    const storeCheck = () => {
-        if (storeItems !== undefined) {
-            tabIndex = 0;
-            disableValue = false;
-        }
-        tabIndex = 1;
-        disableValue = true;
-    };
-
+	const storeCheck = () => {
+		if (storeItems !== undefined) {
+			tabIndex = 0;
+			disableValue = false;
+		}
+		tabIndex = 1;
+		disableValue = true;
+	};
 
 	return (
 		<>
