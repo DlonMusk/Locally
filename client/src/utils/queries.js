@@ -78,6 +78,27 @@ query Query($id: ID) {
 }
 `
 
+export const QUERY_GET_USER_POSTS = gql`
+query Query($id: ID) {
+  getUserPosts(_id: $id) {
+    _id
+    username
+    reviews {
+      _id
+      postContent
+      likes
+      review
+      destinationId{
+        _id
+        productTitle
+        productImage
+      }
+      createdAt
+    }
+  }
+}
+`
+
 export const QUERY_GET_STORE_REVIEWS = gql`
 query GetStore($id: ID) {
   getStore(_id: $id) {
@@ -92,7 +113,9 @@ query GetStore($id: ID) {
         postContent
         likes
         review
-        destinationId
+        destinationId{
+          _id
+        }
         createdAt
         userData{
           _id

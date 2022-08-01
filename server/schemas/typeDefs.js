@@ -11,7 +11,7 @@ const typeDefs = gql`
         email: String
         password: String
         store: Store
-        posts: [Post]
+        reviews: [Post]
         createdAt: Date
     }
 
@@ -63,7 +63,7 @@ const typeDefs = gql`
         postContent: String
         likes: Int
         review: Boolean
-        destinationId: ID!
+        destinationId: Product
         userData: User
         createdAt: Date
     }
@@ -85,7 +85,7 @@ const typeDefs = gql`
         getUser(_id: ID!): User
         getStore(_id: ID): Store
         getUserProduct(_id: ID): Product
-        getUserPosts(_id: ID): [Post]
+        getUserPosts(_id: ID): User
         getStores: [Store]
         getProducts: [Product]
         getPosts: [Post]

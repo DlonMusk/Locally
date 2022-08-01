@@ -117,14 +117,34 @@ const resolvers = {
         getUserPosts: async (parent, args, context) => {
             let user;
             if (args._id) {
+                console.log("CHECKING USERPOSTS---------")
+                console.log(args._id)
                 user = await User.findOne({ _id: args._id })
+                .populate({
+                        path: 'reviews',
+                        model: 'Post',
+                        populate: {
+                            path: 'destinationId',
+                            model: 'Product'
+                        }
+                    },
+                )
             } else {
                 user = await User.findOne({ _id: context._id })
+                .populate({
+                    path: 'reviews',
+                    model: 'Post',
+                    populate: {
+                        path: 'destinationId',
+                        model: 'Product'
+                    }
+                },
+            )
             }
 
             if (!user) throw new AuthenticationError("Something went wrong!")
 
-            return user.posts;
+            return user;
         },
 
         getStores: async (parent, args) => {

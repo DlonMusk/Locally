@@ -77,9 +77,9 @@ export default function Reviews() {
 
 				let testMap = reviewNestedDataReviews.map(function(element){
 					reviewArray.push([
-						element._id, element.postContent, element.likes, element.destinationId, element.createdAt, element.userData._id, element.userData.username
+						element._id, element.postContent, element.likes, element.destinationId._id, element.createdAt, element.userData._id, element.userData.username
 					])
-					return [element._id, element.postContent, element.likes, element.destinationId, element.createdAt, element.userData._id, element.userData.username];
+					return [element._id, element.postContent, element.likes, element.destinationId._id, element.createdAt, element.userData._id, element.userData.username];
 				})
 				console.log(reviewArray)
 				console.log(testMap)
