@@ -64,6 +64,14 @@ query Query($id: ID) {
     tags
     reviews {
       _id
+      postContent
+      likes
+      review
+      userData {
+        _id
+        username
+      }
+      createdAt
     }
     createdAt
   }

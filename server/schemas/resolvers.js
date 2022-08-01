@@ -89,10 +89,24 @@ const resolvers = {
             let product;
             if (args._id) {
                 product = await Product.findOne({ _id: args._id })
-                    .populate('reviews');
+                .populate({
+                    path: 'reviews',
+                        populate: {
+                            path: 'userData',
+                            model: 'User'
+                        }
+                    }
+                );
             } else {
                 product = await Product.findOne({ _id: context._id })
-                    .populate('reviews');
+                .populate({
+                    path: 'reviews',
+                        populate: {
+                            path: 'userData',
+                            model: 'User'
+                        }
+                    }
+                );
             }
 
             if (!product) throw new AuthenticationError("Something went wrong!")
