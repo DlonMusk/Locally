@@ -9,6 +9,9 @@ export default function SearchTabs() {
     const selected = true;
     const tabs = [
         {
+            tabName: 'All'
+        },
+        {
             tabName: 'Clothing',
         },
         {
