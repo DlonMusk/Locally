@@ -25,7 +25,7 @@ const productSchema = new Schema({
 		type: Number,
 		default: 0
 	},
-	tags: {
+	Tags: {
 		type: [String],
 	},
 	reviews: [
