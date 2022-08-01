@@ -166,7 +166,7 @@ const resolvers = {
 			return { token, user };
 		},
 
-		addStore: async (parent, storeData, context) => {
+		addStore: async (parent, { storeData }, context) => {
 			const user = await User.findOne({ _id: context.user._id });
 
 			console.log(user);
@@ -183,24 +183,18 @@ const resolvers = {
 		},
 
 		//FINAL
-		addProduct: async (parent, productData, context) => {
+		addProduct: async (parent, { productData }, context) => {
 			const user = await User.findOne({ _id: context.user._id });
-
 			if (!user)
 				throw new AuthenticationError("You must be logged in to add products");
 
-			let store;
-			try {
-				const product = await Product.create(productData);
+			const product = await Product.create(productData);
 
-				store = await Store.updateOne(
-					{ _id: user.store._id },
-					{ $addToSet: { products: product._id } },
-					{ new: true }
-				);
-			} catch (e) {
-				console.log(e);
-			}
+			const store = await Store.updateOne(
+				{ _id: user.store._id },
+				{ $addToSet: { products: product._id } },
+				{ new: true }
+			);
 
 			if (!store)
 				throw new AuthenticationError("You must first create your store");
