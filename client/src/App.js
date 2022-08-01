@@ -10,9 +10,7 @@ import { setContext } from "@apollo/client/link/context";
 import { Routes, Route, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-// import Home from "./components/Home";
-// import Store from "./components/Store";
-import Products from "./components/Products";
+
 import ProductList from "./components/ProductList";
 import LoginForm from "./components/Auth/LoginForm";
 import SignupForm from "./components/Auth/SignupForm";
@@ -21,7 +19,6 @@ import ProfileContainer from "./components/Profile";
 import SearchTabs from "./components/SearchTabs";
 import Posts from "./components/Posts";
 import Signup from "./components/Auth/SignupForm";
-import Reviews from "./components/Reviews";
 import ProfileTabs from "./components/ProfileTabs";
 import ProductListing from "./components/ProductListing";
 
@@ -54,6 +51,9 @@ const client = new ApolloClient({
 	// Assigning cache to InMemoryCache object, this stores the results of its GraphQL queries in cache
 	cache: new InMemoryCache(),
 });
+
+
+// ------------- PAGES ------------- //
 
 const Product = () => {
 	return (
@@ -108,6 +108,8 @@ const SignUp = () => {
 		</>
 	);
 };
+
+// ------------- !PAGES ------------- //
 
 function App() {
 	return (

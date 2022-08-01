@@ -8,7 +8,7 @@ export const GET_ME = gql`
       email
     }
   }
-`
+`;
 
 export const QUERY_GET_USER = gql`
 query Query($id: ID!) {
