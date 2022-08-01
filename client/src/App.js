@@ -57,7 +57,6 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 });
 
-
 // ------------- PAGES ------------- //
 
 
@@ -92,7 +91,6 @@ const Profile = () => {
 	return (
 		<>
 			<ProfileContainer />
-			<ProfileTabs />
 		</>
 	);
 };
@@ -119,33 +117,73 @@ const SignUp = () => {
 
 // ------------- !PAGES ------------- //
 
-function App() {
 
-
-	const { loading, data } = useQuery(QUERY_GET_PRODUCTS)
-
-	let initialState;
-	useEffect(() => {
-		initialState = data?.getProducts || '';
-	})
-	
-
-	const [products, setProducts] = useState(initialState)
+const PageWrapper = ({ children }) => {
 
 	return (
-		<ApolloProvider client={client}>
+		<>
 			<UserProvider>
 				<Header />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="store" element={<Store />} />
-					<Route path="login" element={<Login />} />
-					<Route path="signup" element={<SignUp />} />
-					<Route path="profile/:profileId" element={<Profile />} />
-					<Route path="product/:productId" element={<Product />} />
-				</Routes>
+				{children}
 				<Footer />
 			</UserProvider>
+		</>
+	);
+};
+
+function App() {
+	return (
+		<ApolloProvider client={client}>
+			<Routes>
+				<Route
+					path="/"
+					element={
+						<PageWrapper>
+							<Home />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="store"
+					element={
+						<PageWrapper>
+							<Store />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="login"
+					element={
+						<PageWrapper>
+							<Login />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="signup"
+					element={
+						<PageWrapper>
+							<SignUp />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="profile/:profileId"
+					element={
+						<PageWrapper>
+							<Profile />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="product/:productId"
+					element={
+						<PageWrapper>
+							<Product />
+						</PageWrapper>
+					}
+				/>
+			</Routes>
 		</ApolloProvider>
 	);
 };
