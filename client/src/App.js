@@ -1,15 +1,19 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	ApolloClient,
 	InMemoryCache,
 	ApolloProvider,
 	createHttpLink,
+	useQuery,
+	useState
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { Routes, Route, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+
+import { QUERY_GET_PRODUCTS } from "./utils/queries";
 
 import ProductList from "./components/ProductList";
 import LoginForm from "./components/Auth/LoginForm";
@@ -56,6 +60,8 @@ const client = new ApolloClient({
 
 // ------------- PAGES ------------- //
 
+
+
 const Product = () => {
 	return (
 		<>
@@ -65,6 +71,7 @@ const Product = () => {
 };
 
 const Home = () => {
+
 	return (
 		<>
 			<SearchTabs />
@@ -113,6 +120,18 @@ const SignUp = () => {
 // ------------- !PAGES ------------- //
 
 function App() {
+
+
+	const { loading, data } = useQuery(QUERY_GET_PRODUCTS)
+
+	let initialState;
+	useEffect(() => {
+		initialState = data?.getProducts || '';
+	})
+	
+
+	const [products, setProducts] = useState(initialState)
+
 	return (
 		<ApolloProvider client={client}>
 			<UserProvider>
@@ -129,6 +148,6 @@ function App() {
 			</UserProvider>
 		</ApolloProvider>
 	);
-}
+};
 
 export default App;

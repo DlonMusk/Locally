@@ -47,7 +47,6 @@ export default function ProductList() {
 				productObject[key].stock
 			])
 			console.log("MADE IT THERE")
-
 		}
 	}
 	console.log("THIS IS PRODUCT ARRAY")
@@ -77,7 +76,7 @@ export default function ProductList() {
 							</div>
 							<div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
 								<h3>{product[1]}</h3>
-								<Like productId={product[0]} />
+								<Like componentId={product[0]} />
 							</div>
 							<p className="mt-1 text-sm italic text-gray-500 items-center justify-between ">
 								{product[2]}
