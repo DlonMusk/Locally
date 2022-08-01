@@ -117,3 +117,12 @@ export const UPDATE_POST_REVIEW = gql`
 		}
 	}
 `;
+
+export const ADD_LIKE = gql`
+	mutation addLike($productId: ID!){
+		addLike(productId: $productId){
+			_id
+			likes
+		}
+	}
+`

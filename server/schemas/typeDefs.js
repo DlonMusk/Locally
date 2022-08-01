@@ -14,7 +14,6 @@ const typeDefs = gql`
         createdAt: Date
     }
 
-
 	type Store {
 		_id: ID!
 		storeTitle: String
@@ -47,6 +46,7 @@ const typeDefs = gql`
 		tags: [String]
 		reviews: [Post]
 		createdAt: Date
+		storeInfo: Store
 	}
 
 	input ProductInput {
@@ -56,8 +56,8 @@ const typeDefs = gql`
 		productImage: String
 		stock: Int
 		tags: [String]
+		storeInfo: Store
 	}
-
 
     type Post {
         _id: ID!
@@ -71,7 +71,7 @@ const typeDefs = gql`
 
 	input PostReviewInput {
 		postContent: String
-		review: Boolean
+		review: Boolean!
 		createdAt: Date
 	}
 
@@ -80,8 +80,6 @@ const typeDefs = gql`
 		user: User
 	}
 
-
-    
     type Query {
         me: User
         getUser(_id: ID!): User
@@ -93,7 +91,6 @@ const typeDefs = gql`
         getPosts: [Post]
     }
 
-
 	type Mutation {
 		login(email: String!, password: String!): Auth
 		addUser(username: String!, email: String!, password: String!): Auth
@@ -104,6 +101,7 @@ const typeDefs = gql`
 		addPostReview(destinationId: ID!, postReviewData: PostReviewInput!): User
 		removePostReview(postId: ID!): User
 		updatePostReview(postReviewData: PostReviewInput!): Post
+		addLike(componentId: ID!): Boolean
 	}
 `;
 

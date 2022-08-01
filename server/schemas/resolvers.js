@@ -80,24 +80,24 @@ const resolvers = {
             if (args._id) {
 
                 product = await Product.findOne({ _id: args._id })
-                .populate({
-                    path: 'reviews',
+                    .populate({
+                        path: 'reviews',
                         populate: {
                             path: 'userData',
                             model: 'User'
                         }
                     }
-                );
+                    );
             } else {
                 product = await Product.findOne({ _id: context._id })
-                .populate({
-                    path: 'reviews',
+                    .populate({
+                        path: 'reviews',
                         populate: {
                             path: 'userData',
                             model: 'User'
                         }
                     }
-                );
+                    );
             }
 
             if (!product) throw new AuthenticationError("Something went wrong!");
@@ -108,11 +108,8 @@ const resolvers = {
         getUserPosts: async (parent, args, context) => {
             let user;
             if (args._id) {
-
-                console.log("CHECKING USERPOSTS---------")
-                console.log(args._id)
                 user = await User.findOne({ _id: args._id })
-                .populate({
+                    .populate({
                         path: 'reviews',
                         model: 'Post',
                         populate: {
@@ -120,18 +117,18 @@ const resolvers = {
                             model: 'Product'
                         }
                     },
-                )
+                    )
             } else {
                 user = await User.findOne({ _id: context._id })
-                .populate({
-                    path: 'reviews',
-                    model: 'Post',
-                    populate: {
-                        path: 'destinationId',
-                        model: 'Product'
-                    }
-                },
-            )
+                    .populate({
+                        path: 'reviews',
+                        model: 'Post',
+                        populate: {
+                            path: 'destinationId',
+                            model: 'Product'
+                        }
+                    },
+                    )
             }
 
             if (!user) throw new AuthenticationError("Something went wrong!");
@@ -148,7 +145,8 @@ const resolvers = {
         },
 
         getProducts: async (parent, args) => {
-            const products = await Product.find({});
+            const products = await Product.find({}).populate('storeInfo')
+                .populate('tags');
 
             if (!products) throw new AuthenticationError("Something is wrong");
 
@@ -215,7 +213,7 @@ const resolvers = {
 
             await user.update({ store: store._id }, { new: true });
 
-            
+
 
             return user;
         },
@@ -275,7 +273,7 @@ const resolvers = {
 
         // LAST TO DO
         //if a user removes a post from there posts it will remove it from the appropriate store
-        addPostReview: async (parent, { destinationId, postData }, context) => {
+        addPostReview: async (parent, { destinationId, postReviewData }, context) => {
             // takes in review input and a store or product ID
 
             // get the user making the post
@@ -283,29 +281,34 @@ const resolvers = {
 
             if (!user) throw new AuthenticationError("You must be logged in");
 
+            if (!postReviewData.review) {
+                const post = await Post.create(postReviewData);
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { posts: post._id } },
+                    { new: true }
+                );
+
+                return updatedUser;
+            }
+
+
             // find a store with the ID
-            const store = await Store.findOne({ _id: destinationId });
             // if no store find a product with the ID
             const product = await Product.findOne({ _id: destinationId });
             // if none throw error
-            if (!store && !product)
-                throw new AuthenticationError("No store or product found");
+            if (!product)
+                throw new AuthenticationError("No product found");
             // create the post
-            const post = await Post.create(postData);
+            const post = await Post.create(postReviewData);
             // add the post to the store or product
-            if (store) {
-                await Store.findOneAndUpdate(
-                    { _id: store._id },
-                    { $addToSet: { reviews: post._id } },
-                    { new: true }
-                );
-            } else if (product) {
-                await Product.findOneAndUpdate(
-                    { _id: product._id },
-                    { $addToSet: { reviews: post._id } },
-                    { new: true }
-                );
-            }
+
+            await Product.findOneAndUpdate(
+                { _id: product._id },
+                { $addToSet: { reviews: post._id } },
+                { new: true }
+            );
+
 
             const updatedUser = await User.findOneAndUpdate(
                 { _id: context.user._id },
@@ -373,6 +376,30 @@ const resolvers = {
 
             return updatedPost;
         },
+
+        addLike: async (parent, { componentId }) => {
+
+            const updatedProduct = Product.findOne({ _id: componentId });
+            const updatedPost = Post.findOne({ _id: componentId });
+
+            if (!updatedProduct && !updatedPost) throw new AuthenticationError("Could not add like!");
+
+            if (updatedProduct) {
+                await Product.findOneAndUpdate(
+                    { _id: componentId },
+                    { $inc: { likes: 1 } },
+                    { new: true }
+                )
+            } else if (updatedPost) {
+                await Post.findOneAndUpdate(
+                    { _id: componentId },
+                    { $inc: { likes: 1 } },
+                    { new: true }
+                )
+            }
+
+            return true;
+        }
     },
 };
 
