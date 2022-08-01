@@ -4,32 +4,33 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_STORE } from "../utils/queries";
 import Like from "./Like";
 
-export default function ProductList() {
-
+export default function ProductList(props) {
 	// store id
-	const testingID = "62e5b6e4820df4975ed9ce2f";
+	const testingID = props.storeId || "62e5b6e4820df4975ed9ce2f";
 
-	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, { variables: { id: testingID }, });
+	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
+		variables: { id: testingID },
+	});
 
 	console.log("ENTIRE STORE DATA IS---------------------");
-	console.log(data)
+	console.log(data);
 	console.log("ENTIRE STORE LOADING IS " + loading);
-	console.log("ENTIRE STORE ERROR IS--------------------")
-	console.log(error)
+	console.log("ENTIRE STORE ERROR IS--------------------");
+	console.log(error);
 
 	const storeData = data?.getStore || { "Didnt Get": "The Data" };
 	console.log(storeData);
-	const productObject = storeData.products
-	console.log(productObject)
-	console.log("TYPE OF TESTING--------------")
-	console.log(typeof storeData, typeof productObject)
+	const productObject = storeData.products;
+	console.log(productObject);
+	console.log("TYPE OF TESTING--------------");
+	console.log(typeof storeData, typeof productObject);
 
 	let productArray = [];
 
 	for (var key in productObject) {
 		if (productObject.hasOwnProperty(key)) {
-			console.log("Made it here")
-			console.log(key)
+			console.log("Made it here");
+			console.log(key);
 			productArray.push([
 				// index 0 id of product
 				productObject[key]._id,
@@ -44,15 +45,14 @@ export default function ProductList() {
 				// index 5 amount of likes for product
 				productObject[key].likes,
 				// index 6 stock of product
-				productObject[key].stock
-			])
-			console.log("MADE IT THERE")
-
+				productObject[key].stock,
+			]);
+			console.log("MADE IT THERE");
 		}
 	}
-	console.log("THIS IS PRODUCT ARRAY")
-	console.log(productArray)
-	console.log(typeof productArray)
+	console.log("THIS IS PRODUCT ARRAY");
+	console.log(productArray);
+	console.log(typeof productArray);
 
 	return (
 		<div className="bg-red-100">
@@ -62,7 +62,7 @@ export default function ProductList() {
 				</h2>
 
 				<div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:gap-x-8">
-					{productArray.map(product => (
+					{productArray.map((product) => (
 						<a
 							key={product[0]}
 							href={`/product/${product[0]}`}
