@@ -10,9 +10,7 @@ import { setContext } from "@apollo/client/link/context";
 import { Routes, Route, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-// import Home from "./components/Home";
-// import Store from "./components/Store";
-import Products from "./components/Products";
+
 import ProductList from "./components/ProductList";
 import LoginForm from "./components/Auth/LoginForm";
 import SignupForm from "./components/Auth/SignupForm";
@@ -21,9 +19,9 @@ import ProfileContainer from "./components/Profile";
 import SearchTabs from "./components/SearchTabs";
 import Posts from "./components/Posts";
 import Signup from "./components/Auth/SignupForm";
-import Reviews from "./components/Reviews";
 import ProfileTabs from "./components/ProfileTabs";
 import ProductListing from "./components/ProductListing";
+import { UserProvider } from "./contexts/UserContext";
 
 // Constructing an http link, assigning uri to the URL of the GraphQL endpoint to send requests to
 const httpLink = createHttpLink({
@@ -54,6 +52,9 @@ const client = new ApolloClient({
 	// Assigning cache to InMemoryCache object, this stores the results of its GraphQL queries in cache
 	cache: new InMemoryCache(),
 });
+
+
+// ------------- PAGES ------------- //
 
 const Product = () => {
 	return (
@@ -109,21 +110,23 @@ const SignUp = () => {
 	);
 };
 
+// ------------- !PAGES ------------- //
+
 function App() {
 	return (
 		<ApolloProvider client={client}>
-			<>
+			<UserProvider>
 				<Header />
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="store" element={<Store />} />
 					<Route path="login" element={<Login />} />
 					<Route path="signup" element={<SignUp />} />
-					<Route path="profile" element={<Profile />} />
+					<Route path="profile/:profileId" element={<Profile />} />
 					<Route path="product/:productId" element={<Product />} />
 				</Routes>
 				<Footer />
-			</>
+			</UserProvider>
 		</ApolloProvider>
 	);
 }

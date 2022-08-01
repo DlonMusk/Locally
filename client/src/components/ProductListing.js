@@ -7,7 +7,6 @@ import { QUERY_GET_USER_PRODUCT } from "../utils/queries";
 import Like from "./Like";
 
 export default function ProductListing() {
-
 	const { productId } = useParams();
 
 	const [product, setProduct] = useState({
