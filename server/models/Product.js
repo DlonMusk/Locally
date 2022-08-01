@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Store = require("./Store");
 const { Schema, model } = mongoose;
 
 const productSchema = new Schema({
@@ -25,7 +26,7 @@ const productSchema = new Schema({
 		type: Number,
 		default: 0
 	},
-	Tags: {
+	tags: {
 		type: [String],
 	},
 	reviews: [
@@ -37,6 +38,10 @@ const productSchema = new Schema({
 	createdAt: {
 		type: Date,
 		default: Date.now
+	},
+	storeInfo: {
+		type: Schema.Types.ObjectId,
+		ref: 'Store'
 	}
 });
 

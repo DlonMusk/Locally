@@ -148,7 +148,12 @@ const resolvers = {
         },
 
         getProducts: async (parent, args) => {
-            const products = await Product.find({});
+            const products = await Product.find({})
+            .populate({
+                path: 'storeInfo',
+                model: 'Store',
+            })
+            .populate('tags')
 
             if (!products) throw new AuthenticationError("Something is wrong");
 

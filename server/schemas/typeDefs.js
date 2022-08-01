@@ -47,6 +47,7 @@ const typeDefs = gql`
 		tags: [String]
 		reviews: [Post]
 		createdAt: Date
+        storeInfo: Store
 	}
 
 	input ProductInput {
