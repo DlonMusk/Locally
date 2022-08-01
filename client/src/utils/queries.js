@@ -64,27 +64,6 @@ export const QUERY_GET_USER_STORE_PROFILE = gql`
 	}
 `;
 
-export const QUERY_GET_PRODUCTS = gql`
-query GetProducts {
-  getProducts {
-    _id
-    productTitle
-    productDescription
-    productPrice
-    productImage
-    stock
-    likes
-    tags
-    createdAt
-    storeInfo {
-      _id
-      storeTitle
-      address
-    }
-  }
-}
-`;
-
 export const QUERY_GET_USER_PRODUCT = gql`
 	query Query($id: ID) {
 		getUserProduct(_id: $id) {
