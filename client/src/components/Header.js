@@ -1,9 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/solid";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useLocation } from "react-router-dom";
-import Auth from '../utils/auth';
+import Auth from "../utils/auth";
+import { UserContext } from "../contexts/UserContext";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -11,6 +12,17 @@ function classNames(...classes) {
 
 export default function Header() {
 	const location = useLocation();
+
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	const { user } = useContext(UserContext);
+
+	useEffect(() => {
+		console.log("user", user);
+		if (user && user.me && user.me._id) {
+			setIsLoggedIn(true);
+		}
+	}, [user]);
 
 	const navigationItems = [
 		{
@@ -77,6 +89,16 @@ export default function Header() {
 									</div>
 								</div>
 							</div>
+
+							{!isLoggedIn && (
+								<a
+									href="/login"
+									className="cursor-pointer border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+								>
+									Log in
+								</a>
+							)}
+
 							<div className="flex items-center lg:hidden">
 								{/* Mobile menu button */}
 								<Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -89,8 +111,12 @@ export default function Header() {
 								</Disclosure.Button>
 							</div>
 							<div className="hidden lg:ml-4 lg:flex lg:items-center">
-								{/* Profile dropdown, Includes settings and signout option */}
-								<Menu as="div" className="ml-4 relative flex-shrink-0">
+								<Menu
+									as="div"
+									className={`ml-4 relative flex-shrink-0 ${
+										isLoggedIn ? "block" : "hidden"
+									}`}
+								>
 									<div>
 										<Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 											<span className="sr-only">Open user menu</span>
@@ -114,7 +140,7 @@ export default function Header() {
 											<Menu.Item>
 												{({ active }) => (
 													<a
-														href="/profile"
+														href={`/profile/${user.me._id}`}
 														className={classNames(
 															active ? "bg-gray-100" : "",
 															"block px-4 py-2 text-sm text-gray-700"
@@ -183,7 +209,11 @@ export default function Header() {
 								Store
 							</Disclosure.Button>
 						</div>
-						<div className="pt-4 pb-3 border-t border-gray-200">
+						<div
+							className={`pt-4 pb-3 border-t border-gray-200 ${
+								isLoggedIn ? "block" : "hidden"
+							}`}
+						>
 							<div className="flex items-center px-4">
 								<div className="flex-shrink-0">
 									{/*  This is the User Menu on mobile*/}

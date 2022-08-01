@@ -21,6 +21,7 @@ import Posts from "./components/Posts";
 import Signup from "./components/Auth/SignupForm";
 import ProfileTabs from "./components/ProfileTabs";
 import ProductListing from "./components/ProductListing";
+import { UserProvider } from "./contexts/UserContext";
 
 // Constructing an http link, assigning uri to the URL of the GraphQL endpoint to send requests to
 const httpLink = createHttpLink({
@@ -114,18 +115,18 @@ const SignUp = () => {
 function App() {
 	return (
 		<ApolloProvider client={client}>
-			<>
+			<UserProvider>
 				<Header />
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="store" element={<Store />} />
 					<Route path="login" element={<Login />} />
 					<Route path="signup" element={<SignUp />} />
-					<Route path="profile" element={<Profile />} />
+					<Route path="profile/:profileId" element={<Profile />} />
 					<Route path="product/:productId" element={<Product />} />
 				</Routes>
 				<Footer />
-			</>
+			</UserProvider>
 		</ApolloProvider>
 	);
 }

@@ -170,6 +170,7 @@ const resolvers = {
 
             const token = signToken(user);
 
+
             return { token, user };
         },
 
@@ -183,11 +184,13 @@ const resolvers = {
                     "You must be logged in to create a store"
                 );
 
+
             const store = await Store.create(storeData);
             await user.update({ store: store._id }, { new: true });
 
             return user;
         },
+
 
         //FINAL
         addProduct: async (parent, { productData }, context) => {
@@ -198,6 +201,7 @@ const resolvers = {
 
 
             const product = await Product.create(productData);
+
 
             const store = await Store.updateOne(
                 { _id: user.store._id },
