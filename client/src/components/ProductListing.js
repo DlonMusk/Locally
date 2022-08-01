@@ -48,11 +48,13 @@ export default function ProductListing() {
 	console.log(productData.reviews)
 
 	const productNestedReviews = productData.reviews
+	const productTags = productData.tags
 	console.log("NESTED REVIEWS4444444444444444444")
 	console.log(productNestedReviews)
 	console.log(typeof productNestedReviews)
 
 	let reviewProductArray = [];
+	let tagArray = [];
 
 	for (var key in productNestedReviews) {
 		if (productNestedReviews.hasOwnProperty(key)) {
@@ -84,10 +86,9 @@ export default function ProductListing() {
 					reviewNestedUserData._id,
 					// INDEX 6 username for user
 					reviewNestedUserData.username,
-
 				])
 
-
+				console.log(typeof productTags)
 				console.log("P R O D U C T    P U S H     C H E C K --------")
 				console.log(reviewProductArray)
 			}
@@ -95,6 +96,17 @@ export default function ProductListing() {
 
 		}
 	}
+
+	for (var tagIndex in productTags) {
+		if (productTags.hasOwnProperty(tagIndex)) {
+			tagArray.push([
+				// INDEX 0 tag name
+				productTags[tagIndex]
+			])
+		}
+	}
+
+	console.log(tagArray)
 	console.log("THIS IS REVIEW ARRAYS")
 	console.log(reviewProductArray)
 
@@ -112,6 +124,9 @@ export default function ProductListing() {
 									src={productData.productImage}
 									className="w-full h-full object-center object-cover sm:rounded-lg"
 								/>
+								{tagArray.map((tag) => (
+									<li>{tag}</li>
+								))}
 							</Tab.Panel>
 						</Tab.Panels>
 					</Tab.Group>
@@ -135,6 +150,8 @@ export default function ProductListing() {
 								dangerouslySetInnerHTML={{ __html: productData.productDescription }}
 							/>
 						</div>
+
+						
 
 						<ul role="list" className="divide-y divide-gray-200">
 							{reviewProductArray.map((item) => (

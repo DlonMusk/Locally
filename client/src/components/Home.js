@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_PRODUCTS  } from "../utils/queries";
+import Like from "./Like";
 
 
 export default function HomeList() {
@@ -78,6 +79,55 @@ export default function HomeList() {
 
     }
 
+    return (
+		<div className="bg-red-100">
+			<div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+				<h2 id="products-heading" className="sr-only">
+					Does this show up?
+				</h2>
+
+				<div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:gap-x-8">
+					{homeArray.map(product => (
+                        <div>
+                            <a
+                                key={product[9]}
+                                href={`/store/${product[9]}`}
+                                className="group"
+                            >
+                                <h2>{product[10]}</h2>
+
+                            </a>
+						<a
+							key={product[0]}
+							href={`/product/${product[0]}`}
+							className="group"
+						>
+							<div className="w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-w-2 sm:aspect-h-3">
+								<img
+									src={product[3]}
+									alt={product[3]}
+									className="w-full h-full object-center object-cover group-hover:opacity-75"
+								/>
+							</div>
+							<div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
+								<h3>{product[1]}</h3>
+								<Like productId={product[0]} />
+							</div>
+							<p className="mt-1 text-sm italic text-gray-500 items-center justify-between ">
+								{product[2]}
+								<p className="font-medium text-gray-900">${product[4]}</p>
+							</p>
+							{product[7].map(tag => (
+								<li>{tag}</li>
+							))}
+						</a>
+                        </div>
+					))}
+				</div>
+			</div>
+		</div>
+        
+	);
 
 
 
