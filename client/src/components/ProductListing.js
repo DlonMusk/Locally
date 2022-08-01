@@ -3,7 +3,7 @@ import { Tab } from "@headlessui/react";
 import { HeartIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_USER_PRODUCT  } from "../utils/queries";
+import { QUERY_GET_USER_PRODUCT } from "../utils/queries";
 import Like from "./Like";
 
 export default function ProductListing() {
@@ -29,33 +29,24 @@ export default function ProductListing() {
 	console.log("EEEEEEEEEE CONTEXT CHECK---------------")
 	console.log("")
 
-	const testingID = "62e5b6e4820df4975ed9ce2f";
-	const testingID2 = "62e595024f09121c389aef19";
+	// product id
 	const testProductID = "62e5b958820df4975ed9ce44"
 
 
-	const { loading, data, error } = useQuery(QUERY_GET_USER_PRODUCT, {variables: { id: testProductID},});
+	const { loading, data, error } = useQuery(QUERY_GET_USER_PRODUCT, { variables: { id: testProductID }, });
 
 	console.log("PRODUCT Data is---------------------");
-    console.log(data)
-    console.log("PRODUCT loading is " + loading);
-    console.log("PRODUCT error is--------------------")
-    console.log(error)
+	console.log(data)
+	console.log("PRODUCT loading is " + loading);
+	console.log("PRODUCT error is--------------------")
+	console.log(error)
 
 
 
-	const productData = data?.getUserProduct || {"Didnt Get": "The Data"};
+	const productData = data?.getUserProduct || { "Didnt Get": "The Data" };
 	console.log("PRODUCT INFORMATION GRAB CHECK---------------")
-    console.log(productData);
+	console.log(productData);
 	console.log(productData.reviews)
-	
-	let productInformation = [
-		productData._id,
-		productData.postContent,
-		productData.likes,
-		productData.review,
-		productData.createdAt,
-	];
 
 	const productNestedReviews = productData.reviews
 	console.log("NESTED REVIEWS4444444444444444444")
@@ -63,100 +54,50 @@ export default function ProductListing() {
 	console.log(typeof productNestedReviews)
 
 	let reviewProductArray = [];
-	let reviewArray = []
 
 	for (var key in productNestedReviews) {
 		if (productNestedReviews.hasOwnProperty(key)) {
 			console.log("Made it here")
 			console.log(key)
 			console.log(productNestedReviews[key])
-			// const reviewNestedReviews = [
-			// 	productNestedReviews[key]._id,
-			// 	productNestedReviews[key].postContent,
-			// 	productNestedReviews[key].likes,
-			// 	productNestedReviews[key].review,
-			// 	productNestedReviews[key].createdAt,
-			// ];
+
 			const reviewNestedUserData = productNestedReviews[key].userData
 			console.log("THIS IS THE NESTED THING CHECK")
 			console.log(reviewNestedUserData)
 			if (reviewNestedUserData !== null) {
 				console.log("222222222222222222222222222------------------------")
-				// console.log(reviewNestedDataReviews[key])
-
-				// let testMap = reviewNestedUserData.map(function(element){
-				// 	reviewArray.push([
-				// 		element._id, element.username
-				// 	])
-				// 	return [element._id, element.username];
-				// })
 				console.log(reviewNestedUserData.username)
-				//console.log(testMap)
-				console.log("@@@@@@@@@@@@ ACCESSING ARRAY @@@@@@@@@@@")
-				//console.log(reviewArray[key])
+				console.log("keyyyyyyyyyyyyyyyyyyyyyyyyy")
+				console.log(key)
 
-					console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-					//console.log(i)
-					console.log("keyyyyyyyyyyyyyyyyyyyyyyyyy")
-					console.log(key)
+				reviewProductArray.push([
+					// INDEX 0 review id
+					productNestedReviews[key]._id,
+					// INDEX 1 review content
+					productNestedReviews[key].postContent,
+					// INDEX 2 review amount of likes
+					productNestedReviews[key].likes,
+					// INDEX 3 review true or false value based on if its a review or a post
+					productNestedReviews[key].review,
+					// INDEX 4 review time of creation
+					productNestedReviews[key].createdAt,
+					// INDEX 5 user id
+					reviewNestedUserData._id,
+					// INDEX 6 username for user
+					reviewNestedUserData.username,
 
-					reviewProductArray.push([
-						// review id INDEX 0
-						productNestedReviews[key]._id,
-						// INDEX 1
-						productNestedReviews[key].postContent,
-						// INDEX 2
-						productNestedReviews[key].likes,
-						// INDEX 3
-						productNestedReviews[key].review,
-						// INDEX 4
-						productNestedReviews[key].createdAt,
-						// user id INDEX 5
-						reviewNestedUserData._id,
-						// username INDEX 6
-						reviewNestedUserData.username,
-						
-					])
-					
+				])
+
 
 				console.log("P R O D U C T    P U S H     C H E C K --------")
 				console.log(reviewProductArray)
 			}
-			console.log("P U S H      C H E C K")
-			console.log(reviewArray)
 			console.log("MADE IT THERE")
-			
+
 		}
-		}
-		console.log("THIS IS REVIEW ARRAYS")
-		console.log(reviewProductArray)
-		console.log(reviewArray)
-
-
-// //////////////////////////////////////////////////////////
-// 	productInformation.push(
-// 		// index 0
-// 		productData._id,
-// 		// index 1
-// 		productData.productTitle,
-// 		// index 2
-// 		productData.productDescription,
-// 		// index 3
-// 		productData.productPrice,
-// 		// index 4
-// 		productData.productImage,
-// 		// index 5
-// 		productData.likes,
-// 		// index 6
-// 		productData.stock,
-// 		// index 7
-// 		productData.reviews
-// 	)
-// 	console.log("MADE IT THERE")
-
-
-// 	console.log("ARRRRRRRAAAAAAAAAAAAYYYYYYYYYYY");
-// 	console.log(productInformation);
+	}
+	console.log("THIS IS REVIEW ARRAYS")
+	console.log(reviewProductArray)
 
 
 	return (
@@ -198,31 +139,31 @@ export default function ProductListing() {
 
 						<ul role="list" className="divide-y divide-gray-200">
 							{reviewProductArray.map((item) => (
-														<li key={item[0]} className="py-4">
-														<div className="flex space-x-3">
-															<img
-																className="h-6 w-6 rounded-full"
-																src={productData.productImage}
-																alt=""
-															/>
-															<div className="flex-1 space-y-1">
-																<div className="flex items-center justify-between">
-																	<h3 className="text-sm font-semibold">
-																		{item[6]}
-																	</h3>
-																	<p className="text-sm font-medium text-gray-700">
-																		{productData.productTitle}
-																	</p>
-																	<p className="text-sm text-gray-500">
-																		{item[4]}
-																	</p>
-																</div>
-																<p className="text-sm text-gray-500">
-																	{item[1]}
-																</p>
-															</div>
-														</div>
-													</li>
+								<li key={item[0]} className="py-4">
+									<div className="flex space-x-3">
+										<img
+											className="h-6 w-6 rounded-full"
+											src={productData.productImage}
+											alt=""
+										/>
+										<div className="flex-1 space-y-1">
+											<div className="flex items-center justify-between">
+												<h3 className="text-sm font-semibold">
+													{item[6]}
+												</h3>
+												<p className="text-sm font-medium text-gray-700">
+													{productData.productTitle}
+												</p>
+												<p className="text-sm text-gray-500">
+													{item[4]}
+												</p>
+											</div>
+											<p className="text-sm text-gray-500">
+												{item[1]}
+											</p>
+										</div>
+									</div>
+								</li>
 							))}
 						</ul>
 
