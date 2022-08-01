@@ -5,12 +5,7 @@ import { useQuery } from "@apollo/client";
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-	const [user, setUser] = useState(null);
 	const { loading, error, data } = useQuery(GET_ME);
-
-	// useEffect(() => {
-	// 	console.log("user data", data);
-	// }, [data]);
 
 	return (
 		<>
