@@ -4,15 +4,16 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
 	scalar Date
 
-	type User {
-		_id: ID!
-		username: String!
-		email: String
-		password: String
-		store: Store
-		posts: [Post]
-		createdAt: Date
-	}
+    type User {
+        _id: ID!
+        username: String!
+        email: String
+        password: String
+        store: Store
+        reviews: [Post]
+        createdAt: Date
+    }
+
 
 	type Store {
 		_id: ID!
@@ -57,15 +58,16 @@ const typeDefs = gql`
 		tags: [String]
 	}
 
-	type Post {
-		_id: ID!
-		postContent: String
-		likes: Int
-		review: Boolean
-		destinationId: ID!
-		userData: User
-		createdAt: Date
-	}
+
+    type Post {
+        _id: ID!
+        postContent: String
+        likes: Int
+        review: Boolean
+        destinationId: Product
+        userData: User
+        createdAt: Date
+    }
 
 	input PostReviewInput {
 		postContent: String
@@ -78,16 +80,19 @@ const typeDefs = gql`
 		user: User
 	}
 
-	type Query {
-		me: User
-		getUser(_id: ID!): User
-		getStore(_id: ID): Store
-		getUserProduct(_id: ID): Product
-		getUserPosts(_id: ID): [Post]
-		getStores: [Store]
-		getProducts: [Product]
-		getPosts: [Post]
-	}
+
+    
+    type Query {
+        me: User
+        getUser(_id: ID!): User
+        getStore(_id: ID): Store
+        getUserProduct(_id: ID): Product
+        getUserPosts(_id: ID): User
+        getStores: [Store]
+        getProducts: [Product]
+        getPosts: [Post]
+    }
+
 
 	type Mutation {
 		login(email: String!, password: String!): Auth

@@ -70,46 +70,79 @@ export const QUERY_GET_USER_STORE_PROFILE = gql`
 `;
 
 export const QUERY_GET_USER_PRODUCT = gql`
-	query Query($id: ID) {
-		getUserProduct(_id: $id) {
-			_id
-			productTitle
-			productDescription
-			productPrice
-			productImage
-			stock
-			likes
-			tags
-			reviews {
-				_id
-			}
-			createdAt
-		}
-	}
-`;
+
+query Query($id: ID) {
+  getUserProduct(_id: $id) {
+    _id
+    productTitle
+    productDescription
+    productPrice
+    productImage
+    stock
+    likes
+    tags
+    reviews {
+      _id
+      postContent
+      likes
+      review
+      userData {
+        _id
+        username
+      }
+      createdAt
+    }
+    createdAt
+  }
+}
+`
+
+export const QUERY_GET_USER_POSTS = gql`
+query Query($id: ID) {
+  getUserPosts(_id: $id) {
+    _id
+    username
+    reviews {
+      _id
+      postContent
+      likes
+      review
+      destinationId{
+        _id
+        productTitle
+        productImage
+      }
+      createdAt
+    }
+  }
+}
+`
 
 export const QUERY_GET_STORE_REVIEWS = gql`
-	query GetStore($id: ID) {
-		getStore(_id: $id) {
-			_id
-			storeTitle
-			products {
-				_id
-				productTitle
-				productImage
-				reviews {
-					_id
-					postContent
-					likes
-					review
-					destinationId
-					createdAt
-					userData {
-						_id
-						username
-					}
-				}
-			}
-		}
-	}
-`;
+
+query GetStore($id: ID) {
+  getStore(_id: $id) {
+    _id
+    storeTitle
+    products {
+      _id
+      productTitle
+      productImage
+      reviews {
+        _id
+        postContent
+        likes
+        review
+        destinationId{
+          _id
+        }
+        createdAt
+        userData{
+          _id
+          username
+        }
+      }
+    }
+  }
+}
+`

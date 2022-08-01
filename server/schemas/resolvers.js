@@ -78,21 +78,26 @@ const resolvers = {
         getUserProduct: async (parent, args, context) => {
             let product;
             if (args._id) {
-                product = await Product.findOne({ _id: args._id }).populate({
-                    path: "reviews",
-                    populate: {
-                        path: "userData",
-                        model: "User"
+
+                product = await Product.findOne({ _id: args._id })
+                .populate({
+                    path: 'reviews',
+                        populate: {
+                            path: 'userData',
+                            model: 'User'
+                        }
                     }
-                });
+                );
             } else {
-                product = await Product.findOne({ _id: context._id }).populate({
-                    path: "reviews",
-                    populate: {
-                        path: "userData",
-                        model: "User"
+                product = await Product.findOne({ _id: context._id })
+                .populate({
+                    path: 'reviews',
+                        populate: {
+                            path: 'userData',
+                            model: 'User'
+                        }
                     }
-                });
+                );
             }
 
             if (!product) throw new AuthenticationError("Something went wrong!");
@@ -103,14 +108,35 @@ const resolvers = {
         getUserPosts: async (parent, args, context) => {
             let user;
             if (args._id) {
-                user = await User.findOne({ _id: args._id });
+
+                console.log("CHECKING USERPOSTS---------")
+                console.log(args._id)
+                user = await User.findOne({ _id: args._id })
+                .populate({
+                        path: 'reviews',
+                        model: 'Post',
+                        populate: {
+                            path: 'destinationId',
+                            model: 'Product'
+                        }
+                    },
+                )
             } else {
-                user = await User.findOne({ _id: context._id });
+                user = await User.findOne({ _id: context._id })
+                .populate({
+                    path: 'reviews',
+                    model: 'Post',
+                    populate: {
+                        path: 'destinationId',
+                        model: 'Product'
+                    }
+                },
+            )
             }
 
             if (!user) throw new AuthenticationError("Something went wrong!");
 
-            return user.posts;
+            return user;
         },
 
         getStores: async (parent, args) => {
@@ -174,6 +200,7 @@ const resolvers = {
             return { token, user };
         },
 
+
         addStore: async (parent, { storeData }, context) => {
             const user = await User.findOne({ _id: context.user._id });
 
@@ -184,9 +211,11 @@ const resolvers = {
                     "You must be logged in to create a store"
                 );
 
+            const store = await Store.create(storeData)
 
-            const store = await Store.create(storeData);
             await user.update({ store: store._id }, { new: true });
+
+            
 
             return user;
         },
