@@ -4,10 +4,13 @@ import { HeartIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_PRODUCT } from "../utils/queries";
+import ReviewForm from "./ReviewForm";
 import Like from "./Like";
 
 export default function ProductListing() {
 	const { productId } = useParams();
+
+	const [showReviewForm, setShowReviewForm] = useState(false);
 
 	const [product, setProduct] = useState({
 		name: "Example product",
@@ -201,6 +204,17 @@ export default function ProductListing() {
 								</button>
 							</div>
 						</form>
+						<button
+							type="button"
+							onClick={() => setShowReviewForm(!showReviewForm)}
+							className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+						>
+							Write Review
+						</button>
+						<ReviewForm
+							open={showReviewForm}
+							setOpen={(open) => setShowReviewForm(open)}
+						/>
 					</div>
 				</div>
 			</div>

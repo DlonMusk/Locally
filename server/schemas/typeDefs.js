@@ -72,7 +72,8 @@ const typeDefs = gql`
 
 	input PostReviewInput {
 		postContent: String
-		review: Boolean
+		review: Boolean!
+        destinationId: ID
 		createdAt: Date
 	}
 
@@ -102,7 +103,7 @@ const typeDefs = gql`
 		addProduct(productData: ProductInput!): Store
 		removeProduct(productId: ID!): Store
 		updateProduct(productId: ID!, productData: ProductInput!): Product
-		addPostReview(destinationId: ID!, postReviewData: PostReviewInput!): User
+		addPostReview(postReviewData: PostReviewInput!): User
 		removePostReview(postId: ID!): User
 		updatePostReview(postReviewData: PostReviewInput!): Post
 	}

@@ -1,6 +1,9 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
+import { useQuery, useMutation } from "@apollo/client";
+import { ADD_POST_REVIEW } from "../utils/queries";
+
 import {
 	LinkIcon,
 	PlusSmIcon,
@@ -45,7 +48,12 @@ const team = [
 	},
 ];
 
+
 export default function Example(props) {
+
+
+
+
 	return (
 		<Transition.Root show={props.open} as={Fragment}>
 			<Dialog
@@ -67,7 +75,12 @@ export default function Example(props) {
 							leaveTo="translate-x-full"
 						>
 							<div className="pointer-events-auto w-screen max-w-md">
-								<form className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
+								<form
+								noValidate
+
+								action="#"
+								method="POST"
+								className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
 									<div className="h-0 flex-1 overflow-y-auto">
 										<div className="bg-indigo-700 py-6 px-4 sm:px-6">
 											<div className="flex items-center justify-between">
