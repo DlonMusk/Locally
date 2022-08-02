@@ -8,16 +8,15 @@ const Like = (props) => {
 
 	const [addLike, { loading, data }] = useMutation(ADD_LIKE)
 
-	const likeProduct = () => {
-		// call api to like product from props.productId
-	};
 
 	return (
 		<span
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
 			className={`text-red-${hovered ? "500" : "900"}  hover: opacity-40`}
-			onClick={() => likeProduct()}
+			onClick={() => addLike({
+				variables: props.componentId
+			})}
 		>
 			<FaHeart />
 		</span>
