@@ -36,17 +36,16 @@ export const ADD_STORE = gql`
 `;
 
 export const ADD_PRODUCT = gql`
-	mutation addProduct($productData: ProductInput!) {
-		addProduct(productData: $productData) {
-			_id
-			storeTitle
-			rating
-			address
-			email
-			phoneNumber
-			createdAt
-		}
-	}
+mutation addProduct($productData: ProductInput!) {
+  addProduct(productData: $productData) {
+    storeTitle
+    rating
+    address
+    email
+    phoneNumber
+    createdAt
+  }
+}
 `;
 
 export const REMOVE_PRODUCT = gql`

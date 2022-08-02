@@ -57,6 +57,7 @@ const typeDefs = gql`
 		productImage: String
 		stock: Int
 		tags: [String]
+        storeInfo: ID!
 	}
 
 

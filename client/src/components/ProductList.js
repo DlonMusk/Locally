@@ -7,6 +7,8 @@ import Like from "./Like";
 export default function ProductList(props) {
 	// store id
 	const testingID = props.storeId || "62e5b6e4820df4975ed9ce2f";
+	console.log("PRODUCTLIST PROP STOREID CHECK!!!!!!!!!!!!!!")
+	console.log(props.storeId)
 
 	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
 		variables: { id: testingID },
