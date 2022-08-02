@@ -148,12 +148,29 @@ const resolvers = {
         },
 
         getProducts: async (parent, args) => {
-            const products = await Product.find({})
-            .populate({
-                path: 'storeInfo',
-                model: 'Store',
-            })
-            .populate('tags')
+            let products;
+            console.log("IS GET PRODUCTS MAKING IT HERE?")
+            console.log(!args)
+
+            if (!args.searchName) {
+                console.log("NO ARGS IN HERE?")
+                products = await Product.find({})
+                .populate({
+                    path: 'storeInfo',
+                    model: 'Store',
+                })
+                .populate('tags')
+
+            } else {
+                console.log("IS IT IN HERE?")
+                products = await Product.find({ productTitle: args.searchName })
+                .populate({
+                    path: 'storeInfo',
+                    model: 'Store',
+                })
+                .populate('tags')
+            }
+
 
             if (!products) throw new AuthenticationError("Something is wrong");
 

@@ -113,7 +113,6 @@ export const UPDATE_POST_REVIEW = gql`
 export const ADD_LIKE = gql`
 	mutation addLike($componentId: ID!){
 		addLike(componentId: $componentId){
-
 			_id
 		}
 	}

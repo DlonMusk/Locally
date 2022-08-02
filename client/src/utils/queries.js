@@ -144,8 +144,8 @@ query GetStore($id: ID) {
 
 
 export const QUERY_GET_PRODUCTS = gql`
-query GetProducts {
-  getProducts {
+query GetProducts($searchName: String) {
+  getProducts(searchName: $searchName) {
     _id
     productTitle
     productDescription
