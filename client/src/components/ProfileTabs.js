@@ -88,8 +88,12 @@ export default function ProfileTabs(props) {
 				</nav>
 			</div>
 			{selectedTab === "Products" && <Products storeId={props.storeId} />}
-			{selectedTab === "Reviews" && <Reviews />}
-			{selectedTab === "Posts" && <Posts />}
+			{selectedTab === "Reviews" && (
+				<Reviews storeId={props.storeId} profileId={props.profileId} />
+			)}
+			{selectedTab === "Posts" && (
+				<Posts storeId={props.storeId} profileId={props.profileId} />
+			)}
 		</>
 	);
 }

@@ -82,7 +82,9 @@ export default function ProductList(props) {
 							</div>
 							<div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
 								<h3>{product[1]}</h3>
-								<Like componentId={product[0]} />
+								<div>
+									<Like componentId={product[0]} />
+								</div>
 							</div>
 							<p className="mt-1 text-sm italic text-gray-500 items-center justify-between ">
 								{product[2]}
