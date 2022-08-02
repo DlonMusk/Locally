@@ -5,6 +5,7 @@ import { XIcon } from "@heroicons/react/outline";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ME } from "../utils/queries";
 import { ADD_POST_REVIEW } from "../utils/mutations";
+import { QUERY_GET_USER_PRODUCT, QUERY_GET_USER_POSTS } from "../utils/queries";
 import { UserContext, UserProvider } from "../contexts/UserContext"
 
 import {
@@ -106,6 +107,10 @@ export default function Example(props) {
 								userData: userArray[0],
 							}
 						},
+						refetchQueries: [ {
+							query: QUERY_GET_USER_POSTS,
+							variables: { id: userArray[0] }
+						 }],
 					})
 				} catch (err) {
 					console.log(err);
@@ -124,6 +129,10 @@ export default function Example(props) {
 								userData: userArray[0],
 							}
 						},
+						refetchQueries: [ {
+							query: QUERY_GET_USER_PRODUCT,
+							variables: { id: productId }
+						 }],
 					})
 				} catch (err) {
 					console.log(err);
