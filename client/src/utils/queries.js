@@ -25,6 +25,7 @@ export const QUERY_GET_USER = gql`
 	}
 `;
 
+
 export const QUERY_GET_USER_STORE = gql`
 	query getStore($id: ID) {
 		getStore(_id: $id) {
@@ -60,6 +61,7 @@ export const QUERY_GET_USER_STORE_PROFILE = gql`
 			phoneNumber
 			tags
 			createdAt
+      storeTitle
 		}
 	}
 `;
@@ -113,29 +115,52 @@ export const QUERY_GET_USER_POSTS = gql`
 `;
 
 export const QUERY_GET_STORE_REVIEWS = gql`
-	query GetStore($id: ID) {
-		getStore(_id: $id) {
-			_id
-			storeTitle
-			products {
-				_id
-				productTitle
-				productImage
-				reviews {
-					_id
-					postContent
-					likes
-					review
-					destinationId {
-						_id
-					}
-					createdAt
-					userData {
-						_id
-						username
-					}
-				}
-			}
-		}
-	}
-`;
+query GetStore($id: ID) {
+  getStore(_id: $id) {
+    _id
+    storeTitle
+    products {
+      _id
+      productTitle
+      productImage
+      reviews {
+        _id
+        postContent
+        likes
+        review
+        destinationId{
+          _id
+        }
+        createdAt
+        userData{
+          _id
+          username
+        }
+      }
+    }
+  }
+}
+`
+
+
+export const QUERY_GET_PRODUCTS = gql`
+query GetProducts {
+  getProducts {
+    _id
+    productTitle
+    productDescription
+    productPrice
+    productImage
+    stock
+    likes
+    tags
+    createdAt
+    storeInfo {
+      _id
+      storeTitle
+      address
+    }
+  }
+}
+`
+

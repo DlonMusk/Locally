@@ -4,10 +4,13 @@ import { HeartIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_PRODUCT } from "../utils/queries";
+import ReviewForm from "./ReviewForm";
 import Like from "./Like";
 
 export default function ProductListing() {
 	const { productId } = useParams();
+
+	const [showReviewForm, setShowReviewForm] = useState(false);
 
 	const [product, setProduct] = useState({
 		name: "Example product",
@@ -48,11 +51,13 @@ export default function ProductListing() {
 	console.log(productData.reviews)
 
 	const productNestedReviews = productData.reviews
+	const productTags = productData.tags
 	console.log("NESTED REVIEWS4444444444444444444")
 	console.log(productNestedReviews)
 	console.log(typeof productNestedReviews)
 
 	let reviewProductArray = [];
+	let tagArray = [];
 
 	for (var key in productNestedReviews) {
 		if (productNestedReviews.hasOwnProperty(key)) {
@@ -84,10 +89,9 @@ export default function ProductListing() {
 					reviewNestedUserData._id,
 					// INDEX 6 username for user
 					reviewNestedUserData.username,
-
 				])
 
-
+				console.log(typeof productTags)
 				console.log("P R O D U C T    P U S H     C H E C K --------")
 				console.log(reviewProductArray)
 			}
@@ -95,6 +99,17 @@ export default function ProductListing() {
 
 		}
 	}
+
+	for (var tagIndex in productTags) {
+		if (productTags.hasOwnProperty(tagIndex)) {
+			tagArray.push([
+				// INDEX 0 tag name
+				productTags[tagIndex]
+			])
+		}
+	}
+
+	console.log(tagArray)
 	console.log("THIS IS REVIEW ARRAYS")
 	console.log(reviewProductArray)
 
@@ -112,6 +127,9 @@ export default function ProductListing() {
 									src={productData.productImage}
 									className="w-full h-full object-center object-cover sm:rounded-lg"
 								/>
+								{tagArray.map((tag) => (
+									<li>{tag}</li>
+								))}
 							</Tab.Panel>
 						</Tab.Panels>
 					</Tab.Group>
@@ -135,6 +153,8 @@ export default function ProductListing() {
 								dangerouslySetInnerHTML={{ __html: productData.productDescription }}
 							/>
 						</div>
+
+						
 
 						<ul role="list" className="divide-y divide-gray-200">
 							{reviewProductArray.map((item) => (
@@ -184,6 +204,17 @@ export default function ProductListing() {
 								</button>
 							</div>
 						</form>
+						<button
+							type="button"
+							onClick={() => setShowReviewForm(!showReviewForm)}
+							className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+						>
+							Write Review
+						</button>
+						<ReviewForm
+							open={showReviewForm}
+							setOpen={(open) => setShowReviewForm(open)}
+						/>
 					</div>
 				</div>
 			</div>

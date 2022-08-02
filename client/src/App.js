@@ -10,6 +10,7 @@ import { setContext } from "@apollo/client/link/context";
 import { Routes, Route, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import HomeList from "./components/Home";
 
 import ProductList from "./components/ProductList";
 import LoginForm from "./components/Auth/LoginForm";
@@ -67,7 +68,7 @@ const Home = () => {
 	return (
 		<>
 			<SearchTabs />
-			<ProductList />
+			<HomeList />
 		</>
 	);
 };

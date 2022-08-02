@@ -46,8 +46,11 @@ export default function ProductList(props) {
 				productObject[key].likes,
 				// index 6 stock of product
 				productObject[key].stock,
-			]);
-			console.log("MADE IT THERE");
+
+				// // index 7 tags for product
+				productObject[key].tags
+			])
+			console.log("MADE IT THERE")
 		}
 	}
 	console.log("THIS IS PRODUCT ARRAY");
@@ -81,8 +84,11 @@ export default function ProductList(props) {
 							</div>
 							<p className="mt-1 text-sm italic text-gray-500 items-center justify-between ">
 								{product[2]}
-								<p className="font-medium text-gray-900">{product[3]}</p>
+								<p className="font-medium text-gray-900">${product[3]}</p>
 							</p>
+							{product[7].map(tag => (
+								<li>{tag}</li>
+							))}
 						</a>
 					))}
 				</div>

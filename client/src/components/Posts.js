@@ -1,13 +1,18 @@
 // Will add code here later
 import React from "react";
+import { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_POSTS } from "../utils/queries";
+import ReviewForm from "./ReviewForm";
+import Like from "./Like";
 
 
 const Posts = () => {
 
+	const [showReviewForm, setShowReviewForm] = useState(false);
+
 	// user id
-	const testingID = "62e5b8dcad340ea36b2b3244";
+	const testingID = "62e595024f09121c389aef19";
 
 	const { loading, data, error } = useQuery(QUERY_GET_USER_POSTS, { variables: { id: testingID }, });
 
@@ -120,6 +125,17 @@ const Posts = () => {
 						</li>
 					))}
 				</ul>
+				<button
+					type="button"
+					onClick={() => setShowReviewForm(!showReviewForm)}
+					className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+				>
+					Create A Post
+				</button>
+				<ReviewForm
+					open={showReviewForm}
+					setOpen={(open) => setShowReviewForm(open)}
+				/>
 			</div>
 		</div>
 	);

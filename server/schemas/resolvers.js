@@ -148,7 +148,12 @@ const resolvers = {
         },
 
         getProducts: async (parent, args) => {
-            const products = await Product.find({});
+            const products = await Product.find({})
+            .populate({
+                path: 'storeInfo',
+                model: 'Store',
+            })
+            .populate('tags')
 
             if (!products) throw new AuthenticationError("Something is wrong");
 
@@ -275,31 +280,35 @@ const resolvers = {
 
         // LAST TO DO
         //if a user removes a post from there posts it will remove it from the appropriate store
-        addPostReview: async (parent, { destinationId, postData }, context) => {
+        addPostReview: async (parent, { postReviewData }, context) => {
             // takes in review input and a store or product ID
-
+            console.log({postReviewData})
+            console.log(postReviewData.destinationId)
             // get the user making the post
             const user = await User.findOne({ _id: context.user._id });
 
             if (!user) throw new AuthenticationError("You must be logged in");
 
-            // find a store with the ID
-            const store = await Store.findOne({ _id: destinationId });
-            // if no store find a product with the ID
-            const product = await Product.findOne({ _id: destinationId });
-            // if none throw error
-            if (!store && !product)
-                throw new AuthenticationError("No store or product found");
-            // create the post
-            const post = await Post.create(postData);
-            // add the post to the store or product
-            if (store) {
-                await Store.findOneAndUpdate(
-                    { _id: store._id },
+            if(!postReviewData.review){
+                const post = await Post.create(postReviewData);
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
                     { $addToSet: { reviews: post._id } },
                     { new: true }
                 );
-            } else if (product) {
+                if (!user) throw new AuthenticationError("You must be logged in");
+                return updatedUser;
+            }
+
+
+            const product = await Product.findOne({ _id: postReviewData.destinationId });
+            // if none throw error
+            if (!product)
+                throw new AuthenticationError("No store or product found");
+            // create the post
+            const post = await Post.create(postReviewData);
+            // add the post to the store or product
+             if (product) {
                 await Product.findOneAndUpdate(
                     { _id: product._id },
                     { $addToSet: { reviews: post._id } },
@@ -309,7 +318,7 @@ const resolvers = {
 
             const updatedUser = await User.findOneAndUpdate(
                 { _id: context.user._id },
-                { $addToSet: { posts: post._id } },
+                { $addToSet: { reviews: post._id } },
                 { new: true }
             );
 
