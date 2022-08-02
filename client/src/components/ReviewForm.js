@@ -81,10 +81,11 @@ export default function Example(props) {
 	// console.log(user.me._id)
 	// const currentUser = user.me._id
 
-
+	console.log("**********MADE IT HERE")
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
+		console.log("**********MADE IT HERE111111111111")
 		
 		if (!reviewInput || reviewInput === '') {
 			setErrorMessage("Please write a review")
@@ -101,7 +102,6 @@ export default function Example(props) {
 						variables: {
 							postReviewData: {
 								postContent: reviewInput,
-								destinationId: productId,
 								review: false,
 								userData: userArray[0],
 							}
