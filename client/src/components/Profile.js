@@ -88,6 +88,8 @@ export default function ProfileContainer() {
 	let storeItems = storeData.products;
 	console.log(storeItems);
 
+    let storeEmailHref = "mailto:"+storeData.email
+
 	const storeCheck = () => {
 		if (storeItems !== undefined) {
 			tabIndex = 0;
