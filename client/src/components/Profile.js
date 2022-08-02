@@ -179,7 +179,7 @@ export default function ProfileContainer() {
 										aria-hidden="true"
 									/>
 
-									<span>Email: {storeData.email}</span>
+									<a href={`mailto:${storeData.email}`}>Email: {storeData.email}</a>
 								</button>
 								<button
 									type="button"

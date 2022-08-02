@@ -147,12 +147,13 @@ const resolvers = {
             return stores;
         },
 
-        getProducts: async (parent, args) => {
+        getProducts: async (parent, {searchName, tagState}) => {
             let products;
             console.log("IS GET PRODUCTS MAKING IT HERE?")
-            console.log(!args)
+            console.log("SEARCH NAME " + searchName)
+            console.log("RESOLVER SEARCH TAG " + tagState)
 
-            if (!args.searchName) {
+            if (!searchName) {
                 console.log("NO ARGS IN HERE?")
                 products = await Product.find({})
                 .populate({
@@ -163,7 +164,7 @@ const resolvers = {
 
             } else {
                 console.log("IS IT IN HERE?")
-                products = await Product.find({ productTitle: args.searchName })
+                products = await Product.find({ productTitle: searchName })
                 .populate({
                     path: 'storeInfo',
                     model: 'Store',
