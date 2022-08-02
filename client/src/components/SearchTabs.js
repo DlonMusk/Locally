@@ -5,7 +5,7 @@ import { QUERY_GET_PRODUCTS  } from "../utils/queries";
 import { UserContext } from "../contexts/UserContext";
 
 export default function SearchTabs() {
-    // I want to render each button and when the user clicks on the button it will set it to activaded or not
+    // I want to render each button and when the user clicks on the button it will set it to activated or not
     // all you have to do is make a function that flips true false values on the tabs if the user clicks on that button
     // and have it associated with a state so the page will re render on change
     // to render this.... make a state array of the tag names ..... map over the array to display each button
@@ -71,97 +71,3 @@ export default function SearchTabs() {
 
 }
 
-// const { loading, data, error, refetch } = useQuery(QUERY_GET_PRODUCTS);
-    
-    // console.log("Made it past getProducts definition")
-    // console.log(data)
-
-    // if (routerPath.includes("/profile/")) {
-    //     console.log("?????????? PROFILE ??????????")
-
-    //     switch (selectedTab) {
-    //         case 'Clothing':
-    //             console.log('1CASE-CASE-CASE-CASE === Clothing');
-    //             break;
-    //         case 'Food/Beverage':
-    //             console.log('1CASE-CASE-CASE-CASE === Food/Beverage');
-    //             break;
-    //         case 'Art':
-    //             console.log('1CASE-CASE-CASE-CASE === Art');
-    //             break;
-    //         case 'Accessories':
-    //             console.log('1CASE-CASE-CASE-CASE === Accessories');
-    //             break;
-    //         case 'Entertainment':
-    //             console.log('1CASE-CASE-CASE-CASE === Entertainment');
-    //             break;
-    //         case 'Home/Living':
-    //             console.log('1CASE-CASE-CASE-CASE === Home/Living');
-    //             break;
-    //         case 'Odd Jobs':
-    //             console.log('1CASE-CASE-CASE-CASE === Odd Jobs');
-    //             break;
-    //         default:
-    //             console.log('1CASE-CASE-CASE-CASE === All');
-    //         }
-
-    // } else if (routerPath === "/") {
-    //     console.log("?????????? HOME ??????????")
-
-    //     switch (selectedTab) {
-    //         case 'Clothing':
-    //             console.log('2CASE-CASE-CASE-CASE === Clothing');
-    //             break;
-    //         case 'Food/Beverage':
-    //             console.log('2CASE-CASE-CASE-CASE === Food/Beverage');
-    //             break;
-    //         case 'Art':
-    //             console.log('2CASE-CASE-CASE-CASE === Art');
-    //             break;
-    //         case 'Accessories':
-    //             console.log('2CASE-CASE-CASE-CASE === Accessories');
-    //             break;
-    //         case 'Entertainment':
-    //             console.log('2CASE-CASE-CASE-CASE === Entertainment');
-    //             break;
-    //         case 'Home/Living':
-    //             console.log('2CASE-CASE-CASE-CASE === Home/Living');
-    //             break;
-    //         case 'Odd Jobs':
-    //             console.log('2CASE-CASE-CASE-CASE === Odd Jobs');
-    //             break;
-    //         default:
-    //             console.log('2CASE-CASE-CASE-CASE === All');
-    //         }
-    // } else {
-    //     console.log("?????????? MAKE SURE THIS DOES NOTHING ??????????")
-    // }
-
-
-
-    
-    // // switch (selectedTab) {
-    // // case 'Clothing':
-    // //     console.log('CASE-CASE-CASE-CASE === Clothing');
-    // //     break;
-    // // case 'Food/Beverage':
-    // //     console.log('CASE-CASE-CASE-CASE === Food/Beverage');
-    // //     break;
-    // // case 'Art':
-    // //     console.log('CASE-CASE-CASE-CASE === Art');
-    // //     break;
-    // // case 'Accessories':
-    // //     console.log('CASE-CASE-CASE-CASE === Accessories');
-    // //     break;
-    // // case 'Entertainment':
-    // //     console.log('CASE-CASE-CASE-CASE === Entertainment');
-    // //     break;
-    // // case 'Home/Living':
-    // //     console.log('CASE-CASE-CASE-CASE === Home/Living');
-    // //     break;
-    // // case 'Odd Jobs':
-    // //     console.log('CASE-CASE-CASE-CASE === Odd Jobs');
-    // //     break;
-    // // default:
-    // //     console.log('CASE-CASE-CASE-CASE === All');
-    // // }
