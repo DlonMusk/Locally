@@ -84,6 +84,7 @@ const Store = () => {
 const Profile = () => {
 	return (
 		<>
+			<SearchTabs />
 			<ProfileContainer />
 		</>
 	);
