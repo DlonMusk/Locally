@@ -24,6 +24,12 @@ export default function Example(props) {
 	let productId = productLink.replaceAll("/product/", "");
 	console.log(productId)
 
+	console.log("%%%%%%%%%%%% IF STATEMENT CHECK %%%%%%%%%%%%%%")
+	
+	let reviewPostCheck = productLink.includes("/product/")
+	console.log(reviewPostCheck)
+
+
 	// set initial form state
 	const [userFormData, setUserFormData] = useState({ reviewInput: '' });
 
@@ -87,23 +93,44 @@ export default function Example(props) {
 			console.log("Form data SUBMIT check", userFormData)
 			console.log("WHAT IS PRODUCT ID" + productId)
 
-			try {
+			if (!reviewPostCheck) {
 
-				// Need to make this if statement to check if this is a review or not
-				addPostReview({
-					variables: {
-						postReviewData: {
-							postContent: reviewInput,
-							destinationId: productId,
-							review: true,
-							userData: userArray[0],
-						}
-					},
-				})
+				try {
+
+					addPostReview({
+						variables: {
+							postReviewData: {
+								postContent: reviewInput,
+								destinationId: productId,
+								review: false,
+								userData: userArray[0],
+							}
+						},
+					})
 				} catch (err) {
 					console.log(err);
 					setErrorMessage("Something went wrong with the post/review creation process");
 				}
+			} else {
+
+				try {
+
+					addPostReview({
+						variables: {
+							postReviewData: {
+								postContent: reviewInput,
+								destinationId: productId,
+								review: true,
+								userData: userArray[0],
+							}
+						},
+					})
+				} catch (err) {
+					console.log(err);
+					setErrorMessage("Something went wrong with the post/review creation process");
+				}
+				
+			}
 
 			setUserFormData({
 				reviewInput: '',
