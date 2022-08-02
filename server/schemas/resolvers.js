@@ -382,6 +382,30 @@ const resolvers = {
 
             return updatedPost;
         },
+        
+        addLike: async (parent, { componentId }) => {
+
+            const updatedProduct = Product.findOne({ _id: componentId });
+            const updatedPost = Post.findOne({ _id: componentId });
+
+            if (!updatedProduct && !updatedPost) throw new AuthenticationError("Could not add like!");
+
+            if (updatedProduct) {
+                await Product.findOneAndUpdate(
+                    { _id: componentId },
+                    { $inc: { likes: 1 } },
+                    { new: true }
+                )
+            } else if (updatedPost) {
+                await Post.findOneAndUpdate(
+                    { _id: componentId },
+                    { $inc: { likes: 1 } },
+                    { new: true }
+                )
+            }
+
+            return true;
+        }
     },
 };
 

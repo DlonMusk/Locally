@@ -46,6 +46,7 @@ export default function FormProduct(props) {
 					productImage: product.image,
 					stock: product.stock,
 					tags: product.tags,
+					storeInfo: props.storeId
 				},
 			},
 		});

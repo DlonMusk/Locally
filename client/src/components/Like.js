@@ -1,8 +1,12 @@
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { ADD_LIKE } from "../utils/mutations";
 
 const Like = (props) => {
 	const [hovered, setHovered] = useState(false);
+
+	const [addLike, { loading, data }] = useMutation(ADD_LIKE)
 
 	const likeProduct = () => {
 		// call api to like product from props.productId
