@@ -7,8 +7,8 @@ import Like from "./Like";
 export default function ProductList(props) {
 	// store id
 	const testingID = props.storeId || "62e5b6e4820df4975ed9ce2f";
-	console.log("PRODUCTLIST PROP STOREID CHECK!!!!!!!!!!!!!!")
-	console.log(props.storeId)
+	console.log("PRODUCTLIST PROP STOREID CHECK!!!!!!!!!!!!!!");
+	console.log(props.storeId);
 
 	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
 		variables: { id: testingID },
@@ -50,9 +50,9 @@ export default function ProductList(props) {
 				productObject[key].stock,
 
 				// // index 7 tags for product
-				productObject[key].tags
-			])
-			console.log("MADE IT THERE")
+				productObject[key].tags,
+			]);
+			console.log("MADE IT THERE");
 		}
 	}
 	console.log("THIS IS PRODUCT ARRAY");
@@ -87,8 +87,17 @@ export default function ProductList(props) {
 								{product[2]}
 								<p className="font-medium text-gray-900">${product[3]}</p>
 							</p>
-							{product[7].map(tag => (
-								<li>{tag}</li>
+							{product[7].map((tag) => (
+								<span className=" mt-4 ml-4 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">
+									<svg
+										className="mr-1.5 h-2 w-2 text-indigo-400"
+										fill="currentColor"
+										viewBox="0 0 8 8"
+									>
+										<circle cx={4} cy={4} r={3} />
+									</svg>
+									{tag}
+								</span>
 							))}
 						</a>
 					))}
