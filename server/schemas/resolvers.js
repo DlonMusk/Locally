@@ -403,23 +403,29 @@ const resolvers = {
         addLike: async (parent, { componentId }, context) => {
 
             const updatedProduct = Product.findOne({ _id: componentId });
+            console.log(componentId)
+
             const updatedPost = Post.findOne({ _id: componentId });
+            console.log(componentId)
+
 
             if (!updatedProduct && !updatedPost) throw new AuthenticationError("Could not add like!");
 
             if (updatedProduct) {
-                const prod = await Product.findOneAndUpdate(
+                await Product.findOneAndUpdate(
                     { _id: componentId },
                     { $inc: { likes: 1 } },
                     { new: true }
                 );
+                console.log("UPDATING PRODUCT!!!")
                 
-            } else if (updatedPost) {
+            }   if (updatedPost) {
                 await Post.findOneAndUpdate(
                     { _id: componentId },
                     { $inc: { likes: 1 } },
                     { new: true }
                 )
+                console.log("UPDATING POST???")
             }
 
             return await User.findOne({_id: context.user._id});

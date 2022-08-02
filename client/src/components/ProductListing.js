@@ -9,6 +9,8 @@ import Like from "./Like";
 
 export default function ProductListing() {
 	const { productId } = useParams();
+	console.log("|||||||||||||||||||||||||")
+	console.log(productId)
 
 	const [showReviewForm, setShowReviewForm] = useState(false);
 
@@ -182,6 +184,9 @@ export default function ProductListing() {
 												<p className="text-sm text-gray-500">{item[4]}</p>
 											</div>
 											<p className="text-sm text-gray-500">{item[1]}</p>
+											<button>
+											<Like likes={item[2]} componentId={"review"+item[0]} />
+											</button>
 										</div>
 									</div>
 								</li>
@@ -201,7 +206,7 @@ export default function ProductListing() {
 									type="button"
 									className="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500"
 								>
-									<Like likes={productData.likes} componentId={productId} />
+									<Like likes={productData.likes} componentId={"product"+productId} />
 
 									<span className="sr-only">Add to favorites</span>
 								</button>
