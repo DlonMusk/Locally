@@ -74,6 +74,7 @@ export default function FormProduct(props) {
 					stock: product.stock,
 					tags: product.tags,
 					storeInfo: currentStore,
+
 				},
 			},
 			refetchQueries: [ {
