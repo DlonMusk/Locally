@@ -1,8 +1,11 @@
 import { Fragment, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { useQuery, useMutation } from "@apollo/client";
-import { ADD_POST_REVIEW } from "../utils/queries";
+import { GET_ME } from "../utils/queries";
+import { ADD_POST_REVIEW } from "../utils/mutations";
+import { UserContext, UserProvider } from "../contexts/UserContext"
 
 import {
 	LinkIcon,
@@ -10,48 +13,112 @@ import {
 	QuestionMarkCircleIcon,
 } from "@heroicons/react/solid";
 
-const team = [
-	{
-		name: "Tom Cook",
-		email: "tom.cook@example.com",
-		href: "#",
-		imageUrl:
-			"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-	},
-	{
-		name: "Whitney Francis",
-		email: "whitney.francis@example.com",
-		href: "#",
-		imageUrl:
-			"https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-	},
-	{
-		name: "Leonard Krasner",
-		email: "leonard.krasner@example.com",
-		href: "#",
-		imageUrl:
-			"https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-	},
-	{
-		name: "Floyd Miles",
-		email: "floy.dmiles@example.com",
-		href: "#",
-		imageUrl:
-			"https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-	},
-	{
-		name: "Emily Selman",
-		email: "emily.selman@example.com",
-		href: "#",
-		imageUrl:
-			"https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-	},
-];
+
 
 
 export default function Example(props) {
+	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+	const location = useLocation();
+	console.log(location.pathname)
+	const productLink = location.pathname
+	let productId = productLink.replaceAll("/product/", "");
+	console.log(productId)
+
+	// set initial form state
+	const [userFormData, setUserFormData] = useState({ reviewInput: '' });
+
+	const [errorMessage, setErrorMessage] = useState("");
+
+	const { reviewInput } = userFormData;
+
+	console.log("USER FORM DATA IS!!!!!!!")
+	console.log(userFormData);
+	console.log("REVIEW INPUT IS!!!!!!!")
+	console.log(reviewInput);
+
+	const userArray = [];
+
+	const {
+		loading: userQueryLoad,
+		data: userQueryData,
+		error: userQueryError,
+	} = useQuery(GET_ME)
+
+	const currentUser = userQueryData
+	console.log(currentUser)
+
+	for (var key in currentUser) {
+		if (currentUser.hasOwnProperty(key)) {
+			console.log("DID THIS WORK?????????")
+			const currentUserId = currentUser[key]._id
+			console.log(currentUserId)
+
+			userArray.push(
+				// pushing the id into the array so it can be read without crashing
+				currentUserId
+			)
+		}
+	}
+	console.log(userArray[0])
+
+	console.log("ME QUERY CHECK ++++++++++++++++++++")
+	console.log(userQueryLoad, userQueryData, userQueryError)
+
+	const [addPostReview, { error }] = useMutation(ADD_POST_REVIEW);
+
+	const handleInputChange = (event) => {
+		const { name, value } = event.target;
+		setUserFormData({ ...userFormData, [name]: value });
+	};
+
+	// const { user } = useContext(UserContext)
+	// console.log(user.me._id)
+	// const currentUser = user.me._id
 
 
+
+	const handleFormSubmit = async (event) => {
+		event.preventDefault();
+		
+		if (!reviewInput || reviewInput === '') {
+			setErrorMessage("Please write a review")
+			console.log("button isnt working")
+		} else {
+			console.log("Form data SUBMIT check", userFormData)
+			console.log("WHAT IS PRODUCT ID" + productId)
+
+			try {
+
+				// Need to make this if statement to check if this is a review or not
+				addPostReview({
+					variables: {
+						postReviewData: {
+							postContent: reviewInput,
+							destinationId: productId,
+							review: true,
+							userData: userArray[0],
+						}
+					},
+				})
+				} catch (err) {
+					console.log(err);
+					setErrorMessage("Something went wrong with the post/review creation process");
+				}
+
+			setUserFormData({
+				reviewInput: '',
+			});
+			console.log("After submittion reset form data check", userFormData)
+
+			// Defining inputs to the query of the field ids for the form
+			const inputs = document.querySelectorAll('#reviewInput');
+
+			// Runs a for each method to clear the fields after hitting submit so that what was submitted doesnt stay in the form
+			inputs.forEach(input => {
+				input.value = '';
+			});
+		}
+	}
 
 
 	return (
@@ -77,10 +144,16 @@ export default function Example(props) {
 							<div className="pointer-events-auto w-screen max-w-md">
 								<form
 								noValidate
-
+								onSubmit={handleFormSubmit}
 								action="#"
 								method="POST"
-								className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
+								className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
+								>
+									{errorMessage && (
+									<div>
+										<p className="errorAlert">{errorMessage}</p>
+									</div>
+									)}
 									<div className="h-0 flex-1 overflow-y-auto">
 										<div className="bg-indigo-700 py-6 px-4 sm:px-6">
 											<div className="flex items-center justify-between">
@@ -110,21 +183,6 @@ export default function Example(props) {
 												<div className="space-y-6 pt-6 pb-5">
 													<div>
 														<label
-															htmlFor="your-name"
-															className="block text-sm font-medium text-gray-900"
-														>
-															Your Name
-														</label>
-														<div className="mt-1">
-															<input
-																type="text"
-																id="your-name"
-																className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-															/>
-														</div>
-													</div>
-													<div>
-														<label
 															htmlFor="description"
 															className="block text-sm font-medium text-gray-900"
 														>
@@ -133,11 +191,14 @@ export default function Example(props) {
 														</label>
 														<div className="mt-1">
 															<textarea
-																id="description"
-																name="description"
+																id="reviewInput"
+																name="reviewInput"
+																placeholder="Write your review"
 																rows={4}
+																value={reviewInput}
+																required
 																className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-																defaultValue={""}
+																onChange={handleInputChange}
 															/>
 														</div>
 													</div>
@@ -155,6 +216,9 @@ export default function Example(props) {
 											Cancel
 										</button>
 										<button
+											disabled={!(
+												userFormData.reviewInput
+											)}
 											type="submit"
 											className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 										>

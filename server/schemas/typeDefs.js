@@ -74,6 +74,7 @@ const typeDefs = gql`
 		postContent: String
 		review: Boolean!
         destinationId: ID
+        userData: ID!
 		createdAt: Date
 	}
 

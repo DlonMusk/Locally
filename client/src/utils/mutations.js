@@ -79,20 +79,13 @@ export const UPDATE_PRODUCT = gql`
 `;
 
 export const ADD_POST_REVIEW = gql`
-	mutation addPostReview(
-		$destinationId: ID!
-		$postReviewData: PostReviewInput!
-	) {
-		addPostReview(
-			destinationId: $destinationId
-			postReviewData: $postReviewData
-		) {
-			_id
-			username
-			email
-			createdAt
-		}
-	}
+mutation Mutation($postReviewData: PostReviewInput!) {
+  addPostReview(postReviewData: $postReviewData) {
+    _id
+    username
+    createdAt
+  }
+}
 `;
 
 export const REMOVE_POST_REVIEW = gql`
