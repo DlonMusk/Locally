@@ -95,7 +95,6 @@ export default function HomeList() {
 								</div>
 								<div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
 									<h3>{product[1]}</h3>
-									<Like productId={product[0]} />
 								</div>
 								<a
 									key={product[9]}
