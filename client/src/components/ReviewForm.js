@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_ME } from "../utils/queries";
 import { ADD_POST_REVIEW } from "../utils/mutations";
 import { QUERY_GET_USER_PRODUCT, QUERY_GET_USER_POSTS } from "../utils/queries";
-import { UserContext, UserProvider } from "../contexts/UserContext"
+import { UserContext, UserProvider } from "../contexts/UserContext";
 
 import {
 	LinkIcon,
@@ -14,33 +14,29 @@ import {
 	QuestionMarkCircleIcon,
 } from "@heroicons/react/solid";
 
-
-
-
-export default function Example(props) {
-	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+export default function ReviewForm(props) {
+	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	const location = useLocation();
-	console.log(location.pathname)
-	const productLink = location.pathname
+	console.log(location.pathname);
+	const productLink = location.pathname;
 	let productId = productLink.replaceAll("/product/", "");
-	console.log(productId)
+	console.log(productId);
 
-	console.log("%%%%%%%%%%%% IF STATEMENT CHECK %%%%%%%%%%%%%%")
-	
-	let reviewPostCheck = productLink.includes("/product/")
-	console.log(reviewPostCheck)
+	console.log("%%%%%%%%%%%% IF STATEMENT CHECK %%%%%%%%%%%%%%");
 
+	let reviewPostCheck = productLink.includes("/product/");
+	console.log(reviewPostCheck);
 
 	// set initial form state
-	const [userFormData, setUserFormData] = useState({ reviewInput: '' });
+	const [userFormData, setUserFormData] = useState({ reviewInput: "" });
 
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const { reviewInput } = userFormData;
 
-	console.log("USER FORM DATA IS!!!!!!!")
+	console.log("USER FORM DATA IS!!!!!!!");
 	console.log(userFormData);
-	console.log("REVIEW INPUT IS!!!!!!!")
+	console.log("REVIEW INPUT IS!!!!!!!");
 	console.log(reviewInput);
 
 	const userArray = [];
@@ -49,29 +45,30 @@ export default function Example(props) {
 		loading: userQueryLoad,
 		data: userQueryData,
 		error: userQueryError,
-	} = useQuery(GET_ME)
+	} = useQuery(GET_ME);
 
-	const currentUser = userQueryData
-	console.log(currentUser)
+	const currentUser = userQueryData;
+	console.log(currentUser);
 
 	for (var key in currentUser) {
 		if (currentUser.hasOwnProperty(key)) {
-			console.log("DID THIS WORK?????????")
-			const currentUserId = currentUser[key]._id
-			console.log(currentUserId)
+			console.log("DID THIS WORK?????????");
+			const currentUserId = currentUser[key]._id;
+			console.log(currentUserId);
 
 			userArray.push(
 				// pushing the id into the array so it can be read without crashing
 				currentUserId
-			)
+			);
 		}
 	}
-	console.log(userArray[0])
+	console.log(userArray[0]);
 
-	console.log("ME QUERY CHECK ++++++++++++++++++++")
-	console.log(userQueryLoad, userQueryData, userQueryError)
+	console.log("ME QUERY CHECK ++++++++++++++++++++");
+	console.log(userQueryLoad, userQueryData, userQueryError);
 
-	const [addPostReview, { error }] = useMutation(ADD_POST_REVIEW);
+	const [addPostReview, { data, loading, error }] =
+		useMutation(ADD_POST_REVIEW);
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -82,44 +79,44 @@ export default function Example(props) {
 	// console.log(user.me._id)
 	// const currentUser = user.me._id
 
-	console.log("**********MADE IT HERE")
+	console.log("**********MADE IT HERE");
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
-		console.log("**********MADE IT HERE111111111111")
-		
-		if (!reviewInput || reviewInput === '') {
-			setErrorMessage("Please write a review")
-			console.log("button isnt working")
+		console.log("**********MADE IT HERE111111111111");
+
+		if (!reviewInput || reviewInput === "") {
+			setErrorMessage("Please write a review");
+			console.log("button isnt working");
 		} else {
-			console.log("Form data SUBMIT check", userFormData)
-			console.log("WHAT IS PRODUCT ID" + productId)
+			console.log("Form data SUBMIT check", userFormData);
+			console.log("WHAT IS PRODUCT ID" + productId);
 
 			if (!reviewPostCheck) {
-
 				try {
-
 					addPostReview({
 						variables: {
 							postReviewData: {
 								postContent: reviewInput,
 								review: false,
 								userData: userArray[0],
-							}
+							},
 						},
-						refetchQueries: [ {
-							query: QUERY_GET_USER_POSTS,
-							variables: { id: userArray[0] }
-						 }],
-					})
+						refetchQueries: [
+							{
+								query: QUERY_GET_USER_POSTS,
+								variables: { id: userArray[0] },
+							},
+						],
+					});
 				} catch (err) {
 					console.log(err);
-					setErrorMessage("Something went wrong with the post/review creation process");
+					setErrorMessage(
+						"Something went wrong with the post/review creation process"
+					);
 				}
 			} else {
-
 				try {
-
 					addPostReview({
 						variables: {
 							postReviewData: {
@@ -127,35 +124,37 @@ export default function Example(props) {
 								destinationId: productId,
 								review: true,
 								userData: userArray[0],
-							}
+							},
 						},
-						refetchQueries: [ {
-							query: QUERY_GET_USER_PRODUCT,
-							variables: { id: productId }
-						 }],
-					})
+						refetchQueries: [
+							{
+								query: QUERY_GET_USER_PRODUCT,
+								variables: { id: productId },
+							},
+						],
+					});
 				} catch (err) {
 					console.log(err);
-					setErrorMessage("Something went wrong with the post/review creation process");
+					setErrorMessage(
+						"Something went wrong with the post/review creation process"
+					);
 				}
-				
 			}
 
 			setUserFormData({
-				reviewInput: '',
+				reviewInput: "",
 			});
-			console.log("After submittion reset form data check", userFormData)
+			console.log("After submittion reset form data check", userFormData);
 
 			// Defining inputs to the query of the field ids for the form
-			const inputs = document.querySelectorAll('#reviewInput');
+			const inputs = document.querySelectorAll("#reviewInput");
 
 			// Runs a for each method to clear the fields after hitting submit so that what was submitted doesnt stay in the form
-			inputs.forEach(input => {
-				input.value = '';
+			inputs.forEach((input) => {
+				input.value = "";
 			});
 		}
-	}
-
+	};
 
 	return (
 		<Transition.Root show={props.open} as={Fragment}>
@@ -179,16 +178,16 @@ export default function Example(props) {
 						>
 							<div className="pointer-events-auto w-screen max-w-md">
 								<form
-								noValidate
-								onSubmit={handleFormSubmit}
-								action="#"
-								method="POST"
-								className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
+									noValidate
+									onSubmit={handleFormSubmit}
+									action="#"
+									method="POST"
+									className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
 								>
 									{errorMessage && (
-									<div>
-										<p className="errorAlert">{errorMessage}</p>
-									</div>
+										<div>
+											<p className="errorAlert">{errorMessage}</p>
+										</div>
 									)}
 									<div className="h-0 flex-1 overflow-y-auto">
 										<div className="bg-indigo-700 py-6 px-4 sm:px-6">
@@ -252,9 +251,7 @@ export default function Example(props) {
 											Cancel
 										</button>
 										<button
-											disabled={!(
-												userFormData.reviewInput
-											)}
+											disabled={!userFormData.reviewInput}
 											type="submit"
 											className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 										>
