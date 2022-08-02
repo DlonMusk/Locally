@@ -108,7 +108,7 @@ const typeDefs = gql`
 		addPostReview(postReviewData: PostReviewInput!): User
 		removePostReview(postId: ID!): User
 		updatePostReview(postReviewData: PostReviewInput!): Post
-		addLike(componentId: ID!): Boolean
+		addLike(componentId: ID!): User
 	}
 `;
 

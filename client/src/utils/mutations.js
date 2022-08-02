@@ -36,16 +36,16 @@ export const ADD_STORE = gql`
 `;
 
 export const ADD_PRODUCT = gql`
-mutation addProduct($productData: ProductInput!) {
-  addProduct(productData: $productData) {
-    storeTitle
-    rating
-    address
-    email
-    phoneNumber
-    createdAt
-  }
-}
+	mutation addProduct($productData: ProductInput!) {
+		addProduct(productData: $productData) {
+			storeTitle
+			rating
+			address
+			email
+			phoneNumber
+			createdAt
+		}
+	}
 `;
 
 export const REMOVE_PRODUCT = gql`
@@ -78,13 +78,13 @@ export const UPDATE_PRODUCT = gql`
 `;
 
 export const ADD_POST_REVIEW = gql`
-mutation Mutation($postReviewData: PostReviewInput!) {
-  addPostReview(postReviewData: $postReviewData) {
-    _id
-    username
-    createdAt
-  }
-}
+	mutation Mutation($postReviewData: PostReviewInput!) {
+		addPostReview(postReviewData: $postReviewData) {
+			_id
+			username
+			createdAt
+		}
+	}
 `;
 
 export const REMOVE_POST_REVIEW = gql`
@@ -110,11 +110,10 @@ export const UPDATE_POST_REVIEW = gql`
 	}
 `;
 
-
 export const ADD_LIKE = gql`
 	mutation addLike($componentId: ID!){
 		addLike(componentId: $componentId){
 			_id
 		}
 	}
-`
+`;
