@@ -63,6 +63,7 @@ export default function HomeList() {
 
 				console.log("P R O D U C T    P U S H     C H E C K --------");
 				console.log(homeArray);
+                console.log(homeArray[key][6])
 
 				console.log("MADE IT THERE");
 			}
@@ -70,6 +71,7 @@ export default function HomeList() {
 		console.log("THIS IS REVIEW ARRAYS");
 		console.log(homeArray);
 	}
+    
 
 	return (
 		<div className="bg-white">
@@ -81,21 +83,25 @@ export default function HomeList() {
 				<div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:gap-x-8">
 					{homeArray.map((product) => (
 						<div>
-							<a
-								key={product[0]}
-								href={`/product/${product[0]}`}
-								className="group"
-							>
+
 								<div className="w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-w-2 sm:aspect-h-3 shadow-sm">
-									<img
+                                <a
+                                    key={product[0]}
+                                    href={`/product/${product[0]}`}
+                                    className="group"
+                                >
+                                    <img
 										src={product[3]}
 										alt={product[3]}
 										className="w-full h-full object-center object-cover group-hover:opacity-75"
 									/>
+                                </a>
 								</div>
 								<div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
 									<h3>{product[1]}</h3>
-									<Like productId={product[0]} />
+                                    <button>
+									<Like likes={product[6]} componentId={"product"+product[0]} />
+                                    </button>
 								</div>
 								<a
 									key={product[9]}
@@ -121,7 +127,7 @@ export default function HomeList() {
 										{tag}
 									</span>
 								))}
-							</a>
+							
 						</div>
 					))}
 				</div>

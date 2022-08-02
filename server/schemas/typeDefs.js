@@ -93,7 +93,7 @@ const typeDefs = gql`
         getUserProduct(_id: ID): Product
         getUserPosts(_id: ID): User
         getStores: [Store]
-        getProducts(searchName: String): [Product]
+        getProducts(_id: ID, searchName: String): [Product]
         getPosts: [Post]
     }
 

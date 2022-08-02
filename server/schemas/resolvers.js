@@ -151,10 +151,19 @@ const resolvers = {
             let products;
             console.log("IS GET PRODUCTS MAKING IT HERE?")
             console.log(!args)
+            console.log(args._id)
 
-            if (!args.searchName) {
+            if (!args.searchName && !args._id) {
                 console.log("NO ARGS IN HERE?")
                 products = await Product.find({})
+                .populate({
+                    path: 'storeInfo',
+                    model: 'Store',
+                })
+                .populate('tags')
+
+            } else if (args._id) {
+                products = await Product.find({ _id: args._id })
                 .populate({
                     path: 'storeInfo',
                     model: 'Store',
