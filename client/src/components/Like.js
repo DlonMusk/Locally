@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { ADD_LIKE } from "../utils/mutations";
 
-const Like = (props) => {
+const Like = ({likes, componentId}) => {
 	const [hovered, setHovered] = useState(false);
 
 	const [addLike, { loading, data }] = useMutation(ADD_LIKE)
@@ -15,9 +15,10 @@ const Like = (props) => {
 			onMouseLeave={() => setHovered(false)}
 			className={`text-red-${hovered ? "500" : "900"}  hover: opacity-40`}
 			onClick={() => addLike({
-				variables: props.componentId
+				variables: {componentId: componentId}
 			})}
 		>
+			{likes}
 			<FaHeart />
 		</span>
 	);
