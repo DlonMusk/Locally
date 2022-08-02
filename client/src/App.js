@@ -54,7 +54,6 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 });
 
-
 // ------------- PAGES ------------- //
 
 const Product = () => {
@@ -86,7 +85,6 @@ const Profile = () => {
 	return (
 		<>
 			<ProfileContainer />
-			<ProfileTabs />
 		</>
 	);
 };
@@ -113,21 +111,71 @@ const SignUp = () => {
 
 // ------------- !PAGES ------------- //
 
+const PageWrapper = ({ children }) => {
+	return (
+		<>
+			<UserProvider>
+				<Header />
+				{children}
+				<Footer />
+			</UserProvider>
+		</>
+	);
+};
+
 function App() {
 	return (
 		<ApolloProvider client={client}>
-			<UserProvider>
-				<Header />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="store" element={<Store />} />
-					<Route path="login" element={<Login />} />
-					<Route path="signup" element={<SignUp />} />
-					<Route path="profile/:profileId" element={<Profile />} />
-					<Route path="product/:productId" element={<Product />} />
-				</Routes>
-				<Footer />
-			</UserProvider>
+			<Routes>
+				<Route
+					path="/"
+					element={
+						<PageWrapper>
+							<Home />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="store"
+					element={
+						<PageWrapper>
+							<Store />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="login"
+					element={
+						<PageWrapper>
+							<Login />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="signup"
+					element={
+						<PageWrapper>
+							<SignUp />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="profile/:profileId"
+					element={
+						<PageWrapper>
+							<Profile />
+						</PageWrapper>
+					}
+				/>
+				<Route
+					path="product/:productId"
+					element={
+						<PageWrapper>
+							<Product />
+						</PageWrapper>
+					}
+				/>
+			</Routes>
 		</ApolloProvider>
 	);
 }
