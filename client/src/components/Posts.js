@@ -89,7 +89,7 @@ const Posts = (props) => {
 							className="py-4"
 							id={reviewItem[3].toString()}
 						>
-							{reviewItem[3] ? <h2>ITS A REVIEW</h2> : <h2>ITS A POST</h2>}
+							{reviewItem[3] ? <h2>Review</h2> : <h2>Post</h2>}
 							<div className="flex space-x-3">
 								<img
 									className="h-6 w-6 rounded-full"
