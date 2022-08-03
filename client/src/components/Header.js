@@ -5,23 +5,34 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useLocation } from "react-router-dom";
 import Auth from "../utils/auth";
 import { UserContext } from "../contexts/UserContext";
+import { SearchContext } from "../contexts/SearchContext";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
-export default function Header() {
+export default function Header(props) {
 	const location = useLocation();
 
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [showSearch, setShowSearch] = useState(true);
 
-	const { user, setSearchState, searchState } = useContext(UserContext);
+	const { user } = useContext(UserContext);
+
+	useEffect(() => {
+		if (location.pathname === "/") {
+			setShowSearch(true);
+		} else {
+			setShowSearch(false);
+		}
+	}, [location.pathname]);
 
 	const handleChange = (event) => {
-		const search = event.target.value
-		setSearchState(search)
-	}
-	
+		const search = event.target.value;
+		if (props.setSearch) {
+			props.setSearch(search);
+		}
+	};
 
 	useEffect(() => {
 		console.log("user", user);
@@ -55,7 +66,7 @@ export default function Header() {
 						<div className="flex justify-between h-16">
 							<div className="flex px-2 lg:px-0">
 								<div className="flex-shrink-0 flex items-center">
-									<h1 className="text-3xl font-bold">Locally{searchState}</h1>
+									<h1 className="text-3xl font-bold">Locally</h1>
 								</div>
 								<div className="hidden lg:ml-6 lg:flex lg:space-x-8">
 									{navigationItems.map(({ name, path }) => (
@@ -73,29 +84,31 @@ export default function Header() {
 									))}
 								</div>
 							</div>
-							<div className="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
-								<div className="max-w-lg w-full lg:max-w-xs">
-									<label htmlFor="search" className="sr-only">
-										Search
-									</label>
-									<div className="relative">
-										<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-											<SearchIcon
-												className="h-5 w-5 text-gray-400"
-												aria-hidden="true"
+							{showSearch && (
+								<div className="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
+									<div className="max-w-lg w-full lg:max-w-xs">
+										<label htmlFor="search" className="sr-only">
+											Search
+										</label>
+										<div className="relative">
+											<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+												<SearchIcon
+													className="h-5 w-5 text-gray-400"
+													aria-hidden="true"
+												/>
+											</div>
+											<input
+												id="search"
+												name="search"
+												className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+												placeholder="Search"
+												type="search"
+												onChange={handleChange}
 											/>
 										</div>
-										<input
-											id="search"
-											name="search"
-											className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-											placeholder="Search"
-											type="search"
-											onChange={handleChange}
-										/>
 									</div>
 								</div>
-							</div>
+							)}
 
 							{!isLoggedIn && (
 								<a

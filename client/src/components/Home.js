@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_PRODUCTS } from "../utils/queries";
 import Like from "./Like";
+import { UserContext } from "../contexts/UserContext";
 
-export default function HomeList() {
+export default function HomeList(props) {
+	console.log("search data is", props.searchData);
+
 	const { loading, data, error } = useQuery(QUERY_GET_PRODUCTS, {
-		variables: {searchName: "", tagState: "All"}
+		variables: { searchName: "", tagState: "All", searchData: "searchData" },
 	});
 
 	console.log("HOME DATA IS---------------------");
@@ -14,7 +17,8 @@ export default function HomeList() {
 	console.log("HOME ERROR IS--------------------");
 	console.log(error);
 
-	const homeData = data?.getProducts || { "Didnt Get": "The Data" };
+	const homeData = props.searchData ||
+		data?.getProducts || { "Didnt Get": "The Data" };
 	console.log(homeData);
 	console.log(typeof homeData);
 	// const productObject = storeData.products
@@ -33,7 +37,7 @@ export default function HomeList() {
 
 				const homeDataStoreInfo = homeData[key].storeInfo;
 				console.log("THIS IS THE NESTED THING CHECK");
-				console.log(homeDataStoreInfo._id);
+				console.log(homeDataStoreInfo?._id);
 				console.log(typeof homeDataStoreInfo);
 
 				homeArray.push([

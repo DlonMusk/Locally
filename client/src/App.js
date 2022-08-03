@@ -1,17 +1,18 @@
 import "./App.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
+	useLazyQuery,
 	ApolloClient,
 	InMemoryCache,
 	ApolloProvider,
 	createHttpLink,
+	useQuery,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { Routes, Route, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomeList from "./components/Home";
-
 import ProductList from "./components/ProductList";
 import LoginForm from "./components/Auth/LoginForm";
 import SignupForm from "./components/Auth/SignupForm";
@@ -23,6 +24,8 @@ import Signup from "./components/Auth/SignupForm";
 import ProfileTabs from "./components/ProfileTabs";
 import ProductListing from "./components/ProductListing";
 import { UserProvider } from "./contexts/UserContext";
+import { SearchProvider } from "./contexts/SearchContext";
+import { QUERY_GET_PRODUCTS } from "./utils/queries";
 
 // Constructing an http link, assigning uri to the URL of the GraphQL endpoint to send requests to
 const httpLink = createHttpLink({
@@ -59,16 +62,37 @@ const client = new ApolloClient({
 const Product = () => {
 	return (
 		<>
+			<Header />
 			<ProductListing />
 		</>
 	);
 };
 
 const Home = () => {
+	const [search, setSearch] = useState("");
+	const [tag, setTag] = useState("All");
+
+	const {
+		loading: searchLoad,
+		error: searchError,
+		data: searchData,
+	} = useQuery(QUERY_GET_PRODUCTS, {
+		variables: {
+			searchName: search,
+			tagState: tag,
+			searchData: "searchData",
+		},
+	});
+
 	return (
 		<>
-			<SearchTabs />
-			<HomeList />
+			<Header search={search} setSearch={setSearch} />
+			<SearchTabs
+				search={search}
+				setTag={setTag}
+				tag={tag}
+				searchData={searchData?.getProducts}
+			/>
 		</>
 	);
 };
@@ -76,6 +100,7 @@ const Home = () => {
 const Store = () => {
 	return (
 		<>
+			<Header />
 			<ProductList />
 		</>
 	);
@@ -84,7 +109,7 @@ const Store = () => {
 const Profile = () => {
 	return (
 		<>
-			<SearchTabs />
+			<Header />
 			<ProfileContainer />
 		</>
 	);
@@ -94,6 +119,7 @@ const Login = () => {
 	return (
 		<>
 			<AuthLayout>
+				<Header />
 				<LoginForm />
 			</AuthLayout>
 		</>
@@ -104,6 +130,7 @@ const SignUp = () => {
 	return (
 		<>
 			<AuthLayout>
+				<Header />
 				<SignupForm />
 			</AuthLayout>
 		</>
@@ -116,7 +143,6 @@ const PageWrapper = ({ children }) => {
 	return (
 		<>
 			<UserProvider>
-				<Header />
 				{children}
 				<Footer />
 			</UserProvider>
