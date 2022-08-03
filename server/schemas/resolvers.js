@@ -152,6 +152,7 @@ const resolvers = {
             console.log("SEARCH NAME " + searchName)
             console.log("RESOLVER SEARCH TAG " + tagState)
 
+
             const searchRegex = new RegExp(searchName, 'gi');
 
             console.log("NO ARGS IN HERE?")
@@ -163,14 +164,18 @@ const resolvers = {
                 .populate('tags')
 
 
-            if (!products) throw new AuthenticationError("Something is wrong");
+            if (!products) throw new AuthenticationError("No products in the database");
 
             products = products.filter(product => product.productTitle.match(searchRegex));
 
-            // if(tagState !== 'All'){
-            //     products = products.filter(product => product.tag === tagState)
-            // }
+            console.log(tagState)
 
+
+            if(tagState === 'All'){
+               return products
+            }
+
+            products = products.filter(product => product.tags.includes(tagState))
             return products
         },
 
