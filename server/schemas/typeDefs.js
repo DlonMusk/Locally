@@ -30,7 +30,7 @@ const typeDefs = gql`
 
 	input StoreInput {
 		storeTitle: String!
-		storeEmail: String!
+		email: String!
 		address: String!
 		phoneNumber: String
 		tags: [String]

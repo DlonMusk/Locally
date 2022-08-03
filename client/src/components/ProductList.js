@@ -93,7 +93,7 @@ export default function ProductList(props) {
 								<h3>{product[1]}</h3>
 								<span>
                                     <FaHeart />
-                                    {product[6]}
+                                    {product[5]}
                                 </span>
 							</div>
 							<p className="mt-1 text-sm italic text-gray-500 items-center justify-between ">

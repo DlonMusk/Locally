@@ -12,7 +12,7 @@ export default function FormStore(props) {
 
 	const [store, setStore] = useState({
 		storeTitle: "",
-		storeEmail: "",
+		email: "",
 		address: "",
 		phoneNumber: "",
 	});
@@ -35,7 +35,7 @@ export default function FormStore(props) {
 				variables: {
 					storeData: {
 						storeTitle: store.storeTitle,
-						storeEmail: store.storeEmail,
+						email: store.email,
 						address: store.address,
 						phoneNumber: store.phoneNumber,
 					},
@@ -106,9 +106,9 @@ export default function FormStore(props) {
 								<div className="mt-1 sm:mt-0 sm:col-span-2">
 									<input
 										onChange={(e) =>
-											setStore({ ...store, storeEmail: e.target.value })
+											setStore({ ...store, email: e.target.value })
 										}
-										value={store.storeEmail}
+										value={store.email}
 										id="email"
 										name="email"
 										type="text"
