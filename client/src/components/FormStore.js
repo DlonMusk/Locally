@@ -1,8 +1,13 @@
 import { ADD_STORE } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
-import { useState, useEffect } from "react";
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { QUERY_GET_USER_STORE_PROFILE, QUERY_GET_USER } from "../utils/queries";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 export default function FormStore(props) {
+	const { user } = useContext(UserContext);
+
 	const [addStore, { data, loading, error }] = useMutation(ADD_STORE);
 
 	const [store, setStore] = useState({
@@ -25,16 +30,28 @@ export default function FormStore(props) {
 	}, [store]);
 
 	const handleSubmit = () => {
-		addStore({
-			variables: {
-				storeData: {
-					storeTitle: store.storeTitle,
-					storeEmail: store.storeEmail,
-					address: store.address,
-					phoneNumber: store.phoneNumber,
+		try {
+			addStore({
+				variables: {
+					storeData: {
+						storeTitle: store.storeTitle,
+						storeEmail: store.storeEmail,
+						address: store.address,
+						phoneNumber: store.phoneNumber,
+					},
 				},
-			},
-		});
+				refetchQueries: [
+					{
+						query: QUERY_GET_USER,
+						variables: { id: user.me._id}
+					},
+				]
+			});
+			props.onCancel();
+		}
+		catch (err) {
+			console.log(err)
+		}
 	};
 
 	return (

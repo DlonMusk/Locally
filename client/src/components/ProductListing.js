@@ -129,7 +129,7 @@ export default function ProductListing() {
 	}
 
 	const { loading: loadingUser, data: dataUser, error: errorUser } = useQuery(QUERY_GET_USER_BY_STORE, {
-		variables: { id: "62e5b6e4820df4975ed9ce2f" },
+		variables: { id: storeInfoArray[1] },
 	});
 
 	const userData = dataUser?.getUserByStore || { "Didnt Get": "The Data" };
