@@ -95,6 +95,7 @@ const typeDefs = gql`
         getStores: [Store]
         getProducts(_id: ID, searchName: String): [Product]
         getPosts: [Post]
+        getUserByStore(_id: ID!): User
     }
 
 

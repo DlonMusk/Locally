@@ -87,7 +87,11 @@ const resolvers = {
                             model: 'User'
                         }
                     }
-                );
+                )
+                .populate({
+                    path: 'storeInfo',
+                    model: 'Store'
+                })
             } else {
                 product = await Product.findOne({ _id: context._id })
                 .populate({
@@ -97,7 +101,11 @@ const resolvers = {
                             model: 'User'
                         }
                     }
-                );
+                )
+                .populate({
+                    path: 'storeInfo',
+                    model: 'Store'
+                })
             }
 
             if (!product) throw new AuthenticationError("Something went wrong!");
@@ -193,6 +201,15 @@ const resolvers = {
 
             return posts;
         },
+
+        getUserByStore: async (parent, args) => {
+            const user = await User.findOne({ store: args._id});
+            console.log(args._id)
+
+            if (!user) throw new AuthenticationError("Something went wrong");
+
+            return user;
+        }
     },
 
     Mutation: {

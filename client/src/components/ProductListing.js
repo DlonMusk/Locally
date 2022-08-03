@@ -3,7 +3,7 @@ import { Tab } from "@headlessui/react";
 import { HeartIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_USER_PRODUCT } from "../utils/queries";
+import { QUERY_GET_USER_PRODUCT, QUERY_GET_USER_BY_STORE } from "../utils/queries";
 import ReviewForm from "./ReviewForm";
 import Like from "./Like";
 
@@ -50,6 +50,10 @@ export default function ProductListing() {
 	console.log("PRODUCT INFORMATION GRAB CHECK---------------");
 	console.log(productData);
 	console.log(productData.reviews);
+	console.log(productData.storeInfo)
+	const productStoreInfo = productData.storeInfo
+
+	
 
 	const productNestedReviews = productData.reviews;
 	const productTags = productData.tags;
@@ -59,6 +63,8 @@ export default function ProductListing() {
 
 	let reviewProductArray = [];
 	let tagArray = [];
+	let storeInfoArray = [];
+
 
 	for (var key in productNestedReviews) {
 		if (productNestedReviews.hasOwnProperty(key)) {
@@ -109,9 +115,35 @@ export default function ProductListing() {
 		}
 	}
 
+	for (var info in productStoreInfo) {
+		if (productStoreInfo.hasOwnProperty(info)) {
+			//const nestedStoreInfo = productStoreInfo[key];
+
+			storeInfoArray.push(
+				productStoreInfo[info]
+				// storeInfoArray INDEX 0 model type (returns Store)
+				// storeInfoArray INDEX 1 store id
+				// storeInfoArray INDEX 2 store title
+			)
+		}
+	}
+
+	const { loading: loadingUser, data: dataUser, error: errorUser } = useQuery(QUERY_GET_USER_BY_STORE, {
+		variables: { id: "62e5b6e4820df4975ed9ce2f" },
+	});
+
+	const userData = dataUser?.getUserByStore || { "Didnt Get": "The Data" };
+
+	console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+	console.log(userData._id)
+	const storeOwner = userData._id
+
 	console.log(tagArray);
 	console.log("THIS IS REVIEW ARRAYS");
 	console.log(reviewProductArray);
+	console.log("THIS IS STORE INFO ARRAY");
+	console.log(storeInfoArray);
+	
 
 	return (
 		<div className="bg-white">
@@ -147,6 +179,11 @@ export default function ProductListing() {
 						<h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
 							{productData.productTitle}
 						</h1>
+						<button className="font-extrabold tracking-tight text-gray-500 mt-3">
+							<a href={`/profile/${storeOwner}`}>
+							{storeInfoArray[2]}
+							</a>
+						</button>
 
 						<div className="mt-3">
 							<h2 className="sr-only">Product information</h2>
