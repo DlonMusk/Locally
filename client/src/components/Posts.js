@@ -102,7 +102,7 @@ const Posts = (props) => {
 										<p className="text-sm font-medium text-gray-700">
 											{reviewItem[7]}
 										</p>
-										<p className="text-sm text-gray-500">{reviewItem[4].toString().subString(0, 9)}</p>
+										<p className="text-sm text-gray-500">{reviewItem[4]}</p>
 									</div>
 									<p className="text-sm text-gray-500">{reviewItem[1]}</p>
 								</div>
