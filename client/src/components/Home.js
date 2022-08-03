@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_PRODUCTS } from "../utils/queries";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Like from "./Like";
 import { UserContext } from "../contexts/UserContext";
 
@@ -77,7 +78,11 @@ export default function HomeList(props) {
 		console.log("THIS IS REVIEW ARRAYS");
 		console.log(homeArray);
 	}
-    
+
+    let timelineArray = homeArray.slice(0).reverse().map(function(homeArray) {
+        return homeArray;
+    });
+    console.log(timelineArray)
 
 	return (
 		<div className="bg-white">
@@ -87,7 +92,7 @@ export default function HomeList(props) {
 				</h2>
 
 				<div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:gap-x-8">
-					{homeArray.map((product) => (
+					{timelineArray.map((product) => (
 						<div>
 
 								<div className="w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-w-2 sm:aspect-h-3 shadow-sm">
@@ -105,17 +110,12 @@ export default function HomeList(props) {
 								</div>
 								<div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
 									<h3>{product[1]}</h3>
-                                    <button>
-									<Like likes={product[6]} componentId={"product"+product[0]} />
-                                    </button>
+                                    <span>
+                                    <FaHeart />
+                                    {product[6]}
+                                    </span>
 								</div>
-								<a
-									key={product[9]}
-									href={`/store/${product[9]}`}
-									className="group"
-								>
 									<div className="text-gray-500 italic">{product[10]}</div>
-								</a>
 								<p className="mt-1 text-sm italic text-gray-500 items-center justify-between ">
 									{product[2]}
 
