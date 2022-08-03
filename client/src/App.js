@@ -119,7 +119,6 @@ const Login = () => {
 	return (
 		<>
 			<AuthLayout>
-				<Header />
 				<LoginForm />
 			</AuthLayout>
 		</>
@@ -174,6 +173,7 @@ function App() {
 					path="login"
 					element={
 						<PageWrapper>
+							<Header />
 							<Login />
 						</PageWrapper>
 					}
