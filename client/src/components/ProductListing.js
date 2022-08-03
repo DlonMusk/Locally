@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 import { Tab } from "@headlessui/react";
 import { HeartIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
@@ -129,14 +130,30 @@ export default function ProductListing() {
 	}
 
 	const { loading: loadingUser, data: dataUser, error: errorUser } = useQuery(QUERY_GET_USER_BY_STORE, {
-		variables: { id: "62e5b6e4820df4975ed9ce2f" },
+		variables: { id: storeInfoArray[1] },
 	});
 
 	const userData = dataUser?.getUserByStore || { "Didnt Get": "The Data" };
 
-	console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+	
+
+	
 	console.log(userData._id)
 	const storeOwner = userData._id
+
+
+	const { user } = useContext(UserContext);
+
+
+
+
+	console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+	
+
+	console.log(user?.me._id);
+	console.log(storeOwner)
+
+	console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
 
 	console.log(tagArray);
 	console.log("THIS IS REVIEW ARRAYS");
@@ -232,12 +249,12 @@ export default function ProductListing() {
 
 						<form className="mt-6">
 							<div className="mt-10 flex sm:flex-col1">
-								<button
+								{/* <button
 									type="submit"
 									className="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full"
 								>
 									Add to bag
-								</button>
+								</button> */}
 
 								<button
 									type="button"
@@ -249,13 +266,15 @@ export default function ProductListing() {
 								</button>
 							</div>
 						</form>
-						<button
-							type="button"
-							onClick={() => setShowReviewForm(!showReviewForm)}
-							className=" mt-6 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-						>
-							Write Review
-						</button>
+						{user?.me._id === storeOwner ?
+						'' : <button
+						type="button"
+						onClick={() => setShowReviewForm(!showReviewForm)}
+						className=" mt-6 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+					>
+						Write Review
+					</button>}
+						
 						<ReviewForm
 							open={showReviewForm}
 							setOpen={(open) => setShowReviewForm(open)}
