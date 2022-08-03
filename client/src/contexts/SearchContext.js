@@ -2,16 +2,13 @@ import React, { createContext, useState, useEffect } from "react";
 import { GET_ME, QUERY_GET_PRODUCTS } from "../utils/queries";
 import { useQuery } from "@apollo/client";
 
-const UserContext = createContext();
+const SearchContext = createContext({});
 
-const UserProvider = ({ children }) => {
+const SearchProvider = ({ children }) => {
 	const [searchState, setSearchState] = useState("");
+	console.log("searchData", searchState);
 
 	const [tagState, setTagState] = useState("All");
-
-	console.log("PROVIDER TAG STATE " + tagState);
-
-	const { loading, error, data } = useQuery(GET_ME);
 
 	const {
 		loading: searchLoad,
@@ -21,28 +18,21 @@ const UserProvider = ({ children }) => {
 		variables: { searchName: searchState, tagState: tagState },
 	});
 
-	console.log("SEARCH STATE" + searchState);
-	console.log("SEARCH DATA");
-	console.log(searchData);
-
 	return (
 		<>
-			<UserContext.Provider
+			<SearchContext.Provider
 				value={{
 					searchData,
 					tagState,
 					setTagState,
 					searchState,
 					setSearchState,
-					user: data,
-					loading,
-					error,
 				}}
 			>
 				{children}
-			</UserContext.Provider>
+			</SearchContext.Provider>
 		</>
 	);
 };
 
-export { UserContext, UserProvider };
+export { SearchContext, SearchProvider };
