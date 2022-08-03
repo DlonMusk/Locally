@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_STORE } from "../utils/queries";
+import { UserContext } from '../contexts/UserContext'
 import Like from "./Like";
 
 export default function ProductList(props) {
@@ -13,6 +14,10 @@ export default function ProductList(props) {
 	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
 		variables: { id: testingID },
 	});
+
+	const { searchData } = useContext(UserContext);
+
+	
 
 	console.log("ENTIRE STORE DATA IS---------------------");
 	console.log(data);
