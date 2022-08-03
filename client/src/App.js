@@ -129,7 +129,6 @@ const SignUp = () => {
 	return (
 		<>
 			<AuthLayout>
-				<Header />
 				<SignupForm />
 			</AuthLayout>
 		</>
