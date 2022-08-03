@@ -87,7 +87,12 @@ const resolvers = {
                             model: 'User'
                         }
                     }
-                    );
+                )
+                .populate({
+                    path: 'storeInfo',
+                    model: 'Store'
+                })
+
             } else {
                 product = await Product.findOne({ _id: context._id })
                     .populate({
@@ -97,7 +102,12 @@ const resolvers = {
                             model: 'User'
                         }
                     }
-                    );
+                )
+                .populate({
+                    path: 'storeInfo',
+                    model: 'Store'
+                })
+
             }
 
             if (!product) throw new AuthenticationError("Something went wrong!");
@@ -186,6 +196,15 @@ const resolvers = {
 
             return posts;
         },
+
+        getUserByStore: async (parent, args) => {
+            const user = await User.findOne({ store: args._id});
+            console.log(args._id)
+
+            if (!user) throw new AuthenticationError("Something went wrong");
+
+            return user;
+        }
     },
 
     Mutation: {
@@ -405,23 +424,30 @@ const resolvers = {
         addLike: async (parent, { componentId }, context) => {
 
             const updatedProduct = Product.findOne({ _id: componentId });
+            console.log(componentId)
+
             const updatedPost = Post.findOne({ _id: componentId });
+            console.log(componentId)
+
 
             if (!updatedProduct && !updatedPost) throw new AuthenticationError("Could not add like!");
 
             if (updatedProduct) {
-                const prod = await Product.findOneAndUpdate(
+                await Product.findOneAndUpdate(
                     { _id: componentId },
                     { $inc: { likes: 1 } },
                     { new: true }
                 );
+                console.log("UPDATING PRODUCT!!!")
+                
+            }   if (updatedPost) {
 
-            } else if (updatedPost) {
                 await Post.findOneAndUpdate(
                     { _id: componentId },
                     { $inc: { likes: 1 } },
                     { new: true }
                 )
+                console.log("UPDATING POST???")
             }
 
             return await User.findOne({ _id: context.user._id });

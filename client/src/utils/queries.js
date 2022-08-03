@@ -88,6 +88,10 @@ export const QUERY_GET_USER_PRODUCT = gql`
 				}
 				createdAt
 			}
+      storeInfo {
+        _id
+        storeTitle
+      }
 			createdAt
 		}
 	}
@@ -164,3 +168,11 @@ query GetProducts($searchName: String, $tagState: String) {
 }
 `
 
+export const QUERY_GET_USER_BY_STORE = gql`
+query Query($id: ID!) {
+  getUserByStore(_id: $id) {
+    _id
+    username
+  }
+}
+`
