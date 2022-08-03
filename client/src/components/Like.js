@@ -5,7 +5,8 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { ADD_LIKE } from "../utils/mutations";
 import { QUERY_GET_USER_PRODUCT, QUERY_GET_PRODUCTS } from "../utils/queries";
 
-const Like = ({likes, componentId}) => {
+
+const Like = ({ likes, componentId }) => {
 	const [hovered, setHovered] = useState(false);
 
 	const [addLike, { loading, data }] = useMutation(ADD_LIKE)
@@ -45,6 +46,7 @@ const Like = ({likes, componentId}) => {
 
 
 
+
 	return (
 		<span
 			onMouseEnter={() => setHovered(true)}
@@ -62,6 +64,7 @@ const Like = ({likes, componentId}) => {
 				console.log(err)
 			}
 		}}
+
 		>
 			{likes}
 			<FaHeart />

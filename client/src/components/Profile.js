@@ -107,7 +107,7 @@ export default function ProfileContainer() {
 	let storeItems = storeData.products;
 	// console.log(storeItems);
 
-    let storeEmailHref = "mailto:"+storeData.email
+	let storeEmailHref = "mailto:" + storeData.email;
 
 	const storeCheck = () => {
 		if (storeItems !== undefined) {
@@ -179,7 +179,7 @@ export default function ProfileContainer() {
 										aria-hidden="true"
 									/>
 
-									<span>Email: {storeData.email}</span>
+									<a href={`mailto:${storeData.email}`}>Email: {storeData.email}</a>
 								</button>
 								<button
 									type="button"
@@ -236,6 +236,7 @@ export default function ProfileContainer() {
 				setShowStoreForm={setShowStoreForm}
 				setShowModal={setShowModal}
 				storeId={storeId}
+				profileId={profileId}
 			/>
 		</>
 	);

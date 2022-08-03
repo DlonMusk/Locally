@@ -6,44 +6,44 @@ import { QUERY_GET_USER_POSTS } from "../utils/queries";
 import ReviewForm from "./ReviewForm";
 import Like from "./Like";
 
-
-const Posts = () => {
-
+const Posts = (props) => {
 	const [showReviewForm, setShowReviewForm] = useState(false);
 
 	// user id
-	const testingID = "62e595024f09121c389aef19";
+	const testingID = props.profileId || "62e595024f09121c389aef19";
+	console.log("PROFILE ID IS " + props.profileId);
 
-	const { loading, data, error } = useQuery(QUERY_GET_USER_POSTS, { variables: { id: testingID }, });
+	const { loading, data, error } = useQuery(QUERY_GET_USER_POSTS, {
+		variables: { id: testingID },
+	});
 
 	console.log("PPPPPPPPPPPOST DATA IS---------------------");
-	console.log(data)
+	console.log(data);
 	console.log("PPPPPPPPPPPOST LOADING IS " + loading);
-	console.log("PPPPPPPPPPPOST ERROR IS--------------------")
-	console.log(error)
+	console.log("PPPPPPPPPPPOST ERROR IS--------------------");
+	console.log(error);
 
 	const postData = data?.getUserPosts || { "Didnt Get": "The Data" };
 	console.log(postData);
 
-	const postDataReviews = postData.reviews
-	console.log("NESTED REVIEWS4444444444444444444")
-	console.log(postDataReviews)
-	console.log(typeof postDataReviews)
-
+	const postDataReviews = postData.reviews;
+	console.log("NESTED REVIEWS4444444444444444444");
+	console.log(postDataReviews);
+	console.log(typeof postDataReviews);
 
 	let postArray = [];
 
 	for (var key in postDataReviews) {
 		if (postDataReviews.hasOwnProperty(key)) {
-			console.log("Made it here")
-			console.log(key)
-			console.log(postDataReviews[key])
-			const postDataProduct = postDataReviews[key].destinationId
-			console.log("THIS IS THE NESTED THING CHECK")
-			console.log(postDataProduct)
+			console.log("Made it here");
+			console.log(key);
+			console.log(postDataReviews[key]);
+			const postDataProduct = postDataReviews[key].destinationId;
+			console.log("THIS IS THE NESTED THING CHECK");
+			console.log(postDataProduct);
 
-			console.log("keyyyyyyyyyyyyyyyyyyyyyyyyy")
-			console.log(key)
+			console.log("keyyyyyyyyyyyyyyyyyyyyyyyyy");
+			console.log(key);
 
 			postArray.push([
 				// INDEX 0 review id
@@ -58,9 +58,7 @@ const Posts = () => {
 				postDataReviews[key].createdAt,
 				// INDEX 5 username of the user making the reviews
 				postData.username,
-
-
-			])
+			]);
 
 			if (postDataProduct !== null) {
 				postArray[key].push(
@@ -69,36 +67,29 @@ const Posts = () => {
 					// INDEX 7 product title the review is about
 					postDataProduct.productTitle,
 					// INDEX 8 product image the review is about
-					postDataProduct.productImage,
-				)
+					postDataProduct.productImage
+				);
 
-
-
-				console.log("P R O D U C T    P U S H     C H E C K --------")
-				console.log(postArray)
+				console.log("P R O D U C T    P U S H     C H E C K --------");
+				console.log(postArray);
 			}
-			console.log("MADE IT THERE")
+			console.log("MADE IT THERE");
 		}
 	}
-	console.log("THIS IS REVIEW ARRAYS")
-	console.log(postArray)
+	console.log("THIS IS REVIEW ARRAYS");
+	console.log(postArray);
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div className="max-w-3xl mx-auto">
 				<ul role="list" className="divide-y divide-gray-200">
 					{postArray.map((reviewItem) => (
-						<li key={reviewItem[0]} className="py-4" id={reviewItem[3].toString()}>
-
-							{reviewItem[3] ? (
-								<h2>
-									ITS A REVIEW
-								</h2>
-							) : (
-								<h2>
-									ITS A POST
-								</h2>
-							)}
+						<li
+							key={reviewItem[0]}
+							className="py-4"
+							id={reviewItem[3].toString()}
+						>
+							{reviewItem[3] ? <h2>ITS A REVIEW</h2> : <h2>ITS A POST</h2>}
 							<div className="flex space-x-3">
 								<img
 									className="h-6 w-6 rounded-full"
@@ -107,19 +98,13 @@ const Posts = () => {
 								/>
 								<div className="flex-1 space-y-1">
 									<div className="flex items-center justify-between">
-										<h3 className="text-sm font-semibold">
-											{reviewItem[5]}
-										</h3>
+										<h3 className="text-sm font-semibold">{reviewItem[5]}</h3>
 										<p className="text-sm font-medium text-gray-700">
 											{reviewItem[7]}
 										</p>
-										<p className="text-sm text-gray-500">
-											{reviewItem[4]}
-										</p>
+										<p className="text-sm text-gray-500">{reviewItem[4]}</p>
 									</div>
-									<p className="text-sm text-gray-500">
-										{reviewItem[1]}
-									</p>
+									<p className="text-sm text-gray-500">{reviewItem[1]}</p>
 								</div>
 							</div>
 						</li>
@@ -139,6 +124,6 @@ const Posts = () => {
 			</div>
 		</div>
 	);
-}
+};
 
 export default Posts;

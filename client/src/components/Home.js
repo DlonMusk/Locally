@@ -4,7 +4,9 @@ import { QUERY_GET_PRODUCTS } from "../utils/queries";
 import Like from "./Like";
 
 export default function HomeList() {
-	const { loading, data, error } = useQuery(QUERY_GET_PRODUCTS);
+	const { loading, data, error } = useQuery(QUERY_GET_PRODUCTS, {
+		variables: {searchName: "", tagState: "All"}
+	});
 
 	console.log("HOME DATA IS---------------------");
 	console.log(data);

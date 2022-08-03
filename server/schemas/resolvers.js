@@ -80,8 +80,8 @@ const resolvers = {
             if (args._id) {
 
                 product = await Product.findOne({ _id: args._id })
-                .populate({
-                    path: 'reviews',
+                    .populate({
+                        path: 'reviews',
                         populate: {
                             path: 'userData',
                             model: 'User'
@@ -92,10 +92,11 @@ const resolvers = {
                     path: 'storeInfo',
                     model: 'Store'
                 })
+
             } else {
                 product = await Product.findOne({ _id: context._id })
-                .populate({
-                    path: 'reviews',
+                    .populate({
+                        path: 'reviews',
                         populate: {
                             path: 'userData',
                             model: 'User'
@@ -106,6 +107,7 @@ const resolvers = {
                     path: 'storeInfo',
                     model: 'Store'
                 })
+
             }
 
             if (!product) throw new AuthenticationError("Something went wrong!");
@@ -120,7 +122,7 @@ const resolvers = {
                 console.log("CHECKING USERPOSTS---------")
                 console.log(args._id)
                 user = await User.findOne({ _id: args._id })
-                .populate({
+                    .populate({
                         path: 'reviews',
                         model: 'Post',
                         populate: {
@@ -128,18 +130,18 @@ const resolvers = {
                             model: 'Product'
                         }
                     },
-                )
+                    )
             } else {
                 user = await User.findOne({ _id: context._id })
-                .populate({
-                    path: 'reviews',
-                    model: 'Post',
-                    populate: {
-                        path: 'destinationId',
-                        model: 'Product'
-                    }
-                },
-            )
+                    .populate({
+                        path: 'reviews',
+                        model: 'Post',
+                        populate: {
+                            path: 'destinationId',
+                            model: 'Product'
+                        }
+                    },
+                    )
             }
 
             if (!user) throw new AuthenticationError("Something went wrong!");
@@ -155,43 +157,36 @@ const resolvers = {
             return stores;
         },
 
-        getProducts: async (parent, args) => {
-            let products;
+        getProducts: async (parent, { searchName, tagState }) => {
             console.log("IS GET PRODUCTS MAKING IT HERE?")
-            console.log(!args)
-            console.log(args._id)
+            console.log("SEARCH NAME " + searchName)
+            console.log("RESOLVER SEARCH TAG " + tagState)
 
-            if (!args.searchName && !args._id) {
-                console.log("NO ARGS IN HERE?")
-                products = await Product.find({})
+
+            const searchRegex = new RegExp(searchName, 'gi');
+
+            console.log("NO ARGS IN HERE?")
+            let products = await Product.find({})
                 .populate({
                     path: 'storeInfo',
                     model: 'Store',
                 })
                 .populate('tags')
 
-            } else if (args._id) {
-                products = await Product.find({ _id: args._id })
-                .populate({
-                    path: 'storeInfo',
-                    model: 'Store',
-                })
-                .populate('tags')
 
-            } else {
-                console.log("IS IT IN HERE?")
-                products = await Product.find({ productTitle: args.searchName })
-                .populate({
-                    path: 'storeInfo',
-                    model: 'Store',
-                })
-                .populate('tags')
+            if (!products) throw new AuthenticationError("No products in the database");
+
+            products = products.filter(product => product.productTitle.match(searchRegex));
+
+            console.log(tagState)
+
+
+            if(tagState === 'All'){
+               return products
             }
 
-
-            if (!products) throw new AuthenticationError("Something is wrong");
-
-            return products;
+            products = products.filter(product => product.tags.includes(tagState))
+            return products
         },
 
         getPosts: async (parent, args) => {
@@ -263,7 +258,7 @@ const resolvers = {
 
             await user.update({ store: store._id }, { new: true });
 
-            
+
 
             return user;
         },
@@ -325,14 +320,14 @@ const resolvers = {
         //if a user removes a post from there posts it will remove it from the appropriate store
         addPostReview: async (parent, { postReviewData }, context) => {
             // takes in review input and a store or product ID
-            console.log({postReviewData})
+            console.log({ postReviewData })
             console.log(postReviewData.destinationId)
             // get the user making the post
             const user = await User.findOne({ _id: context.user._id });
 
             if (!user) throw new AuthenticationError("You must be logged in");
 
-            if(!postReviewData.review){
+            if (!postReviewData.review) {
                 const post = await Post.create(postReviewData);
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
@@ -351,7 +346,7 @@ const resolvers = {
             // create the post
             const post = await Post.create(postReviewData);
             // add the post to the store or product
-             if (product) {
+            if (product) {
                 await Product.findOneAndUpdate(
                     { _id: product._id },
                     { $addToSet: { reviews: post._id } },
@@ -446,6 +441,7 @@ const resolvers = {
                 console.log("UPDATING PRODUCT!!!")
                 
             }   if (updatedPost) {
+
                 await Post.findOneAndUpdate(
                     { _id: componentId },
                     { $inc: { likes: 1 } },
@@ -454,7 +450,7 @@ const resolvers = {
                 console.log("UPDATING POST???")
             }
 
-            return await User.findOne({_id: context.user._id});
+            return await User.findOne({ _id: context.user._id });
         }
     },
 };
