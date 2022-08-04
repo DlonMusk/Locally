@@ -60,7 +60,6 @@ export default function FormProduct(props) {
 
 		if (formErrors.length) {
 			setErrors(formErrors);
-			// do not submit form to api
 			return;
 		}
 

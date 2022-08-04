@@ -5,7 +5,9 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 
 export default function FormStore(props) {
+
 	// Destructuring the useContext with the UserContext passed in
+
 	const { user } = useContext(UserContext);
 
 	/* Using the ADD_STORE mutation and destructuring it to assign data, loading, and error values
@@ -25,6 +27,7 @@ export default function FormStore(props) {
 	const [city, setCity] = useState("Toronto");
 	const [street, setStreet] = useState("");
 
+	
 	useEffect(() => {
 		setStore({ ...store, address: `${street}, ${city}, ${country}` });
 	}, [city, country, street]);
