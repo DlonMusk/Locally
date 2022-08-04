@@ -9,10 +9,12 @@ import { QUERY_GET_USER_PRODUCT, QUERY_GET_USER_POSTS } from "../utils/queries";
 
 
 export default function ReviewForm(props) {
+	// Grabbing route location and using it to grab the product id
 	const location = useLocation();
 	const productLink = location.pathname;
 	let productId = productLink.replaceAll("/product/", "");
 
+	// True False check depending on if the route location contains product or not
 	let reviewPostCheck = productLink.includes("/product/");
 
 	// set initial form state
@@ -22,7 +24,7 @@ export default function ReviewForm(props) {
 
 	const { reviewInput } = userFormData;
 
-
+	// Assigning array to empty for later populating
 	const userArray = [];
 
 	const {
@@ -53,12 +55,8 @@ export default function ReviewForm(props) {
 		setUserFormData({ ...userFormData, [name]: value });
 	};
 
-	// const { user } = useContext(UserContext)
-	// console.log(user.me._id)
-	// const currentUser = user.me._id
 
-
-
+	// Handling the form submit, makes checks if page is a post or product page, and sets queries and mutations accordingly
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
 

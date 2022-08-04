@@ -11,13 +11,17 @@ function classNames(...classes) {
 }
 
 export default function Header(props) {
+	// Grabbing the current route location
 	const location = useLocation();
 
+	// Setting state and their values
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [showSearch, setShowSearch] = useState(true);
 
+	// Destructuring the useContext with the UserContext passed in
 	const { user } = useContext(UserContext);
 
+	// If the app is on the home page, show the search bar, if its anywhere else, hide it
 	useEffect(() => {
 		if (location.pathname === "/") {
 			setShowSearch(true);
