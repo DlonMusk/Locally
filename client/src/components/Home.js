@@ -6,41 +6,34 @@ import Like from "./Like";
 import { UserContext } from "../contexts/UserContext";
 
 export default function HomeList(props) {
-	console.log("search data is", props.searchData);
 
+    /* Using the QUERY_GET_PRODUCTS query and destructuring it to assign loading, data, and error values,
+    then assigning the variables to properties and setting their default values
+    */
 	const { loading, data, error } = useQuery(QUERY_GET_PRODUCTS, {
 		variables: { searchName: "", tagState: "All", searchData: "searchData" },
 	});
 
-	console.log("HOME DATA IS---------------------");
-	console.log(data);
-	console.log("HOME LOADING IS " + loading);
-	console.log("HOME ERROR IS--------------------");
-	console.log(error);
-
+    // Assigning the homeData to the value of props.searchData or the getProducts object from the data const
 	const homeData = props.searchData ||
 		data?.getProducts || { "Didnt Get": "The Data" };
-	console.log(homeData);
-	console.log(typeof homeData);
-	// const productObject = storeData.products
-	// console.log(productObject)
-	// console.log("TYPE OF TESTING--------------")
-	// console.log(typeof storeData, typeof productObject)
 
+    // Assigning homeArray to an empty array which will later be populated
 	let homeArray = [];
 
+    // If there is data, then this will map through the homeData object using a hasOwnProperty method
 	if (data) {
 		for (var key in homeData) {
 			if (homeData.hasOwnProperty(key)) {
-				console.log("Made it here");
-				console.log(key);
-				console.log(homeData[key]);
 
+                /* Assigning homeDataStoreInfo to the homeData object's storeInfo property (which is array) so that it can be
+                read through and have its values referenced
+                */
 				const homeDataStoreInfo = homeData[key].storeInfo;
-				console.log("THIS IS THE NESTED THING CHECK");
-				console.log(homeDataStoreInfo?._id);
-				console.log(typeof homeDataStoreInfo);
 
+                /* Pushing the mapped through values of the data retrieval into the homeArray for use in
+                the return segment of the code
+                */
 				homeArray.push([
 					// INDEX 0 product id
 					homeData[key]._id,
@@ -67,22 +60,14 @@ export default function HomeList(props) {
 					// INDEX 11 store address
 					homeDataStoreInfo.address,
 				]);
-
-				console.log("P R O D U C T    P U S H     C H E C K --------");
-				console.log(homeArray);
-                console.log(homeArray[key][6])
-
-				console.log("MADE IT THERE");
 			}
 		}
-		console.log("THIS IS REVIEW ARRAYS");
-		console.log(homeArray);
 	}
 
+    // Assigning the timelineArray to the homeArray values and reversing their order so they render out chronologically
     let timelineArray = homeArray.slice(0).reverse().map(function(homeArray) {
         return homeArray;
     });
-    console.log(timelineArray)
 
 	return (
 		<div className="bg-white">
