@@ -29,7 +29,7 @@ import { QUERY_GET_PRODUCTS } from "./utils/queries";
 
 // Constructing an http link, assigning uri to the URL of the GraphQL endpoint to send requests to
 const httpLink = createHttpLink({
-	uri: "http://localhost:3001/graphql",
+	uri: "/graphql",
 });
 
 console.log("httpLink Is ----------");
@@ -129,7 +129,6 @@ const SignUp = () => {
 	return (
 		<>
 			<AuthLayout>
-				<Header />
 				<SignupForm />
 			</AuthLayout>
 		</>

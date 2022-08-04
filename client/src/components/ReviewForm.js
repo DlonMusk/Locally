@@ -193,8 +193,7 @@ export default function ReviewForm(props) {
 										<div className="bg-indigo-700 py-6 px-4 sm:px-6">
 											<div className="flex items-center justify-between">
 												<Dialog.Title className="text-lg font-medium text-white">
-													{" "}
-													New Review{" "}
+													{reviewPostCheck ? "Write A Review" : "Create A Post"}
 												</Dialog.Title>
 												<div className="ml-3 flex h-7 items-center">
 													<button
@@ -209,7 +208,7 @@ export default function ReviewForm(props) {
 											</div>
 											<div className="mt-1">
 												<p className="text-sm text-indigo-300">
-													Give a review for this seller.
+													{reviewPostCheck ? "Give a review for this seller" : "What are you thinking?!"}
 												</p>
 											</div>
 										</div>
