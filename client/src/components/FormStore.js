@@ -1,7 +1,6 @@
 import { ADD_STORE } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
-import { useQuery, useLazyQuery } from "@apollo/client";
-import { QUERY_GET_USER_STORE_PROFILE, QUERY_GET_USER } from "../utils/queries";
+import { QUERY_GET_USER } from "../utils/queries";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 
@@ -25,9 +24,6 @@ export default function FormStore(props) {
 		setStore({ ...store, address: `${street}, ${city}, ${country}` });
 	}, [city, country, street]);
 
-	useEffect(() => {
-		console.log(store);
-	}, [store]);
 
 	const handleSubmit = () => {
 		try {

@@ -1,17 +1,15 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Tab } from "@headlessui/react";
-import { HeartIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { QUERY_GET_USER_PRODUCT, QUERY_GET_USER_BY_STORE } from "../utils/queries";
 import ReviewForm from "./ReviewForm";
 import Like from "./Like";
 
 export default function ProductListing() {
 	const { productId } = useParams();
-	console.log("|||||||||||||||||||||||||")
-	console.log(productId)
+
 
 	const [showReviewForm, setShowReviewForm] = useState(false);
 
@@ -31,8 +29,6 @@ export default function ProductListing() {
 	`,
 	});
 
-	console.log("EEEEEEEEEE CONTEXT CHECK---------------");
-	console.log("");
 
 	// product id
 	const testProductID = productId || "62e5b958820df4975ed9ce44";
@@ -41,26 +37,15 @@ export default function ProductListing() {
 		variables: { id: testProductID },
 	});
 
-	console.log("PRODUCT Data is---------------------");
-	console.log(data);
-	console.log("PRODUCT loading is " + loading);
-	console.log("PRODUCT error is--------------------");
-	console.log(error);
 
 	const productData = data?.getUserProduct || { "Didnt Get": "The Data" };
-	console.log("PRODUCT INFORMATION GRAB CHECK---------------");
-	console.log(productData);
-	console.log(productData.reviews);
-	console.log(productData.storeInfo)
 	const productStoreInfo = productData.storeInfo
 
 	
 
 	const productNestedReviews = productData.reviews;
 	const productTags = productData.tags;
-	console.log("NESTED REVIEWS4444444444444444444");
-	console.log(productNestedReviews);
-	console.log(typeof productNestedReviews);
+
 
 	let reviewProductArray = [];
 	let tagArray = [];
@@ -69,18 +54,10 @@ export default function ProductListing() {
 
 	for (var key in productNestedReviews) {
 		if (productNestedReviews.hasOwnProperty(key)) {
-			console.log("Made it here");
-			console.log(key);
-			console.log(productNestedReviews[key]);
 
 			const reviewNestedUserData = productNestedReviews[key].userData;
-			console.log("THIS IS THE NESTED THING CHECK");
-			console.log(reviewNestedUserData);
+
 			if (reviewNestedUserData !== null) {
-				console.log("222222222222222222222222222------------------------");
-				console.log(reviewNestedUserData.username);
-				console.log("keyyyyyyyyyyyyyyyyyyyyyyyyy");
-				console.log(key);
 
 				reviewProductArray.push([
 					// INDEX 0 review id
@@ -98,19 +75,13 @@ export default function ProductListing() {
 					// INDEX 6 username for user
 					reviewNestedUserData.username,
 				]);
-
-				console.log(typeof productTags);
-				console.log("P R O D U C T    P U S H     C H E C K --------");
-				console.log(reviewProductArray);
 			}
-			console.log("MADE IT THERE");
 		}
 	}
 
 	for (var tagIndex in productTags) {
 		if (productTags.hasOwnProperty(tagIndex)) {
 			tagArray.push([
-				// INDEX 0 tag name
 				productTags[tagIndex],
 			]);
 		}
@@ -118,13 +89,9 @@ export default function ProductListing() {
 
 	for (var info in productStoreInfo) {
 		if (productStoreInfo.hasOwnProperty(info)) {
-			//const nestedStoreInfo = productStoreInfo[key];
 
 			storeInfoArray.push(
 				productStoreInfo[info]
-				// storeInfoArray INDEX 0 model type (returns Store)
-				// storeInfoArray INDEX 1 store id
-				// storeInfoArray INDEX 2 store title
 			)
 		}
 	}
@@ -135,32 +102,10 @@ export default function ProductListing() {
 
 	const userData = dataUser?.getUserByStore || { "Didnt Get": "The Data" };
 
-	
-
-	
-	console.log(userData._id)
 	const storeOwner = userData._id
-
 
 	const { user } = useContext(UserContext);
 
-
-
-
-	console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
-	
-
-	console.log(user?.me._id);
-	console.log(storeOwner)
-
-	console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
-
-	console.log(tagArray);
-	console.log("THIS IS REVIEW ARRAYS");
-	console.log(reviewProductArray);
-	console.log("THIS IS STORE INFO ARRAY");
-	console.log(storeInfoArray);
-	
 
 	return (
 		<div className="bg-white">
@@ -191,7 +136,7 @@ export default function ProductListing() {
 						</Tab.Panels>
 					</Tab.Group>
 
-					{/* Product info */}
+					
 					<div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
 						<h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
 							{productData.productTitle}
@@ -249,12 +194,6 @@ export default function ProductListing() {
 
 						<form className="mt-6">
 							<div className="mt-10 flex sm:flex-col1">
-								{/* <button
-									type="submit"
-									className="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full"
-								>
-									Add to bag
-								</button> */}
 
 								<button
 									type="button"

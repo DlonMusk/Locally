@@ -1,9 +1,8 @@
-import React, { useState, useContext } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import React from "react";
+import { useQuery} from "@apollo/client";
 import { QUERY_GET_PRODUCTS } from "../utils/queries";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import Like from "./Like";
-import { UserContext } from "../contexts/UserContext";
+import { FaHeart } from "react-icons/fa";
+
 
 export default function HomeList(props) {
 
@@ -14,9 +13,11 @@ export default function HomeList(props) {
 		variables: { searchName: "", tagState: "All", searchData: "searchData" },
 	});
 
+
     // Assigning the homeData to the value of props.searchData or the getProducts object from the data const
 	const homeData = props.searchData ||
 		data?.getProducts || { "Didnt Get": "The Data" };
+
 
     // Assigning homeArray to an empty array which will later be populated
 	let homeArray = [];

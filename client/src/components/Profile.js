@@ -1,25 +1,20 @@
 import {
 	MailIcon,
 	PhoneIcon,
-	PencilIcon,
 	ViewGridAddIcon,
 } from "@heroicons/react/solid";
 import React, { useState, useEffect, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { QUERY_GET_USER_STORE_PROFILE, QUERY_GET_USER } from "../utils/queries";
-import { Dialog, Transition } from "@headlessui/react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
-// import helper from "../utils/helpers";
+
 
 import FormStore from "./FormStore";
 import Modal from "./Modal";
 import FormProduct from "./FormProduct";
 import ProfileTabs from "./ProfileTabs";
-// Rabias stuff
+
 
 const profile = {
 	name: "John Doe",
@@ -53,7 +48,7 @@ export default function ProfileContainer() {
 
 	useEffect(() => {
 		if (user) {
-			if (user.me._id == profileId) {
+			if (user.me._id === profileId) {
 				setIsMe(true);
 			}
 		}
@@ -95,19 +90,14 @@ export default function ProfileContainer() {
 		}
 		setHasStore(true);
 	}, [data, error, loading, userQueryData]);
-	/////////////////////
 
 	let tabIndex = 0;
 
 	let disableValue = false;
 
-	// console.log("Product value check-----------------");
-	// console.log(storeData.products);
 
 	let storeItems = storeData.products;
-	// console.log(storeItems);
 
-	let storeEmailHref = "mailto:" + storeData.email;
 
 	const storeCheck = () => {
 		if (storeItems !== undefined) {

@@ -6,26 +6,14 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_ME } from "../utils/queries";
 import { ADD_POST_REVIEW } from "../utils/mutations";
 import { QUERY_GET_USER_PRODUCT, QUERY_GET_USER_POSTS } from "../utils/queries";
-import { UserContext, UserProvider } from "../contexts/UserContext";
 
-import {
-	LinkIcon,
-	PlusSmIcon,
-	QuestionMarkCircleIcon,
-} from "@heroicons/react/solid";
 
 export default function ReviewForm(props) {
-	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	const location = useLocation();
-	console.log(location.pathname);
 	const productLink = location.pathname;
 	let productId = productLink.replaceAll("/product/", "");
-	console.log(productId);
-
-	console.log("%%%%%%%%%%%% IF STATEMENT CHECK %%%%%%%%%%%%%%");
 
 	let reviewPostCheck = productLink.includes("/product/");
-	console.log(reviewPostCheck);
 
 	// set initial form state
 	const [userFormData, setUserFormData] = useState({ reviewInput: "" });
@@ -34,10 +22,6 @@ export default function ReviewForm(props) {
 
 	const { reviewInput } = userFormData;
 
-	console.log("USER FORM DATA IS!!!!!!!");
-	console.log(userFormData);
-	console.log("REVIEW INPUT IS!!!!!!!");
-	console.log(reviewInput);
 
 	const userArray = [];
 
@@ -48,13 +32,10 @@ export default function ReviewForm(props) {
 	} = useQuery(GET_ME);
 
 	const currentUser = userQueryData;
-	console.log(currentUser);
 
 	for (var key in currentUser) {
 		if (currentUser.hasOwnProperty(key)) {
-			console.log("DID THIS WORK?????????");
 			const currentUserId = currentUser[key]._id;
-			console.log(currentUserId);
 
 			userArray.push(
 				// pushing the id into the array so it can be read without crashing
@@ -62,10 +43,7 @@ export default function ReviewForm(props) {
 			);
 		}
 	}
-	console.log(userArray[0]);
 
-	console.log("ME QUERY CHECK ++++++++++++++++++++");
-	console.log(userQueryLoad, userQueryData, userQueryError);
 
 	const [addPostReview, { data, loading, error }] =
 		useMutation(ADD_POST_REVIEW);
@@ -79,19 +57,15 @@ export default function ReviewForm(props) {
 	// console.log(user.me._id)
 	// const currentUser = user.me._id
 
-	console.log("**********MADE IT HERE");
+
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
-		console.log("**********MADE IT HERE111111111111");
+
 
 		if (!reviewInput || reviewInput === "") {
 			setErrorMessage("Please write a review");
-			console.log("button isnt working");
 		} else {
-			console.log("Form data SUBMIT check", userFormData);
-			console.log("WHAT IS PRODUCT ID" + productId);
-
 			if (!reviewPostCheck) {
 				try {
 					addPostReview({
@@ -110,7 +84,6 @@ export default function ReviewForm(props) {
 						],
 					});
 				} catch (err) {
-					console.log(err);
 					setErrorMessage(
 						"Something went wrong with the post/review creation process"
 					);
@@ -134,7 +107,6 @@ export default function ReviewForm(props) {
 						],
 					});
 				} catch (err) {
-					console.log(err);
 					setErrorMessage(
 						"Something went wrong with the post/review creation process"
 					);
@@ -144,7 +116,6 @@ export default function ReviewForm(props) {
 			setUserFormData({
 				reviewInput: "",
 			});
-			console.log("After submittion reset form data check", userFormData);
 
 			// Defining inputs to the query of the field ids for the form
 			const inputs = document.querySelectorAll("#reviewInput");

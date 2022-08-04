@@ -14,9 +14,7 @@ const Like = ({ likes, componentId }) => {
 	const location = useLocation();
 	const productLink = location.pathname;
 	let productId = productLink.replaceAll("/product/", "");
-	console.log("LIKE COMPONENT LIKE COMPONENT LIKE COMPONENT LIKE COMPONENT LIKE COMPONENT LIKE COMPONENT ")
-	console.log(productId + "does this show up?")
-	console.log(componentId + "I might be doing the wrong thing")
+
 
 	let newComponentId;
 	let usedQuery;
@@ -36,13 +34,6 @@ const Like = ({ likes, componentId }) => {
 		usedQuery = QUERY_GET_PRODUCTS
 	}
 	
-	console.log(newComponentId)
-	console.log("USED QUERY VALUE55555555555555")
-	if (usedQuery === QUERY_GET_USER_PRODUCT) {
-		console.log(true)
-	} else {
-		console.log(false)
-	}
 
 
 

@@ -4,7 +4,6 @@ import { ArchiveIcon } from "@heroicons/react/solid";
 import { QUERY_GET_USER_STORE, QUERY_GET_USER } from "../utils/queries";
 import { ADD_PRODUCT } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
-import Products from "./ProductList";
 
 export default function FormProduct(props) {
 	const [addProduct, { data, loading, error }] = useMutation(ADD_PRODUCT);
@@ -22,12 +21,9 @@ export default function FormProduct(props) {
 
 	const userArray = [];
 
-	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 	const location = useLocation();
-	console.log(location.pathname)
 	const profileLink = location.pathname
 	let userId = profileLink.replaceAll("/profile/", "");
-	console.log(userId)
 
 	const {
 		loading: userQueryLoad,
@@ -36,7 +32,6 @@ export default function FormProduct(props) {
 	} = useQuery(QUERY_GET_USER, { variables: { id: userId } })
 
 	const currentStore = userQueryData.getUser.store._id
-	console.log("UUUUUUUUUUUUUUUUUUUUUUUU")
 	console.log(currentStore)
 
 
@@ -52,8 +47,6 @@ export default function FormProduct(props) {
 		return formErrors;
 	};
 
-	// console.log("IIIIIIIIIIIIDDDDDDDDDDDDDDDDDDD")
-	// console.log(data)
 
 	const handleProductSubmit = () => {
 		const formErrors = checkFormErrors();

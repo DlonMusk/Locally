@@ -1,47 +1,11 @@
 import React, { useState } from "react";
-import ReviewForm from "./ReviewForm";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { QUERY_GET_STORE_REVIEWS } from "../utils/queries";
 
 //Need to get the reviews from the database
 
-const users = [
-	{
-		username: "Lindsay Walton",
-		image: "https://source.unsplash.com/random/400x400",
-	},
-	{
-		username: "John Doe",
-		image: "https://source.unsplash.com/random/400x400",
-	},
-	{
-		username: "Jane Doe",
-		image: "https://source.unsplash.com/random/400x400",
-	},
-	{
-		username: "Benjamin B",
-		image: "https://source.unsplash.com/random/400x400",
-	},
-	{
-		username: "Rabia S",
-		image: "https://source.unsplash.com/random/400x400",
-	},
-	{
-		username: "Dylan K",
-		image: "https://source.unsplash.com/random/400x400",
-	},
-];
-
-const reviewItems = new Array(4).fill("").map((item, i) => ({
-	id: i,
-	person: users[Math.floor(Math.random(0, 1) * users.length)],
-	product: "Product 1",
-	postContent: "I love this product",
-	createdAt: "1h",
-}));
 
 export default function Reviews(props) {
-	const [showReviewForm, setShowReviewForm] = useState(false);
 
 	// store id
 	const testingID = props.storeId || "62e5b6e4820df4975ed9ce2f";
@@ -50,60 +14,22 @@ export default function Reviews(props) {
 		variables: { id: testingID },
 	});
 
-	console.log("REVIEW DATA IS---------------------");
-	console.log(data);
-	console.log("REVIEW LOADING IS " + loading);
-	console.log("REVIEW ERROR IS--------------------");
-	console.log(error);
-
 	const reviewData = data?.getStore || { "Didnt Get": "The Data" };
-	console.log(reviewData);
+	
 	const reviewNestedData = reviewData.products;
-	console.log(reviewNestedData);
+	
 
 	let reviewProductArray = [];
 	let reviewArray = [];
 
 	for (var key in reviewNestedData) {
 		if (reviewNestedData.hasOwnProperty(key)) {
-			console.log("Made it here");
-			console.log(key);
-			console.log(reviewNestedData[key]);
-			const reviewNestedDataReviews = reviewNestedData[key].reviews;
-			console.log("THIS IS THE NESTED THING CHECK");
-			console.log(reviewNestedDataReviews);
-			if (reviewNestedDataReviews !== null) {
-				console.log("222222222222222222222222222------------------------");
 
-				let testMap = reviewNestedDataReviews.map(function (element) {
-					reviewArray.push([
-						element._id,
-						element.postContent,
-						element.likes,
-						element.destinationId._id,
-						element.createdAt,
-						element.userData._id,
-						element.userData.username,
-					]);
-					return [
-						element._id,
-						element.postContent,
-						element.likes,
-						element.destinationId._id,
-						element.createdAt,
-						element.userData._id,
-						element.userData.username,
-					];
-				});
-				console.log(reviewArray);
-				console.log(testMap);
-				console.log("@@@@@@@@@@@@ ACCESSING ARRAY @@@@@@@@@@@");
-				console.log(reviewArray[key]);
+			const reviewNestedDataReviews = reviewNestedData[key].reviews;
+
+			if (reviewNestedDataReviews !== null) {
+
 				for (let i = 0; i < reviewArray.length; i++) {
-					console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-					console.log(i);
-					console.log("keyyyyyyyyyyyyyyyyyyyyyyyyy");
-					console.log(key);
 					if (reviewArray[i][3] === reviewNestedData[key]._id) {
 						reviewProductArray.push([
 							// product id INDEX 0
@@ -129,17 +55,10 @@ export default function Reviews(props) {
 						]);
 					}
 				}
-				console.log("P R O D U C T    P U S H     C H E C K --------");
-				console.log(reviewProductArray);
 			}
-			console.log("P U S H      C H E C K");
-			console.log(reviewArray);
-			console.log("MADE IT THERE");
 		}
 	}
-	console.log("THIS IS REVIEW ARRAYS");
-	console.log(reviewProductArray);
-	console.log(reviewArray);
+
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
