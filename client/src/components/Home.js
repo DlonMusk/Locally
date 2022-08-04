@@ -6,23 +6,35 @@ import { FaHeart } from "react-icons/fa";
 
 export default function HomeList(props) {
 
+    /* Using the QUERY_GET_PRODUCTS query and destructuring it to assign loading, data, and error values,
+    then assigning the variables to properties and setting their default values
+    */
 	const { loading, data, error } = useQuery(QUERY_GET_PRODUCTS, {
 		variables: { searchName: "", tagState: "All", searchData: "searchData" },
 	});
 
 
+    // Assigning the homeData to the value of props.searchData or the getProducts object from the data const
 	const homeData = props.searchData ||
 		data?.getProducts || { "Didnt Get": "The Data" };
 
 
+    // Assigning homeArray to an empty array which will later be populated
 	let homeArray = [];
 
+    // If there is data, then this will map through the homeData object using a hasOwnProperty method
 	if (data) {
 		for (var key in homeData) {
 			if (homeData.hasOwnProperty(key)) {
 
+                /* Assigning homeDataStoreInfo to the homeData object's storeInfo property (which is array) so that it can be
+                read through and have its values referenced
+                */
 				const homeDataStoreInfo = homeData[key].storeInfo;
 
+                /* Pushing the mapped through values of the data retrieval into the homeArray for use in
+                the return segment of the code
+                */
 				homeArray.push([
 					// INDEX 0 product id
 					homeData[key]._id,
@@ -53,6 +65,7 @@ export default function HomeList(props) {
 		}
 	}
 
+    // Assigning the timelineArray to the homeArray values and reversing their order so they render out chronologically
     let timelineArray = homeArray.slice(0).reverse().map(function(homeArray) {
         return homeArray;
     });
