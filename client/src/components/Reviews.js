@@ -7,7 +7,6 @@ import { QUERY_GET_STORE_REVIEWS } from "../utils/queries";
 
 export default function Reviews(props) {
 
-	// store id
 	const testingID = props.storeId || "62e5b6e4820df4975ed9ce2f";
 
 	const { loading, data, error } = useQuery(QUERY_GET_STORE_REVIEWS, {
