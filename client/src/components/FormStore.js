@@ -5,11 +5,17 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 
 export default function FormStore(props) {
-	// Grabbing user from UserContext
+
+	// Destructuring the useContext with the UserContext passed in
+
 	const { user } = useContext(UserContext);
 
+	/* Using the ADD_STORE mutation and destructuring it to assign data, loading, and error values
+	addStore is also referenced so that it can later be used for posting data to the database and refetching queries
+	*/
 	const [addStore, { data, loading, error }] = useMutation(ADD_STORE);
 
+	// Setting states and their values
 	const [store, setStore] = useState({
 		storeTitle: "",
 		email: "",
@@ -27,6 +33,10 @@ export default function FormStore(props) {
 	}, [city, country, street]);
 
 
+	// Handling the submit for the store form
+	/* Running the addStore mutation and passing in the values from the form,
+	then refetching the queries for content update
+	*/
 	const handleSubmit = () => {
 		try {
 			addStore({

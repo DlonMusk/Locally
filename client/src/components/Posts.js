@@ -9,27 +9,39 @@ import Like from "./Like";
 const Posts = (props) => {
 	const [showReviewForm, setShowReviewForm] = useState(false);
 
-	// user id
+	// user id set to the value of props.profileId, or a placeholder id value
 	const testingID = props.profileId || "62e595024f09121c389aef19";
 
+	/* Using the QUERY_GET_USER_POSTS query and destructuring it to assign loading, data, and error values,
+    then assigning the variables to match the id with the current user id value
+    */
 	const { loading, data, error } = useQuery(QUERY_GET_USER_POSTS, {
 		variables: { id: testingID },
 	});
 
-
+	/* Assigning the postData to the value of the getUserPosts object from data,
+	or an object with preassigned values to log for errors if needed
+	*/
 	const postData = data?.getUserPosts || { "Didnt Get": "The Data" };
 
-
+	// Assigning value to the reviews object inside of postData
 	const postDataReviews = postData.reviews;
 
-
+	// Assigning postArray to an empty array to be populated later
 	let postArray = [];
 
+	// This will map through the postDataReviews object using a hasOwnProperty method
 	for (var key in postDataReviews) {
 		if (postDataReviews.hasOwnProperty(key)) {
 
+			/* Assigning postDataProduct to the postDataReviews object's destinationId property (which is array)
+			so that it can be read through and have its values referenced
+			*/
 			const postDataProduct = postDataReviews[key].destinationId;
 
+			/* Pushing the mapped through values of the data retrieval into the postArray for use in
+			the return segment of the code
+			*/
 			postArray.push([
 				// INDEX 0 review id
 				postDataReviews[key]._id,
@@ -45,6 +57,7 @@ const Posts = (props) => {
 				postData.username,
 			]);
 
+			// If there are values from the destinationId of the retrieved data, push those values into the postArray
 			if (postDataProduct !== null) {
 				postArray[key].push(
 					// INDEX 6 product id the review is about

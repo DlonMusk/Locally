@@ -30,28 +30,34 @@ export default function ProductListing() {
 	});
 
 
-	// product id
+	// product id set to the value of productId, or a placeholder id value
 	const testProductID = productId || "62e5b958820df4975ed9ce44";
 
+	/* Using the QUERY_GET_USER_PRODUCT query and destructuring it to assign loading, data, and error values,
+    then assigning the variables to match the id with the current product id value
+    */
 	const { loading, data, error } = useQuery(QUERY_GET_USER_PRODUCT, {
 		variables: { id: testProductID },
 	});
 
 
+	/* Assigning the productData to the value of the getUserProduct object from data,
+	or an object with preassigned values to log for errors if needed
+	*/
 	const productData = data?.getUserProduct || { "Didnt Get": "The Data" };
 	const productStoreInfo = productData.storeInfo
 
 	
-
+	// Assigning consts to objects within data retrieval
 	const productNestedReviews = productData.reviews;
 	const productTags = productData.tags;
 
-
+	// Assigning empty arrays to be populated later
 	let reviewProductArray = [];
 	let tagArray = [];
 	let storeInfoArray = [];
 
-
+	// Series of for loops to map through objects from data retrieval and pushing to their respective arrays for referencing in return
 	for (var key in productNestedReviews) {
 		if (productNestedReviews.hasOwnProperty(key)) {
 
@@ -96,12 +102,17 @@ export default function ProductListing() {
 		}
 	}
 
+	// useQuery for QUERY_GET_USER_BY_STORE to grab the user information of the viewed product for profile linking
 	const { loading: loadingUser, data: dataUser, error: errorUser } = useQuery(QUERY_GET_USER_BY_STORE, {
 		variables: { id: storeInfoArray[1] },
 	});
 
+	/* Assigning the userData to the value of the getUserByStore object from data,
+	or an object with preassigned values to log for errors if needed
+	*/
 	const userData = dataUser?.getUserByStore || { "Didnt Get": "The Data" };
 
+	// Assigning storeOwner to the id of the user grabbed in the data retrieval
 	const storeOwner = userData._id
 
 	const { user } = useContext(UserContext);
