@@ -5,7 +5,6 @@ import {
 	Container,
 	Stack,
 	Text,
-	Link,
 	useColorModeValue,
 } from "@chakra-ui/react";
 
@@ -26,7 +25,6 @@ export default function Footer() {
 					align={{ base: "center", md: "center" }}
 				>
 					<Stack direction={"row"} spacing={6}>
-						{/* <Link href={"#"}></Link> */}
 					</Stack>
 					<Text>© {new Date().getFullYear()} Locally </Text>
 				</Container>

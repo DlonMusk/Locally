@@ -5,7 +5,6 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
     Query: {
-        // change this to use context
         me: async (parent, args, context) => {
             if (context.user) {
                 const user = await User.findOne({ _id: context.user._id })
@@ -39,10 +38,6 @@ const resolvers = {
         // query to get current users store information for the storefront page
         // make ID optional, if its passed in use it
         getStore: async (parent, args, context) => {
-            console.log("ARGS CHECK----------");
-            console.log(args._id);
-            console.log(context.user._id);
-            //console.log(context)
             let store;
             if (args._id) {
                 store = await Store.findOne({ _id: args._id }).populate({
@@ -119,8 +114,6 @@ const resolvers = {
             let user;
             if (args._id) {
 
-                console.log("CHECKING USERPOSTS---------")
-                console.log(args._id)
                 user = await User.findOne({ _id: args._id })
                     .populate({
                         path: 'reviews',
@@ -158,14 +151,10 @@ const resolvers = {
         },
 
         getProducts: async (parent, { searchName, tagState }) => {
-            console.log("IS GET PRODUCTS MAKING IT HERE?")
-            console.log("SEARCH NAME " + searchName)
-            console.log("RESOLVER SEARCH TAG " + tagState)
 
 
             const searchRegex = new RegExp(searchName, 'gi');
 
-            console.log("NO ARGS IN HERE?")
             let products = await Product.find({})
                 .populate({
                     path: 'storeInfo',
@@ -177,8 +166,6 @@ const resolvers = {
             if (!products) throw new AuthenticationError("No products in the database");
 
             products = products.filter(product => product.productTitle.match(searchRegex));
-
-            console.log(tagState)
 
 
             if(tagState === 'All'){
@@ -199,7 +186,6 @@ const resolvers = {
 
         getUserByStore: async (parent, args) => {
             const user = await User.findOne({ store: args._id});
-            console.log(args._id)
 
             if (!user) throw new AuthenticationError("Something went wrong");
 
@@ -227,7 +213,6 @@ const resolvers = {
         },
 
         addUser: async (parent, userData) => {
-            // email password
 
             const user = await User.create(userData);
 
@@ -247,7 +232,6 @@ const resolvers = {
         addStore: async (parent, { storeData }, context) => {
             const user = await User.findOne({ _id: context.user._id });
 
-            console.log(user);
 
             if (!user)
                 throw new AuthenticationError(
@@ -264,7 +248,7 @@ const resolvers = {
         },
 
 
-        //FINAL
+        
         addProduct: async (parent, { productData }, context) => {
             const user = await User.findOne({ _id: context.user._id });
 
@@ -287,7 +271,7 @@ const resolvers = {
             return store;
         },
 
-        //FINAL
+        
         removeProduct: async (parent, { productId }, context) => {
             const updatedStore = await Store.findOneAndUpdate(
                 { _id: context.user.store._id },
@@ -320,8 +304,6 @@ const resolvers = {
         //if a user removes a post from there posts it will remove it from the appropriate store
         addPostReview: async (parent, { postReviewData }, context) => {
             // takes in review input and a store or product ID
-            console.log({ postReviewData })
-            console.log(postReviewData.destinationId)
             // get the user making the post
             const user = await User.findOne({ _id: context.user._id });
 
@@ -424,10 +406,8 @@ const resolvers = {
         addLike: async (parent, { componentId }, context) => {
 
             const updatedProduct = Product.findOne({ _id: componentId });
-            console.log(componentId)
 
             const updatedPost = Post.findOne({ _id: componentId });
-            console.log(componentId)
 
 
             if (!updatedProduct && !updatedPost) throw new AuthenticationError("Could not add like!");
@@ -438,7 +418,6 @@ const resolvers = {
                     { $inc: { likes: 1 } },
                     { new: true }
                 );
-                console.log("UPDATING PRODUCT!!!")
                 
             }   if (updatedPost) {
 
@@ -447,7 +426,6 @@ const resolvers = {
                     { $inc: { likes: 1 } },
                     { new: true }
                 )
-                console.log("UPDATING POST???")
             }
 
             return await User.findOne({ _id: context.user._id });

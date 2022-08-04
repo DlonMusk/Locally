@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 
 export default function FormStore(props) {
+	// Grabbing user from UserContext
 	const { user } = useContext(UserContext);
 
 	const [addStore, { data, loading, error }] = useMutation(ADD_STORE);
@@ -20,6 +21,7 @@ export default function FormStore(props) {
 	const [city, setCity] = useState("Toronto");
 	const [street, setStreet] = useState("");
 
+	
 	useEffect(() => {
 		setStore({ ...store, address: `${street}, ${city}, ${country}` });
 	}, [city, country, street]);
