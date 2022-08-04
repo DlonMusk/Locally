@@ -1,45 +1,27 @@
-import React, { useState, useContext } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import React from "react";
+import { useQuery} from "@apollo/client";
 import { QUERY_GET_PRODUCTS } from "../utils/queries";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import Like from "./Like";
-import { UserContext } from "../contexts/UserContext";
+import { FaHeart } from "react-icons/fa";
+
 
 export default function HomeList(props) {
-	console.log("search data is", props.searchData);
 
 	const { loading, data, error } = useQuery(QUERY_GET_PRODUCTS, {
 		variables: { searchName: "", tagState: "All", searchData: "searchData" },
 	});
 
-	console.log("HOME DATA IS---------------------");
-	console.log(data);
-	console.log("HOME LOADING IS " + loading);
-	console.log("HOME ERROR IS--------------------");
-	console.log(error);
 
 	const homeData = props.searchData ||
 		data?.getProducts || { "Didnt Get": "The Data" };
-	console.log(homeData);
-	console.log(typeof homeData);
-	// const productObject = storeData.products
-	// console.log(productObject)
-	// console.log("TYPE OF TESTING--------------")
-	// console.log(typeof storeData, typeof productObject)
+
 
 	let homeArray = [];
 
 	if (data) {
 		for (var key in homeData) {
 			if (homeData.hasOwnProperty(key)) {
-				console.log("Made it here");
-				console.log(key);
-				console.log(homeData[key]);
 
 				const homeDataStoreInfo = homeData[key].storeInfo;
-				console.log("THIS IS THE NESTED THING CHECK");
-				console.log(homeDataStoreInfo?._id);
-				console.log(typeof homeDataStoreInfo);
 
 				homeArray.push([
 					// INDEX 0 product id
@@ -67,22 +49,13 @@ export default function HomeList(props) {
 					// INDEX 11 store address
 					homeDataStoreInfo.address,
 				]);
-
-				console.log("P R O D U C T    P U S H     C H E C K --------");
-				console.log(homeArray);
-                console.log(homeArray[key][6])
-
-				console.log("MADE IT THERE");
 			}
 		}
-		console.log("THIS IS REVIEW ARRAYS");
-		console.log(homeArray);
 	}
 
     let timelineArray = homeArray.slice(0).reverse().map(function(homeArray) {
         return homeArray;
     });
-    console.log(timelineArray)
 
 	return (
 		<div className="bg-white">

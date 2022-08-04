@@ -5,7 +5,6 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useLocation } from "react-router-dom";
 import Auth from "../utils/auth";
 import { UserContext } from "../contexts/UserContext";
-import { SearchContext } from "../contexts/SearchContext";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");

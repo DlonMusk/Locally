@@ -8,8 +8,7 @@ import Like from "./Like";
 export default function ProductList(props) {
 	// store id
 	const testingID = props.storeId || "62e5b6e4820df4975ed9ce2f";
-	console.log("PRODUCTLIST PROP STOREID CHECK!!!!!!!!!!!!!!");
-	console.log(props.storeId);
+
 
 	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
 		variables: { id: testingID },
@@ -18,28 +17,18 @@ export default function ProductList(props) {
 	const { searchState, searchData } = useContext(UserContext);
 
 	useEffect(() => {
-		console.log("searchData", searchData);
+
 	}, [searchState, searchData]);
 
-	console.log("ENTIRE STORE DATA IS---------------------");
-	console.log(data);
-	console.log("ENTIRE STORE LOADING IS " + loading);
-	console.log("ENTIRE STORE ERROR IS--------------------");
-	console.log(error);
 
 	const storeData = data?.getStore || { "Didnt Get": "The Data" };
-	console.log(storeData);
 	const productObject = storeData.products;
-	console.log(productObject);
-	console.log("TYPE OF TESTING--------------");
-	console.log(typeof storeData, typeof productObject);
 
 	let productArray = [];
 
 	for (var key in productObject) {
 		if (productObject.hasOwnProperty(key)) {
-			console.log("Made it here");
-			console.log(key);
+
 			productArray.push([
 				// index 0 id of product
 				productObject[key]._id,
@@ -55,16 +44,12 @@ export default function ProductList(props) {
 				productObject[key].likes,
 				// index 6 stock of product
 				productObject[key].stock,
-
 				// // index 7 tags for product
 				productObject[key].tags,
 			]);
-			console.log("MADE IT THERE");
 		}
 	}
-	console.log("THIS IS PRODUCT ARRAY");
-	console.log(productArray);
-	console.log(typeof productArray);
+
 
 	return (
 		<div className="bg-red-100">

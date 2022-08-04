@@ -9,7 +9,6 @@ const UserProvider = ({ children }) => {
 
 	const [tagState, setTagState] = useState("All");
 
-	console.log("PROVIDER TAG STATE " + tagState);
 
 	const { loading, error, data } = useQuery(GET_ME);
 
@@ -21,9 +20,6 @@ const UserProvider = ({ children }) => {
 		variables: { searchName: searchState, tagState: tagState },
 	});
 
-	console.log("SEARCH STATE" + searchState);
-	console.log("SEARCH DATA");
-	console.log(searchData);
 
 	return (
 		<>

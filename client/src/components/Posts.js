@@ -11,39 +11,24 @@ const Posts = (props) => {
 
 	// user id
 	const testingID = props.profileId || "62e595024f09121c389aef19";
-	console.log("PROFILE ID IS " + props.profileId);
 
 	const { loading, data, error } = useQuery(QUERY_GET_USER_POSTS, {
 		variables: { id: testingID },
 	});
 
-	console.log("PPPPPPPPPPPOST DATA IS---------------------");
-	console.log(data);
-	console.log("PPPPPPPPPPPOST LOADING IS " + loading);
-	console.log("PPPPPPPPPPPOST ERROR IS--------------------");
-	console.log(error);
 
 	const postData = data?.getUserPosts || { "Didnt Get": "The Data" };
-	console.log(postData);
+
 
 	const postDataReviews = postData.reviews;
-	console.log("NESTED REVIEWS4444444444444444444");
-	console.log(postDataReviews);
-	console.log(typeof postDataReviews);
+
 
 	let postArray = [];
 
 	for (var key in postDataReviews) {
 		if (postDataReviews.hasOwnProperty(key)) {
-			console.log("Made it here");
-			console.log(key);
-			console.log(postDataReviews[key]);
-			const postDataProduct = postDataReviews[key].destinationId;
-			console.log("THIS IS THE NESTED THING CHECK");
-			console.log(postDataProduct);
 
-			console.log("keyyyyyyyyyyyyyyyyyyyyyyyyy");
-			console.log(key);
+			const postDataProduct = postDataReviews[key].destinationId;
 
 			postArray.push([
 				// INDEX 0 review id
@@ -70,14 +55,11 @@ const Posts = (props) => {
 					postDataProduct.productImage
 				);
 
-				console.log("P R O D U C T    P U S H     C H E C K --------");
-				console.log(postArray);
 			}
-			console.log("MADE IT THERE");
+
 		}
 	}
-	console.log("THIS IS REVIEW ARRAYS");
-	console.log(postArray);
+
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

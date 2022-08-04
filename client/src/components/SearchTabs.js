@@ -1,15 +1,6 @@
-import { useContext, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_GET_PRODUCTS } from "../utils/queries";
-import { UserContext } from "../contexts/UserContext";
 import Home from "./Home";
 export default function SearchTabs(props) {
-	// I want to render each button and when the user clicks on the button it will set it to activated or not
-	// all you have to do is make a function that flips true false values on the tabs if the user clicks on that button
-	// and have it associated with a state so the page will re render on change
-	// to render this.... make a state array of the tag names ..... map over the array to display each button
-	//
+	
 
 	const tabs = [
 		{

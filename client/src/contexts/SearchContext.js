@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from "react";
-import { GET_ME, QUERY_GET_PRODUCTS } from "../utils/queries";
+import React, { createContext, useState } from "react";
+import { QUERY_GET_PRODUCTS } from "../utils/queries";
 import { useQuery } from "@apollo/client";
 
 const SearchContext = createContext({});
