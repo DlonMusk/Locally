@@ -117,3 +117,11 @@ export const ADD_LIKE = gql`
 		}
 	}
 `;
+
+export const UPDATE_STORE = gql`
+mutation updateStore($id: ID!, $storeData: StoreInput!) {
+  updateStore(_id: $id, storeData: $storeData) {
+    _id
+  }
+}
+`

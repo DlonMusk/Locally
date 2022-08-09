@@ -247,6 +247,25 @@ const resolvers = {
             return user;
         },
 
+        updateStore: async (parent, args) => {
+            const updatedStore = await Store.findOne({ _id: args._id });
+            console.log(updatedStore)
+
+            if (!updatedStore) {
+                throw new AuthenticationError("Unable to update store");
+            }
+
+            await updatedStore.update({
+                storeTitle: args.storeData.storeTitle,
+                email: args.storeData.email,
+                address: args.storeData.address,
+                phoneNumber: args.storeData.phoneNumber,
+            
+            }, { new: true });
+
+            return updatedStore;
+        },
+
 
         
         addProduct: async (parent, { productData }, context) => {
