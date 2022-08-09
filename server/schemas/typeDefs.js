@@ -9,6 +9,8 @@ const typeDefs = gql`
         username: String!
         email: String
         password: String
+		profileImg: String
+		profileBanner: String
         store: Store
         reviews: [Post]
         createdAt: Date

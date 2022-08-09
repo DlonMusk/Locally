@@ -1,5 +1,9 @@
-import Home from "./Home";
-export default function SearchTabs(props) {
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+export default function SearchTabs() {
+
+	
+	const { tagState, setTagState } = useContext(UserContext);
 	
 
 	const tabs = [
@@ -35,9 +39,10 @@ export default function SearchTabs(props) {
 				<div className="text-center space-x-10 pt-3 border-t-2">
 					{tabs.map((tab) => (
 						<button
-							onClick={() => props.setTag(tab.tabName)}
+							onClick={() => setTagState(tab.tabName)}
+							key={tab.tabName}
 							className={
-								props.tag === tab.tabName
+								tagState === tab.tabName
 									? "px-4 py-1 text-sm font-semibold rounded-full border border-gray-300 bg-indigo-500 text-white border-transparent"
 									: "px-4 py-1 text-sm text-indigo-500 font-semibold rounded-full border border-gray-300 hover:bg-indigo-300 hover:text-white hover:border-transparent"
 							}
@@ -47,11 +52,6 @@ export default function SearchTabs(props) {
 					))}
 				</div>
 			</div>
-			<Home
-				tagState={props.tagState}
-				searchName={props.search || ""}
-				searchData={props.searchData}
-			/>
 		</>
 	);
 }

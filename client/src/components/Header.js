@@ -10,13 +10,13 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
-export default function Header(props) {
+export default function Header() {
 	const location = useLocation();
 
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [showSearch, setShowSearch] = useState(true);
 
-	const { user } = useContext(UserContext);
+	const { user, setSearchState, searchState } = useContext(UserContext);
 
 	useEffect(() => {
 		if (location.pathname === "/") {
@@ -28,9 +28,7 @@ export default function Header(props) {
 
 	const handleChange = (event) => {
 		const search = event.target.value;
-		if (props.setSearch) {
-			props.setSearch(search);
-		}
+			setSearchState(search);
 	};
 
 	useEffect(() => {

@@ -17,6 +17,7 @@ import SignupForm from "./components/Auth/SignupForm";
 import AuthLayout from "./components/Auth/Layout";
 import ProfileContainer from "./components/Profile";
 import SearchTabs from "./components/SearchTabs";
+import Home from "./components/Home"
 
 import ProductListing from "./components/ProductListing";
 import { UserProvider } from "./contexts/UserContext";
@@ -62,31 +63,12 @@ const Product = () => {
 	);
 };
 
-const Home = () => {
-	const [search, setSearch] = useState("");
-	const [tag, setTag] = useState("All");
-
-	const {
-		loading: searchLoad,
-		error: searchError,
-		data: searchData,
-	} = useQuery(QUERY_GET_PRODUCTS, {
-		variables: {
-			searchName: search,
-			tagState: tag,
-			searchData: "searchData",
-		},
-	});
-
+const HomePage = () => {
 	return (
 		<>
-			<Header search={search} setSearch={setSearch} />
-			<SearchTabs
-				search={search}
-				setTag={setTag}
-				tag={tag}
-				searchData={searchData?.getProducts}
-			/>
+			<Header />
+			<SearchTabs />
+			<Home />
 		</>
 	);
 };
@@ -150,7 +132,7 @@ function App() {
 					path="/"
 					element={
 						<PageWrapper>
-							<Home />
+							<HomePage />
 						</PageWrapper>
 					}
 				/>
