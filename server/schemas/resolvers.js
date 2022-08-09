@@ -306,15 +306,23 @@ const resolvers = {
             return updatedStore;
         },
 
-        updateProduct: async (parent, args) => {
-            const updatedProduct = await Product.findOneAndUpdate(
-                { _id: args.productId },
-                { ...args.productData },
-                { new: true }
-            );
+        updateProduct: async (parent, args, context) => {
+            const updatedProduct = await Product.findOne({ _id: args._id });
+            console.log(updatedProduct)
 
-            if (!updatedProduct)
+            if (!updatedProduct) {
                 throw new AuthenticationError("Unable to update product");
+            }
+
+            await updatedProduct.update({
+                productTitle: args.productData.productTitle,
+                productDescription: args.productData.productDescription,
+                productPrice: args.productData.productPrice,
+                productImage: args.productData.productImage,
+                stock: args.productData.stock,
+                storeInfo: args.productData.storeInfo,
+            
+            }, { new: true });
 
             return updatedProduct;
         },

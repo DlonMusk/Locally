@@ -66,13 +66,6 @@ export const UPDATE_PRODUCT = gql`
 	mutation updateProduct($productId: ID!, $productData: ProductInput!) {
 		updateProduct(productId: $productId, productData: $productData) {
 			_id
-			productTitle
-			productDescription
-			productPrice
-			productImage
-			stock
-			likes
-			createdAt
 		}
 	}
 `;
@@ -124,4 +117,5 @@ mutation updateStore($id: ID!, $storeData: StoreInput!) {
     _id
   }
 }
-`
+`;
+

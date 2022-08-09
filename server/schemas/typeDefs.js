@@ -108,7 +108,7 @@ const typeDefs = gql`
         updateStore(_id: ID!, storeData: StoreInput!): Store
 		addProduct(productData: ProductInput!): Store
 		removeProduct(productId: ID!): Store
-		updateProduct(productId: ID!, productData: ProductInput!): Product
+		updateProduct(_id: ID!, productData: ProductInput!): Product
 		addPostReview(postReviewData: PostReviewInput!): User
 		removePostReview(postId: ID!): User
 		updatePostReview(postReviewData: PostReviewInput!): Post

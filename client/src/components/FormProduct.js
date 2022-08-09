@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { ArchiveIcon } from "@heroicons/react/solid";
-import { QUERY_GET_USER_STORE, QUERY_GET_USER } from "../utils/queries";
-import { ADD_PRODUCT } from "../utils/mutations";
-import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_GET_USER_STORE, QUERY_GET_USER, QUERY_GET_USER_PRODUCT } from "../utils/queries";
+import { ADD_PRODUCT, UPDATE_PRODUCT } from "../utils/mutations";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 
 export default function FormProduct(props) {
 	/* Using the ADD_PRODUCT mutation and destructuring it to assign data, loading, and error values
 	addProduct is also referenced so that it can later be used for posting data to the database and refetching queries
 	*/
 	const [addProduct, { data, loading, error }] = useMutation(ADD_PRODUCT);
+
+	const [updateProduct, { data: updatedData, loading: updatedLoading, error: updatedError }] = useMutation(UPDATE_PRODUCT);
+
 	// Setting states and their values
 	const [errors, setErrors] = useState([]);
 
@@ -28,6 +31,60 @@ export default function FormProduct(props) {
 	const profileLink = location.pathname
 	let userId = profileLink.replaceAll("/profile/", "");
 
+	let listingPageCheck = profileLink.includes("/product/");
+	console.log("LISTING PAGE CHECK")
+	console.log(listingPageCheck)
+
+	const [currentProductId, setCurrentProductId] = useState("");
+
+	const [getUserProduct, { loading: currentProductLoading, data: currentProductData, error: currentProductError }] = useLazyQuery(QUERY_GET_USER_PRODUCT, {
+		variables: { id: currentProductId },
+	});
+
+	const recievedProductData = currentProductData?.getUserProduct || { "Didnt Get": "The Data" };
+	console.log(recievedProductData)
+
+	useEffect(() => {
+
+		if (listingPageCheck && !product.name) {
+			setCurrentProductId(profileLink.replaceAll("/product/", ""));
+			console.log("IS THIS INSIDE THE LISTING IF STATEMENT??????????")
+			console.log(currentProductId)
+			getUserProduct({ variables: { id: currentProductId } })
+			console.log("IIIIIIIIISSSSSS RECIEVEDPRODUCTDATA WORKING!?!?!?!?!?!?!?")
+			console.log(recievedProductData)
+			console.log("STORE INFO DOES IT EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEXIST??????")
+			console.log(recievedProductData.storeInfo)
+			console.log("PROOOOOOOOOOOOOOOOOOOOOODUCT DAAAAAAAAAAAAAATA")
+			console.log(currentProductData)
+			console.log(currentProductId)
+	
+			// MAKE SURE TO INCLUDE TAGS HERE LATER, WONT DO IT NOW CAUSE IT NEEDS TO WORK WITH DYLANS CHANGE TO THE TAG RELATED TYPEDEFS
+	
+			setProduct({ ...product,
+				name: recievedProductData.productTitle,
+				description: recievedProductData.productDescription,
+				price: recievedProductData.productPrice,
+				image: recievedProductData.productImage,
+			})
+	
+		}
+		
+	}, [product,
+		recievedProductData.productTitle,
+		recievedProductData.productDescription,
+		recievedProductData.productPrice,
+		recievedProductData.productImage,
+		recievedProductData.stock,
+		listingPageCheck,
+		currentProductId,
+		profileLink,
+		getUserProduct]);
+
+	console.log("OUT IF LIST IF THINGYYYYYYYYYYYYYYYYYYYYYYYY")
+	console.log(currentProductId)
+
+
 	/* Using the QUERY_GET_USER query and having it check for a matching id which matches the userId value
 	Keep in mind that the loading, data, and error destrucutred values need to be in a format such as
 	loading: userQueryLoad, otherwise, it can not reference the query values because theyre already assigned
@@ -39,7 +96,9 @@ export default function FormProduct(props) {
 		error: userQueryError,
 	} = useQuery(QUERY_GET_USER, { variables: { id: userId } })
 
-	const currentStore = userQueryData.getUser.store._id
+	console.log("QUERY DATA FOR UUUUUUUUUUUUUUUUUUUUSER")
+	console.log(userQueryData)
+	const currentStore = userQueryData?.getUser.store._id
 	console.log(currentStore)
 
 	// Checking if there are values for each field in the form, if values are missing, return an error
@@ -63,28 +122,66 @@ export default function FormProduct(props) {
 			return;
 		}
 
-		/* Running the addProduct mutation and passing in the values from the form,
-		then refetching the queries for content update
-		*/
-		addProduct({
-			variables: {
-				productData: {
-					productTitle: product.name,
-					productDescription: product.description,
-					productPrice: parseInt(product.price),
-					productImage: product.image,
-					stock: product.stock,
-					tags: product.tags,
-					storeInfo: currentStore,
+		if (listingPageCheck) {
+			console.log("UPDATING PRODUCT UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+			
+			try {
+				updateProduct({
+					variables: {
+						id: currentProductId,
+						productData: {
+							productTitle: product.name,
+							productDescription: product.description,
+							productPrice: product.price,
+							productImage: product.image,
+							storeInfo: recievedProductData.storeInfo._id,
+						},
+					},
 
-				},
-			},
-			refetchQueries: [ {
-				query: QUERY_GET_USER_STORE,
-				variables: { id: currentStore }
-			 }],
-		});
-		props.onCancel();
+					refetchQueries: [
+						{
+							query: QUERY_GET_USER_PRODUCT,
+							variables: { id: currentProductId}
+						},
+					]
+				});
+				props.onCancel();
+			}
+			catch (err) {
+				console.log(err)
+			}
+
+		} else {
+			console.log("TRYING TO ADD A PRODUCT HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+
+			/* Running the addProduct mutation and passing in the values from the form,
+			then refetching the queries for content update
+			*/
+			try {
+				addProduct({
+					variables: {
+						productData: {
+							productTitle: product.name,
+							productDescription: product.description,
+							productPrice: parseInt(product.price),
+							productImage: product.image,
+							stock: product.stock,
+							tags: product.tags,
+							storeInfo: currentStore,
+		
+						},
+					},
+					refetchQueries: [ {
+						query: QUERY_GET_USER_STORE,
+						variables: { id: currentStore }
+					 }],
+				});
+				props.onCancel();
+			}
+			catch (err) {
+				console.log(err)
+			}
+		}
 	};
 
 	useEffect(() => {
