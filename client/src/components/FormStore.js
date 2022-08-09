@@ -64,6 +64,15 @@ export default function FormStore(props) {
 		if (storeId && !store.storeTitle) {
 			console.log("MADE IT INSIDE IF STATEMENT")
 			getUserStore({ variables: { id: storeId } })
+
+			const addressArray = existingStoreData?.getStore.address.split(", ") || ["","",""];
+			let recievedStreet = addressArray[0];
+			let recievedCity = addressArray[1];
+			let recievedCountry = addressArray[2];
+
+			setStreet(recievedStreet)
+			setCity(recievedCity)
+			setCountry(recievedCountry)
 	
 			setStore({ ...store,
 				storeTitle: recievedStoreData.storeTitle,
@@ -115,8 +124,8 @@ export default function FormStore(props) {
 
 					refetchQueries: [
 						{
-							query: QUERY_GET_USER,
-							variables: { id: user.me._id}
+							query: QUERY_GET_USER_STORE_PROFILE,
+							variables: { id: storeId}
 						},
 					]
 				});
