@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery} from "@apollo/client";
 import { QUERY_GET_PRODUCTS } from "../utils/queries";
 import { FaHeart } from "react-icons/fa";
+import { UserContext } from "../contexts/UserContext";
 
 
 export default function HomeList(props) {
@@ -9,21 +10,26 @@ export default function HomeList(props) {
     /* Using the QUERY_GET_PRODUCTS query and destructuring it to assign loading, data, and error values,
     then assigning the variables to properties and setting their default values
     */
-	const { loading, data, error } = useQuery(QUERY_GET_PRODUCTS, {
-		variables: { searchName: "", tagState: "All", searchData: "searchData" },
-	});
+	// const { loading, data, error } = useQuery(QUERY_GET_PRODUCTS, {
+	// 	variables: { searchName: "", tagState: "All", searchData: "searchData" },
+	// });
 
 
     // Assigning the homeData to the value of props.searchData or the getProducts object from the data const
-	const homeData = props.searchData ||
-		data?.getProducts || { "Didnt Get": "The Data" };
+	// const homeData = props.searchData ||
+	// 	data?.getProducts || { "Didnt Get": "The Data" };
 
+		const { searchData } = useContext(UserContext);
+
+		const homeData = searchData?.getProducts;
+
+		console.log(homeData)
 
     // Assigning homeArray to an empty array which will later be populated
 	let homeArray = [];
 
     // If there is data, then this will map through the homeData object using a hasOwnProperty method
-	if (data) {
+	if (homeData) {
 		for (var key in homeData) {
 			if (homeData.hasOwnProperty(key)) {
 
@@ -31,6 +37,9 @@ export default function HomeList(props) {
                 read through and have its values referenced
                 */
 				const homeDataStoreInfo = homeData[key].storeInfo;
+
+				console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+				console.log(homeData)
 
                 /* Pushing the mapped through values of the data retrieval into the homeArray for use in
                 the return segment of the code
@@ -73,10 +82,6 @@ export default function HomeList(props) {
 	return (
 		<div className="bg-white">
 			<div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-				<h2 id="products-heading" className="sr-only">
-					Does this show up?
-				</h2>
-
 				<div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:gap-x-8">
 					{timelineArray.map((product) => (
 						<div>

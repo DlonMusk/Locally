@@ -10,16 +10,19 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
-export default function Header(props) {
-	// Grabbing the current route location
+export default function Header() {
+
 	const location = useLocation();
 
 	// Setting state and their values
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [showSearch, setShowSearch] = useState(true);
 
-	// Destructuring the useContext with the UserContext passed in
-	const { user } = useContext(UserContext);
+  // Destructuring the useContext with the UserContext passed in
+	const { user, setSearchState, searchState } = useContext(UserContext);
+
+	
+
 
 	// If the app is on the home page, show the search bar, if its anywhere else, hide it
 	useEffect(() => {
@@ -32,9 +35,7 @@ export default function Header(props) {
 
 	const handleChange = (event) => {
 		const search = event.target.value;
-		if (props.setSearch) {
-			props.setSearch(search);
-		}
+			setSearchState(search);
 	};
 
 	useEffect(() => {
