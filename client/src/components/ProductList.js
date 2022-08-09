@@ -6,10 +6,12 @@ import { UserContext } from "../contexts/UserContext";
 import Like from "./Like";
 
 export default function ProductList(props) {
-	// store id
+	// store id set to the value of props.storeId, or a placeholder id value
 	const testingID = props.storeId || "62e5b6e4820df4975ed9ce2f";
 
-
+	/* Using the QUERY_GET_USER_STORE query and destructuring it to assign loading, data, and error values,
+    then assigning the variables to match the id with the current store id value
+    */
 	const { loading, data, error } = useQuery(QUERY_GET_USER_STORE, {
 		variables: { id: testingID },
 	});
@@ -20,15 +22,23 @@ export default function ProductList(props) {
 
 	}, [searchState, searchData]);
 
-
+	
+	/* Assigning the storeData to the value of the getStore object from data,
+	or an object with preassigned values to log for errors if needed
+	*/
 	const storeData = data?.getStore || { "Didnt Get": "The Data" };
 	const productObject = storeData.products;
 
+	// Assigning productArray to an empty array to be populated later
 	let productArray = [];
 
+	// This will map through the productObjects object using a hasOwnProperty method
 	for (var key in productObject) {
 		if (productObject.hasOwnProperty(key)) {
 
+			/* Pushing the mapped through values of the data retrieval into the productArray for use in
+			the return segment of the code
+			*/
 			productArray.push([
 				// index 0 id of product
 				productObject[key]._id,

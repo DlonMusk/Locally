@@ -6,8 +6,11 @@ import { ADD_PRODUCT } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
 
 export default function FormProduct(props) {
+	/* Using the ADD_PRODUCT mutation and destructuring it to assign data, loading, and error values
+	addProduct is also referenced so that it can later be used for posting data to the database and refetching queries
+	*/
 	const [addProduct, { data, loading, error }] = useMutation(ADD_PRODUCT);
-
+	// Setting states and their values
 	const [errors, setErrors] = useState([]);
 
 	const [product, setProduct] = useState({
@@ -20,11 +23,16 @@ export default function FormProduct(props) {
 	});
 
 	const userArray = [];
-
+	// Grabbing the current route location of the page and then using it to assign a user id value
 	const location = useLocation();
 	const profileLink = location.pathname
 	let userId = profileLink.replaceAll("/profile/", "");
 
+	/* Using the QUERY_GET_USER query and having it check for a matching id which matches the userId value
+	Keep in mind that the loading, data, and error destrucutred values need to be in a format such as
+	loading: userQueryLoad, otherwise, it can not reference the query values because theyre already assigned
+	in the ADD_PRODUCT mutation above
+	*/
 	const {
 		loading: userQueryLoad,
 		data: userQueryData,
@@ -34,8 +42,7 @@ export default function FormProduct(props) {
 	const currentStore = userQueryData.getUser.store._id
 	console.log(currentStore)
 
-
-	//<Products/>
+	// Checking if there are values for each field in the form, if values are missing, return an error
 	const checkFormErrors = () => {
 		const { description, price, image, tags, name } = product;
 		let formErrors = [];
@@ -47,7 +54,7 @@ export default function FormProduct(props) {
 		return formErrors;
 	};
 
-
+	// Handles the submit for the product form, if there is a length to the formErrors, it will set and error
 	const handleProductSubmit = () => {
 		const formErrors = checkFormErrors();
 
@@ -56,6 +63,9 @@ export default function FormProduct(props) {
 			return;
 		}
 
+		/* Running the addProduct mutation and passing in the values from the form,
+		then refetching the queries for content update
+		*/
 		addProduct({
 			variables: {
 				productData: {
@@ -90,6 +100,7 @@ export default function FormProduct(props) {
 		}
 	}, [product, errors]);
 
+	// Handling the image uploading for the form, passing in image data to the database if no errors occur
 	const handleImageUpload = (error, result) => {
 		if (!error && result && result.event === "success") {
 			setProduct({
@@ -99,6 +110,7 @@ export default function FormProduct(props) {
 		}
 	};
 
+	// Cloudinary key values
 	const cloudinaryWidget = window.cloudinary.createUploadWidget(
 		{
 			cloudName: "dum9rkikg",
@@ -107,6 +119,7 @@ export default function FormProduct(props) {
 		handleImageUpload
 	);
 
+	// If check for assigning styling based on if theres an error or not
 	const generateInputClassName = (error) => {
 		let className = "";
 		if (error) {
