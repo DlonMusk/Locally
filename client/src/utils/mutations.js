@@ -63,11 +63,11 @@ export const REMOVE_PRODUCT = gql`
 `;
 
 export const UPDATE_PRODUCT = gql`
-	mutation updateProduct($productId: ID!, $productData: ProductInput!) {
-		updateProduct(productId: $productId, productData: $productData) {
-			_id
-		}
-	}
+    mutation updateProduct($id: ID!, $productData: ProductInput!) {
+    updateProduct(_id: $id, productData: $productData) {
+        _id
+    }
+}
 `;
 
 export const ADD_POST_REVIEW = gql`

@@ -124,6 +124,8 @@ export default function FormProduct(props) {
 
 		if (listingPageCheck) {
 			console.log("UPDATING PRODUCT UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+			console.log(recievedProductData.storeInfo._id)
+			console.log(currentProductId)
 			
 			try {
 				updateProduct({
@@ -132,7 +134,7 @@ export default function FormProduct(props) {
 						productData: {
 							productTitle: product.name,
 							productDescription: product.description,
-							productPrice: product.price,
+							productPrice: parseInt(product.price),
 							productImage: product.image,
 							storeInfo: recievedProductData.storeInfo._id,
 						},
