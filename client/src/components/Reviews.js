@@ -74,7 +74,7 @@ export default function Reviews(props) {
 							// review destination id INDEX 6
 							reviewArray[i][3],
 							// review created at INDEX 7
-							reviewArray[i][4],
+							reviewArray[i][4].substr(0, 10),
 							// user id (of the reviewer) at INDEX 8
 							reviewArray[i][5],
 							// username (of the reviewer) at INDEX 9
@@ -92,7 +92,7 @@ export default function Reviews(props) {
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div className="max-w-3xl mx-auto">
-				<ul role="list" className="divide-y divide-gray-200">
+				<ul role="list" className="divide-y divide-gray-200 mb-20">
 					{reviewProductArray.map((reviewItem) => (
 						<li key={reviewItem[3]} className="py-4">
 							<div className="flex space-x-3">
