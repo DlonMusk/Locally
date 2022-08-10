@@ -48,6 +48,7 @@ export default function ProfileContainer() {
 	const [hasStore, setHasStore] = useState(false);
 	const [storeData, setStoreData] = useState({});
 	const [storeId, setStoreId] = useState("");
+	const [isEdit, setIsEdit] = useState(false);
 
 	useEffect(() => {
 		if (user) {
@@ -119,11 +120,12 @@ export default function ProfileContainer() {
 		<>
 			<Modal
 				isOpen={showModal}
-				title={`Create new ${showProductForm ? "Product" : "Store"}`}
+				title={`${isEdit ? "Edit" : "Create new"} ${showProductForm ? "Product" : "Store"}`}
 				onClose={() => {
 					setShowModal(false);
 					setShowProductForm(false);
 					setShowStoreForm(false);
+					setIsEdit(false);
 				}}
 			>
 				{showStoreForm && (
@@ -131,6 +133,7 @@ export default function ProfileContainer() {
 						onCancel={() => {
 							setShowModal(false);
 							setShowStoreForm(false);
+							setIsEdit(false);
 						}}
 					/>
 				)}
@@ -211,6 +214,7 @@ export default function ProfileContainer() {
                                         onClick={() => {
 											setShowStoreForm(!showStoreForm);
 											setShowModal(!showModal);
+											setIsEdit(!isEdit);
                                         }}
                                         className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
