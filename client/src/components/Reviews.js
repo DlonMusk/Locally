@@ -131,9 +131,21 @@ export default function Reviews(props) {
 								/>
 								<div className="flex-1 space-y-1">
 									<div className="flex items-center justify-between">
-										<h3 className="text-sm font-semibold">{reviewItem[9]}</h3>
+										<h3 className="text-sm font-semibold">
+											<a
+											href={`/profile/${reviewItem[8]}`}
+											className="hover:text-gray-400 focus:text-gray-900"
+											>
+											{reviewItem[9]}
+											</a>
+											</h3>
 										<p className="text-sm font-medium text-gray-700">
+											<a
+											href={`/product/${reviewItem[6]}`}
+											className="hover:text-gray-400 focus:text-gray-900"
+											>
 											{reviewItem[1]}
+											</a>
 										</p>
 										<p className="text-sm text-gray-500">{reviewItem[7]}</p>
 									</div>
