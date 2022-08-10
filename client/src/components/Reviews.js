@@ -13,9 +13,15 @@ export default function Reviews(props) {
 		variables: { id: testingID },
 	});
 
+	console.log("TESTING IDDDDDDDDDDDDDDDDDDDDDDDD")
+	console.log(testingID)
+
 	const reviewData = data?.getStore || { "Didnt Get": "The Data" };
 	
 	const reviewNestedData = reviewData.products;
+
+	console.log("REVIEW DATAAAAAAAAAAAAAAAAAAA")
+	console.log(reviewNestedData)
 	
 
 	let reviewProductArray = [];
@@ -25,8 +31,30 @@ export default function Reviews(props) {
 		if (reviewNestedData.hasOwnProperty(key)) {
 
 			const reviewNestedDataReviews = reviewNestedData[key].reviews;
-
+			console.log("NESTED CHECK!!!!!!!!!!!!!!!!!")
+			console.log(reviewNestedDataReviews)
 			if (reviewNestedDataReviews !== null) {
+
+				reviewNestedDataReviews.map(function (element) {
+					reviewArray.push([
+						element._id,
+						element.postContent,
+						element.likes,
+						element.destinationId._id,
+						element.createdAt,
+						element.userData._id,
+						element.userData.username,
+					]);
+					return [
+						element._id,
+						element.postContent,
+						element.likes,
+						element.destinationId._id,
+						element.createdAt,
+						element.userData._id,
+						element.userData.username,
+					];
+				});
 
 				for (let i = 0; i < reviewArray.length; i++) {
 					if (reviewArray[i][3] === reviewNestedData[key]._id) {
@@ -58,6 +86,8 @@ export default function Reviews(props) {
 		}
 	}
 
+	console.log("REVIEW PRODUCT ARRAY GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+	console.log(reviewProductArray)
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
