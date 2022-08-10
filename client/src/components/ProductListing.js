@@ -1,3 +1,4 @@
+import { PencilIcon } from "@heroicons/react/solid";
 import { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Tab } from "@headlessui/react";
@@ -6,12 +7,16 @@ import { useQuery } from "@apollo/client";
 import { QUERY_GET_USER_PRODUCT, QUERY_GET_USER_BY_STORE } from "../utils/queries";
 import ReviewForm from "./ReviewForm";
 import Like from "./Like";
+import Modal from "./Modal";
+import FormProduct from "./FormProduct";
 
 export default function ProductListing() {
 	const { productId } = useParams();
 
 
 	const [showReviewForm, setShowReviewForm] = useState(false);
+	const [showModal, setShowModal] = useState(false);
+	const [showProductForm, setShowProductForm] = useState(false);
 
 	const [product, setProduct] = useState({
 		name: "Example product",
@@ -107,6 +112,11 @@ export default function ProductListing() {
 		variables: { id: storeInfoArray[1] },
 	});
 
+	console.log("STORE INFO AAAAAAAAAAAAAAAARRAAAAAAAYYYYYYYYYYYY")
+	console.log(storeInfoArray)
+	console.log("dataUser$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+	console.log(dataUser)
+
 	/* Assigning the userData to the value of the getUserByStore object from data,
 	or an object with preassigned values to log for errors if needed
 	*/
@@ -119,6 +129,25 @@ export default function ProductListing() {
 
 
 	return (
+		<>
+		<Modal
+		isOpen={showModal}
+		title={`Edit Product`}
+		onClose={() => {
+			setShowModal(false);
+			setShowProductForm(false);
+		}}
+	>
+		{showProductForm && (
+			<FormProduct
+				onCancel={() => {
+					setShowModal(false);
+					setShowProductForm(false);
+				}}
+			/>
+		)}
+		</Modal>
+	
 		<div className="bg-white">
 			<div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
 				<div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
@@ -217,7 +246,21 @@ export default function ProductListing() {
 							</div>
 						</form>
 						{user?.me._id === storeOwner ?
-						'' : <button
+						<button
+						type="button"
+						onClick={() => {
+							setShowProductForm(!showProductForm);
+							setShowModal(!showModal);
+						}}
+						className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+					>
+						<PencilIcon
+							className="-ml-1 mr-2 h-5 w-5 text-gray-500"
+							aria-hidden="true"
+						/>
+						Edit Product
+						</button>
+					: <button
 						type="button"
 						onClick={() => setShowReviewForm(!showReviewForm)}
 						className=" mt-6 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -233,5 +276,6 @@ export default function ProductListing() {
 				</div>
 			</div>
 		</div>
+		</>
 	);
 }

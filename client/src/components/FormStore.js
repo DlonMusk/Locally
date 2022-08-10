@@ -1,6 +1,6 @@
-import { ADD_STORE } from "../utils/mutations";
-import { useMutation } from "@apollo/client";
-import { QUERY_GET_USER } from "../utils/queries";
+import { ADD_STORE, UPDATE_STORE } from "../utils/mutations";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
+import { QUERY_GET_USER, QUERY_GET_USER_STORE_PROFILE } from "../utils/queries";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 
@@ -14,6 +14,8 @@ export default function FormStore(props) {
 	addStore is also referenced so that it can later be used for posting data to the database and refetching queries
 	*/
 	const [addStore, { data, loading, error }] = useMutation(ADD_STORE);
+
+	const [updateStore, { data: updatedData, loading: updatedLoading, error: updatedError }] = useMutation(UPDATE_STORE);
 
 	// Setting states and their values
 	const [store, setStore] = useState({
@@ -32,36 +34,135 @@ export default function FormStore(props) {
 		setStore({ ...store, address: `${street}, ${city}, ${country}` });
 	}, [city, country, street]);
 
+	const {
+		loading: userQueryLoad,
+		data: userQueryData,
+		error: userQueryError,
+	} = useQuery(QUERY_GET_USER, { variables: { id: user.me._id } });
+
+	const userData = userQueryData?.getUser || { "Didnt Get": "The Data" };
+	console.log("CHECKING USER DATA ON FORM STORE WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOW")
+	console.log(userData)
+
+	const [storeId, setStoreId] = useState("");
+
+	console.log("STORE IDDDDDDDDDDDDDD")
+	console.log(storeId)
+
+	const [getUserStore, { loading: existingStoreLoading, data: existingStoreData, error: existingStoreError }] = useLazyQuery(
+		QUERY_GET_USER_STORE_PROFILE,
+		{
+			variables: { id: storeId },
+		}
+	);
+
+	const recievedStoreData = existingStoreData?.getStore || { "Didnt Get": "The Data" };
+	console.log(recievedStoreData)
+	
+
+	useEffect(() => {
+		if (storeId && !store.storeTitle) {
+			console.log("MADE IT INSIDE IF STATEMENT")
+			getUserStore({ variables: { id: storeId } })
+
+			const addressArray = existingStoreData?.getStore.address.split(", ") || ["","",""];
+			let recievedStreet = addressArray[0];
+			let recievedCity = addressArray[1];
+			let recievedCountry = addressArray[2];
+
+			setStreet(recievedStreet)
+			setCity(recievedCity)
+			setCountry(recievedCountry)
+	
+			setStore({ ...store,
+				storeTitle: recievedStoreData.storeTitle,
+				email: recievedStoreData.email,
+				address: recievedStoreData.address,
+				phoneNumber: recievedStoreData.phoneNumber
+			})
+		}
+	}, [store,
+		recievedStoreData.storeTitle,
+		recievedStoreData.email,
+		recievedStoreData.address,
+		recievedStoreData.phoneNumber,
+		storeId,
+		getUserStore]);
+	console.log("OUT OF IF STATEMENT")
+
+	useEffect(() => {
+		if (userQueryData && userQueryData.getUser && userQueryData.getUser.store) {
+			setStoreId(userQueryData.getUser.store._id);
+		}
+	}, [userQueryData, userQueryError, userQueryLoad]);
+
+
+	console.log({...store})
+	console.log("CHECK PLEASEPLEASEPLEASEPLEASEPLEASEPLEASE")
+	console.log(store.storeTitle)
+
 
 	// Handling the submit for the store form
 	/* Running the addStore mutation and passing in the values from the form,
 	then refetching the queries for content update
 	*/
 	const handleSubmit = () => {
-		try {
-			addStore({
-				variables: {
-					storeData: {
-						storeTitle: store.storeTitle,
-						email: store.email,
-						address: store.address,
-						phoneNumber: store.phoneNumber,
-					},
-				},
-				refetchQueries: [
-					{
-						query: QUERY_GET_USER,
-						variables: { id: user.me._id}
-					},
-				]
-			});
-			props.onCancel();
-		}
-		catch (err) {
-			console.log(err)
-		}
-	};
 
+		if (storeId) {
+			
+			try {
+				updateStore({
+					variables: {
+						id: storeId,
+						storeData: {
+							storeTitle: store.storeTitle,
+							email: store.email,
+							address: store.address,
+							phoneNumber: store.phoneNumber,
+						},
+					},
+
+					refetchQueries: [
+						{
+							query: QUERY_GET_USER_STORE_PROFILE,
+							variables: { id: storeId}
+						},
+					]
+				});
+				props.onCancel();
+			}
+			catch (err) {
+				console.log(err)
+			}
+
+		} else {
+
+			try {
+				addStore({
+					variables: {
+						storeData: {
+							storeTitle: store.storeTitle,
+							email: store.email,
+							address: store.address,
+							phoneNumber: store.phoneNumber,
+						},
+					},
+					refetchQueries: [
+						{
+							query: QUERY_GET_USER,
+							variables: { id: user.me._id}
+						},
+					]
+				});
+				props.onCancel();
+			}
+			catch (err) {
+				console.log(err)
+			}
+		}
+
+	};
+	console.log("ABOVE RETURN")
 	return (
 		<div className="space-y-8 divide-y divide-gray-200">
 			<div className=" overflow-hidden sm:rounded-lg">

@@ -247,6 +247,25 @@ const resolvers = {
             return user;
         },
 
+        updateStore: async (parent, args) => {
+            const updatedStore = await Store.findOne({ _id: args._id });
+            console.log(updatedStore)
+
+            if (!updatedStore) {
+                throw new AuthenticationError("Unable to update store");
+            }
+
+            await updatedStore.update({
+                storeTitle: args.storeData.storeTitle,
+                email: args.storeData.email,
+                address: args.storeData.address,
+                phoneNumber: args.storeData.phoneNumber,
+            
+            }, { new: true });
+
+            return updatedStore;
+        },
+
 
         
         addProduct: async (parent, { productData }, context) => {
@@ -288,14 +307,24 @@ const resolvers = {
         },
 
         updateProduct: async (parent, args) => {
-            const updatedProduct = await Product.findOneAndUpdate(
-                { _id: args.productId },
-                { ...args.productData },
-                { new: true }
-            );
+            const updatedProduct = await Product.findOne({ _id: args._id });
+            console.log(updatedProduct)
+            console.log("STORE INFO-------------")
+            console.log(args.productData.storeInfo)
 
-            if (!updatedProduct)
+            if (!updatedProduct) {
                 throw new AuthenticationError("Unable to update product");
+            }
+
+            await updatedProduct.update({
+                productTitle: args.productData.productTitle,
+                productDescription: args.productData.productDescription,
+                productPrice: args.productData.productPrice,
+                productImage: args.productData.productImage,
+                stock: args.productData.stock,
+                storeInfo: args.productData.storeInfo
+            
+            }, { new: true });
 
             return updatedProduct;
         },

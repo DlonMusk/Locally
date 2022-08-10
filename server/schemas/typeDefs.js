@@ -105,9 +105,10 @@ const typeDefs = gql`
 		login(email: String!, password: String!): Auth
 		addUser(username: String!, email: String!, password: String!): Auth
 		addStore(storeData: StoreInput!): User
+        updateStore(_id: ID!, storeData: StoreInput!): Store
 		addProduct(productData: ProductInput!): Store
 		removeProduct(productId: ID!): Store
-		updateProduct(productId: ID!, productData: ProductInput!): Product
+		updateProduct(_id: ID!, productData: ProductInput!): Product
 		addPostReview(postReviewData: PostReviewInput!): User
 		removePostReview(postId: ID!): User
 		updatePostReview(postReviewData: PostReviewInput!): Post
