@@ -53,7 +53,7 @@ const Posts = (props) => {
 				// INDEX 3 returns true or false value based on if itss a review or not
 				postDataReviews[key].review,
 				// INDEX 4 time review was created
-				postDataReviews[key].createdAt,
+				postDataReviews[key].createdAt.substr(0, 10),
 				// INDEX 5 username of the user making the reviews
 				postData.username,
 			]);
@@ -93,7 +93,7 @@ const Posts = (props) => {
 					open={showReviewForm}
 					setOpen={(open) => setShowReviewForm(open)}
 				/>
-				<ul role="list" className="divide-y divide-gray-200">
+				<ul role="list" className="divide-y divide-gray-200 mb-20">
 					{postArray.map((reviewItem) => (
 						<li
 							key={reviewItem[0]}
