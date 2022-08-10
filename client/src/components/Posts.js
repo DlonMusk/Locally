@@ -1,8 +1,9 @@
 // Will add code here later
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_POSTS } from "../utils/queries";
+import { UserContext } from "../contexts/UserContext";
 import ReviewForm from "./ReviewForm";
 import Like from "./Like";
 
@@ -73,10 +74,23 @@ const Posts = (props) => {
 		}
 	}
 
+	const { user } = useContext(UserContext);
+
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div className="max-w-3xl mx-auto">
+			<button
+					type="button"
+					onClick={() => setShowReviewForm(!showReviewForm)}
+					className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+				>
+					Create A Post
+				</button>
+				<ReviewForm
+					open={showReviewForm}
+					setOpen={(open) => setShowReviewForm(open)}
+				/>
 				<ul role="list" className="divide-y divide-gray-200">
 					{postArray.map((reviewItem) => (
 						<li
@@ -105,17 +119,6 @@ const Posts = (props) => {
 						</li>
 					))}
 				</ul>
-				<button
-					type="button"
-					onClick={() => setShowReviewForm(!showReviewForm)}
-					className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-				>
-					Create A Post
-				</button>
-				<ReviewForm
-					open={showReviewForm}
-					setOpen={(open) => setShowReviewForm(open)}
-				/>
 			</div>
 		</div>
 	);

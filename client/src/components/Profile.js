@@ -52,8 +52,10 @@ export default function ProfileContainer() {
 
 	useEffect(() => {
 		if (user) {
+            console.log("INSIDE OF IF USER USE EFFECTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
 			if (user.me._id === profileId) {
 				setIsMe(true);
+                console.log("SET IS ME HAS BECOME TRUEEEEEEEEEEEEEEEEEEEEE")
 			}
 		}
 	}, [user, profileId]);
