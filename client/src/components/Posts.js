@@ -76,6 +76,10 @@ const Posts = (props) => {
 
 	const { user } = useContext(UserContext);
 
+	let timelineArray = postArray.slice(0).reverse().map(function(postArray) {
+        return postArray;
+    });
+
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,7 +98,7 @@ const Posts = (props) => {
 					setOpen={(open) => setShowReviewForm(open)}
 				/>
 				<ul role="list" className="divide-y divide-gray-200 mb-20">
-					{postArray.map((reviewItem) => (
+					{timelineArray.map((reviewItem) => (
 						<li
 							key={reviewItem[0]}
 							className="py-4"

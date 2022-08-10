@@ -86,8 +86,36 @@ export default function Reviews(props) {
 		}
 	}
 
+	// Comparator function which will sort reviews by date
+	function Comparator(a, b) {
+		if (a[7] < b[7]) return 1;
+		if (a[7] > b[7]) return -1;
+		return 0;
+	}
+
+	/* Sorting with Comparator, without this, the array will only sort by date for each product without taking other products into account
+	For example, without this it will sort in this way:
+
+	product 1: June 5
+	product 1: June 20
+	product 2: June 2
+	product 2: June 15
+
+	With this sorting, it will instead work like this:
+
+	product 2: June 2
+	product 1: June 5
+	product 2: June 15
+	product 1: June 20
+	
+	*/
+	reviewProductArray = reviewProductArray.sort(Comparator);
+
+
 	console.log("REVIEW PRODUCT ARRAY GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
 	console.log(reviewProductArray)
+
+	
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

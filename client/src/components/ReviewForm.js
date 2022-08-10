@@ -122,6 +122,8 @@ export default function ReviewForm(props) {
 			inputs.forEach((input) => {
 				input.value = "";
 			});
+
+			props.setOpen(false)
 		}
 	};
 
