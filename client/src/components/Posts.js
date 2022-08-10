@@ -87,7 +87,7 @@ const Posts = (props) => {
 			<button
 					type="button"
 					onClick={() => setShowReviewForm(!showReviewForm)}
-					className={`inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+					className={`inline-flex items-center mt-4 px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
 						user?.me._id === testingID ? "" : "hidden"
 					}`}
 				>
@@ -104,18 +104,24 @@ const Posts = (props) => {
 							className="py-4"
 							id={reviewItem[3].toString()}
 						>
-							{reviewItem[3] ? <h2>Review</h2> : <h2>Post</h2>}
+							{reviewItem[3] ? <h2 className="inline-flex px-2.5 py-0.5 rounded-md mb-2 bg-indigo-100 text-indigo-800">Review</h2> :
+							<h2 className="inline-flex px-2.5 py-0.5 rounded-md mb-2 bg-sky-100 text-sky-800">Post</h2>}
 							<div className="flex space-x-3">
 								<img
 									className="h-6 w-6 rounded-full"
-									src={reviewItem[8]}
+									src={ reviewItem[8] ? `${reviewItem[8]}` : `https://source.unsplash.com/random/400x400`}
 									alt=""
 								/>
 								<div className="flex-1 space-y-1">
 									<div className="flex items-center justify-between">
 										<h3 className="text-sm font-semibold">{reviewItem[5]}</h3>
 										<p className="text-sm font-medium text-gray-700">
+											<a
+											href={`/product/${reviewItem[6]}`}
+											className="hover:text-gray-400 focus:text-gray-900"
+											>
 											{reviewItem[7]}
+											</a>
 										</p>
 										<p className="text-sm text-gray-500">{reviewItem[4]}</p>
 									</div>

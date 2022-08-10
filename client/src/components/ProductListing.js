@@ -216,7 +216,14 @@ export default function ProductListing() {
 										/>
 										<div className="flex-1 space-y-1">
 											<div className="flex items-center justify-between">
-												<h3 className="text-sm font-semibold">{item[6]}</h3>
+												<h3 className="text-sm font-semibold">
+													<a
+													href={`/profile/${item[5]}`}
+													className="hover:text-gray-400 focus:text-gray-900"
+													>
+														{item[6]}
+													</a>
+												</h3>
 												<p className="text-sm font-medium text-gray-700">
 													{productData.productTitle}
 												</p>
