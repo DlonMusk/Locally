@@ -35,8 +35,8 @@ export default function SearchTabs() {
 
 	return (
 		<>
-			<div className="p-8 mx-auto bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:items-center sm:space-y-0 sm:space-x-6">
-				<div className="text-center space-x-10 pt-3 border-t-2">
+			<div className="p-8 bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:items-center sm:space-y-0 py-0">
+				<div className="text-center sm:space-x-10 pt-3 border-t-2">
 					{tabs.map((tab) => (
 						<button
 							onClick={() => setTagState(tab.tabName)}
