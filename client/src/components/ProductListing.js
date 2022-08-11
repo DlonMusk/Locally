@@ -80,7 +80,7 @@ export default function ProductListing() {
 					// INDEX 3 review true or false value based on if its a review or a post
 					productNestedReviews[key].review,
 					// INDEX 4 review time of creation
-					productNestedReviews[key].createdAt,
+					productNestedReviews[key].createdAt.substr(0, 10),
 					// INDEX 5 user id
 					reviewNestedUserData._id,
 					// INDEX 6 username for user
