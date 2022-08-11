@@ -125,11 +125,13 @@ export default function FormProduct(props) {
 	const checkFormErrors = () => {
 		const { description, price, image, tags, name } = product;
 		let formErrors = [];
+		console.log("REPEAT")
 		if (!name) formErrors.push("name");
-		if (!description) formErrors.push("description");
+		if (!description || description.length < 10 || description.length > 200) formErrors.push("description");
 		if (!price) formErrors.push("price");
 		if (!image) formErrors.push("image");
 		if (!tags.length) formErrors.push("tags");
+		console.log("REPEAT THE SEQUEL")
 		return formErrors;
 	};
 
@@ -138,10 +140,13 @@ export default function FormProduct(props) {
 
 	// Handles the submit for the product form, if there is a length to the formErrors, it will set and error
 	const handleProductSubmit = () => {
-		const formErrors = checkFormErrors();
+		let formErrors = checkFormErrors();
+		//formErrors = ""
+		console.log("WOOP WOOP WOOP WOOP")
 
 		if (formErrors.length) {
 			setErrors(formErrors);
+			console.log("TRIGGERING IF STATEMENT NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
 			return;
 		}
 
@@ -231,7 +236,7 @@ export default function FormProduct(props) {
 			const formErrors = checkFormErrors();
 			setErrors(formErrors);
 		}
-	}, [product, errors]);
+	}, []);
 
 	// Handling the image uploading for the form, passing in image data to the database if no errors occur
 	const handleImageUpload = (error, result) => {
@@ -254,6 +259,7 @@ export default function FormProduct(props) {
 
 	// If check for assigning styling based on if theres an error or not
 	const generateInputClassName = (error) => {
+		console.log("CLASSNAME REPEAT")
 		let className = "";
 		if (error) {
 			className += "border-red-500";
