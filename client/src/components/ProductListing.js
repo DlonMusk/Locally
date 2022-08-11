@@ -173,6 +173,19 @@ export default function ProductListing() {
 									</span>
 								))}
 							</Tab.Panel>
+							<form className="mt-6">
+							<div className=" flex sm:flex-col1">
+
+								<button
+									type="button"
+									className="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+								>
+									<Like likes={productData.likes} componentId={"product"+productId} />
+
+									<span className="sr-only">Add to favorites</span>
+								</button>
+							</div>
+						</form>
 						</Tab.Panels>
 					</Tab.Group>
 
@@ -204,6 +217,36 @@ export default function ProductListing() {
 								}}
 							/>
 						</div>
+
+						{user?.me._id === storeOwner ?
+						<button
+						type="button"
+						onClick={() => {
+							setShowProductForm(!showProductForm);
+							setShowModal(!showModal);
+						}}
+						className="mt-4 mb-4 inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+					>
+						<PencilIcon
+							className="-ml-1 mr-2 h-5 w-5 text-gray-500"
+							aria-hidden="true"
+						/>
+						Edit Product
+						</button>
+					: <button
+						type="button"
+						onClick={() => setShowReviewForm(!showReviewForm)}
+						className={`mt-4 mb-4 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+							user ? "" : "hidden"
+						}`}
+					>
+						Write Review
+					</button>}
+						
+						<ReviewForm
+							open={showReviewForm}
+							setOpen={(open) => setShowReviewForm(open)}
+						/>
 
 						<ul role="list" className="divide-y divide-gray-200">
 							{reviewProductArray.map((item) => (
@@ -238,49 +281,6 @@ export default function ProductListing() {
 								</li>
 							))}
 						</ul>
-
-						<form className="mt-6">
-							<div className="mt-10 flex sm:flex-col1">
-
-								<button
-									type="button"
-									className="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500"
-								>
-									<Like likes={productData.likes} componentId={"product"+productId} />
-
-									<span className="sr-only">Add to favorites</span>
-								</button>
-							</div>
-						</form>
-						{user?.me._id === storeOwner ?
-						<button
-						type="button"
-						onClick={() => {
-							setShowProductForm(!showProductForm);
-							setShowModal(!showModal);
-						}}
-						className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-					>
-						<PencilIcon
-							className="-ml-1 mr-2 h-5 w-5 text-gray-500"
-							aria-hidden="true"
-						/>
-						Edit Product
-						</button>
-					: <button
-						type="button"
-						onClick={() => setShowReviewForm(!showReviewForm)}
-						className={`mt-6 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-							user ? "" : "hidden"
-						}`}
-					>
-						Write Review
-					</button>}
-						
-						<ReviewForm
-							open={showReviewForm}
-							setOpen={(open) => setShowReviewForm(open)}
-						/>
 					</div>
 				</div>
 			</div>
