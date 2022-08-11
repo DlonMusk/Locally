@@ -1,8 +1,9 @@
 // Will add code here later
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_GET_USER_POSTS } from "../utils/queries";
+import { UserContext } from "../contexts/UserContext";
 import ReviewForm from "./ReviewForm";
 import Like from "./Like";
 
@@ -52,7 +53,7 @@ const Posts = (props) => {
 				// INDEX 3 returns true or false value based on if itss a review or not
 				postDataReviews[key].review,
 				// INDEX 4 time review was created
-				postDataReviews[key].createdAt,
+				postDataReviews[key].createdAt.substr(0, 10),
 				// INDEX 5 username of the user making the reviews
 				postData.username,
 			]);
@@ -73,29 +74,54 @@ const Posts = (props) => {
 		}
 	}
 
+	const { user } = useContext(UserContext);
+
+	let timelineArray = postArray.slice(0).reverse().map(function(postArray) {
+        return postArray;
+    });
+
 
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div className="max-w-3xl mx-auto">
-				<ul role="list" className="divide-y divide-gray-200">
-					{postArray.map((reviewItem) => (
+			<button
+					type="button"
+					onClick={() => setShowReviewForm(!showReviewForm)}
+					className={`inline-flex items-center mt-4 px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+						user?.me._id === testingID ? "" : "hidden"
+					}`}
+				>
+					Create A Post
+				</button>
+				<ReviewForm
+					open={showReviewForm}
+					setOpen={(open) => setShowReviewForm(open)}
+				/>
+				<ul role="list" className="divide-y divide-gray-200 mb-20">
+					{timelineArray.map((reviewItem) => (
 						<li
 							key={reviewItem[0]}
 							className="py-4"
 							id={reviewItem[3].toString()}
 						>
-							{reviewItem[3] ? <h2>Review</h2> : <h2>Post</h2>}
+							{reviewItem[3] ? <h2 className="inline-flex px-2.5 py-0.5 rounded-md mb-2 bg-indigo-100 text-indigo-800">Review</h2> :
+							<h2 className="inline-flex px-2.5 py-0.5 rounded-md mb-2 bg-sky-100 text-sky-800">Post</h2>}
 							<div className="flex space-x-3">
 								<img
 									className="h-6 w-6 rounded-full"
-									src={reviewItem[8]}
+									src={ reviewItem[8] ? `${reviewItem[8]}` : `https://source.unsplash.com/random/400x400`}
 									alt=""
 								/>
 								<div className="flex-1 space-y-1">
 									<div className="flex items-center justify-between">
 										<h3 className="text-sm font-semibold">{reviewItem[5]}</h3>
 										<p className="text-sm font-medium text-gray-700">
+											<a
+											href={`/product/${reviewItem[6]}`}
+											className="hover:text-gray-400 focus:text-gray-900"
+											>
 											{reviewItem[7]}
+											</a>
 										</p>
 										<p className="text-sm text-gray-500">{reviewItem[4]}</p>
 									</div>
@@ -105,17 +131,6 @@ const Posts = (props) => {
 						</li>
 					))}
 				</ul>
-				<button
-					type="button"
-					onClick={() => setShowReviewForm(!showReviewForm)}
-					className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-				>
-					Create A Post
-				</button>
-				<ReviewForm
-					open={showReviewForm}
-					setOpen={(open) => setShowReviewForm(open)}
-				/>
 			</div>
 		</div>
 	);
