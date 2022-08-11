@@ -52,6 +52,7 @@ export default function Header() {
 		},
 	];
 
+
 	const activeNavStyle =
 		"border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium";
 
@@ -198,7 +199,7 @@ export default function Header() {
 							{/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" */}
 							<Disclosure.Button
 								as="a"
-								href="#"
+								href="/"
 								className="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
 							>
 								Home
@@ -218,38 +219,36 @@ export default function Header() {
 										alt=""
 									/>
 								</div>
+								{isLoggedIn ?
 								<div className="ml-3">
 									<div className="text-base font-medium text-gray-800">
-										tom
+										{user.me.username}
 									</div>
 									<div className="text-sm font-medium text-gray-500">
-										tom@example.com
+										{user.me.email}
 									</div>
 								</div>
+								: ""}
 							</div>
+							{isLoggedIn ?
 							<div className="mt-3 space-y-1">
-								<Disclosure.Button
-									as="a"
-									href="/profile"
-									className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-								>
-									Your Profile
-								</Disclosure.Button>
-								<Disclosure.Button
-									as="a"
-									href="#"
-									className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-								>
-									Settings
-								</Disclosure.Button>
-								<Disclosure.Button
-									as="a"
-									href="/login"
-									className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-								>
-									Sign out
-								</Disclosure.Button>
-							</div>
+							<Disclosure.Button
+								as="a"
+								href={`/profile/${user.me._id}`}
+								className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+							>
+								Your Profile
+							</Disclosure.Button>
+							<Disclosure.Button
+								as="a"
+								onClick={Auth.logout}
+								href="/login"
+								className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+							>
+								Sign out
+							</Disclosure.Button>
+						</div>
+							: ""}
 						</div>
 					</Disclosure.Panel>
 				</>

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { QUERY_GET_USER, QUERY_GET_USER_STORE_PROFILE } from "../utils/queries";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import { validateEmail } from "../utils/helpers";
 
 export default function FormStore(props) {
 
@@ -101,6 +102,9 @@ export default function FormStore(props) {
 	console.log("CHECK PLEASEPLEASEPLEASEPLEASEPLEASEPLEASE")
 	console.log(store.storeTitle)
 
+	const [emailCheck, setEmailCheck] = useState(true);
+	const [titleCheck, setTitleCheck] = useState(true);
+	const [phoneCheck, setPhoneCheck] = useState(true);
 
 	// Handling the submit for the store form
 	/* Running the addStore mutation and passing in the values from the form,
@@ -108,57 +112,86 @@ export default function FormStore(props) {
 	*/
 	const handleSubmit = () => {
 
-		if (storeId) {
-			
-			try {
-				updateStore({
-					variables: {
-						id: storeId,
-						storeData: {
-							storeTitle: store.storeTitle,
-							email: store.email,
-							address: store.address,
-							phoneNumber: store.phoneNumber,
-						},
-					},
+		const validCheck = validateEmail(store.email);
 
-					refetchQueries: [
-						{
-							query: QUERY_GET_USER_STORE_PROFILE,
-							variables: { id: storeId}
-						},
-					]
-				});
-				props.onCancel();
-			}
-			catch (err) {
-				console.log(err)
-			}
-
+		if (!validCheck && store.email.length > 0) {
+			console.log("valid check failed")
+			setEmailCheck(false)
+			setTitleCheck(true)
+			setPhoneCheck(true)
+			return;
+		} else if (/^\d{10,}$/.test(store.phoneNumber) === false && store.phoneNumber.length > 0) {
+			console.log("NOT A NUMBER")
+			setPhoneCheck(false)
+			setEmailCheck(true)
+			setTitleCheck(true)
+			return;
+		}	
+		else if (store.storeTitle.length === 0) {
+			console.log("title check failed")
+			setTitleCheck(false)
+			setEmailCheck(true)
+			setPhoneCheck(true)
+			return;
 		} else {
 
-			try {
-				addStore({
-					variables: {
-						storeData: {
-							storeTitle: store.storeTitle,
-							email: store.email,
-							address: store.address,
-							phoneNumber: store.phoneNumber,
+			setEmailCheck(true)
+			setTitleCheck(true)
+			setPhoneCheck(true)
+
+			if (storeId) {
+			
+				try {
+					updateStore({
+						variables: {
+							id: storeId,
+							storeData: {
+								storeTitle: store.storeTitle,
+								email: store.email,
+								address: store.address,
+								phoneNumber: store.phoneNumber,
+							},
 						},
-					},
-					refetchQueries: [
-						{
-							query: QUERY_GET_USER,
-							variables: { id: user.me._id}
+	
+						refetchQueries: [
+							{
+								query: QUERY_GET_USER_STORE_PROFILE,
+								variables: { id: storeId}
+							},
+						]
+					});
+					props.onCancel();
+				}
+				catch (err) {
+					console.log(err)
+				}
+	
+			} else {
+	
+				try {
+					addStore({
+						variables: {
+							storeData: {
+								storeTitle: store.storeTitle,
+								email: store.email,
+								address: store.address,
+								phoneNumber: store.phoneNumber,
+							},
 						},
-					]
-				});
-				props.onCancel();
+						refetchQueries: [
+							{
+								query: QUERY_GET_USER,
+								variables: { id: user.me._id}
+							},
+						]
+					});
+					props.onCancel();
+				}
+				catch (err) {
+					console.log(err)
+				}
 			}
-			catch (err) {
-				console.log(err)
-			}
+
 		}
 
 	};
@@ -184,6 +217,11 @@ export default function FormStore(props) {
 										id="storeTitle"
 										className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
 									/>
+									<span
+										className={titleCheck ? `hidden` : ``}
+									>
+										Please enter a store title
+									</span>
 								</div>
 							</div>
 
@@ -202,6 +240,11 @@ export default function FormStore(props) {
 										id="phoneNumber"
 										className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
 									/>
+									<span
+										className={phoneCheck ? `hidden` : ``}
+									>
+										Please enter a valid phone number
+									</span>
 								</div>
 							</div>
 
@@ -223,26 +266,11 @@ export default function FormStore(props) {
 										type="text"
 										className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
 									/>
-								</div>
-							</div>
-
-							<div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-								<label
-									htmlFor="country"
-									className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-								>
-									Country
-								</label>
-								<div className="mt-1 sm:mt-0 sm:col-span-2">
-									<select
-										id="country"
-										name="country"
-										onChange={(e) => setCountry(e.target.value)}
-										className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+									<span
+										className={emailCheck ? `hidden` : ``}
 									>
-										<option value="United States">United States</option>
-										<option value="Canada">Canada</option>
-									</select>
+										Please enter a valid email
+									</span>
 								</div>
 							</div>
 
