@@ -276,26 +276,6 @@ export default function FormStore(props) {
 
 							<div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
 								<label
-									htmlFor="country"
-									className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-								>
-									Country
-								</label>
-								<div className="mt-1 sm:mt-0 sm:col-span-2">
-									<select
-										id="country"
-										name="country"
-										onChange={(e) => setCountry(e.target.value)}
-										className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-									>
-										<option value="United States">United States</option>
-										<option value="Canada">Canada</option>
-									</select>
-								</div>
-							</div>
-
-							<div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-								<label
 									htmlFor="street"
 									className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
 								>
