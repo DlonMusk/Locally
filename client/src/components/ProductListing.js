@@ -127,6 +127,10 @@ export default function ProductListing() {
 
 	const { user } = useContext(UserContext);
 
+	let timelineArray = reviewProductArray.slice(0).reverse().map(function(reviewProductArray) {
+        return reviewProductArray;
+    });
+
 
 	return (
 		<>
@@ -249,7 +253,7 @@ export default function ProductListing() {
 						/>
 
 						<ul role="list" className="divide-y divide-gray-200">
-							{reviewProductArray.map((item) => (
+							{timelineArray.map((item) => (
 								<li key={item[0]} className="py-4">
 									<div className="flex space-x-3">
 										<img
