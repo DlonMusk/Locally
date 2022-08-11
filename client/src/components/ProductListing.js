@@ -80,7 +80,7 @@ export default function ProductListing() {
 					// INDEX 3 review true or false value based on if its a review or a post
 					productNestedReviews[key].review,
 					// INDEX 4 review time of creation
-					productNestedReviews[key].createdAt,
+					productNestedReviews[key].createdAt.substr(0, 10),
 					// INDEX 5 user id
 					reviewNestedUserData._id,
 					// INDEX 6 username for user
@@ -126,6 +126,10 @@ export default function ProductListing() {
 	const storeOwner = userData._id
 
 	const { user } = useContext(UserContext);
+
+	let timelineArray = reviewProductArray.slice(0).reverse().map(function(reviewProductArray) {
+        return reviewProductArray;
+    });
 
 
 	return (
@@ -249,7 +253,7 @@ export default function ProductListing() {
 						/>
 
 						<ul role="list" className="divide-y divide-gray-200">
-							{reviewProductArray.map((item) => (
+							{timelineArray.map((item) => (
 								<li key={item[0]} className="py-4">
 									<div className="flex space-x-3">
 										<img
