@@ -133,6 +133,9 @@ export default function FormProduct(props) {
 		return formErrors;
 	};
 
+
+	const [descriptionLengthCheck, setDescriptionLengthCheck] = useState(true);
+
 	// Handles the submit for the product form, if there is a length to the formErrors, it will set and error
 	const handleProductSubmit = () => {
 		const formErrors = checkFormErrors();
@@ -142,69 +145,79 @@ export default function FormProduct(props) {
 			return;
 		}
 
-		if (listingPageCheck) {
-			console.log("UPDATING PRODUCT UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
-			console.log(recievedProductData.storeInfo._id)
-			console.log(currentProductId)
-			
-			try {
-				updateProduct({
-					variables: {
-						id: currentProductId,
-						productData: {
-							productTitle: product.name,
-							productDescription: product.description,
-							productPrice: parseInt(product.price),
-							productImage: product.image,
-							tags: product.tags,
-							storeInfo: recievedProductData.storeInfo._id,
-						},
-					},
-
-					refetchQueries: [
-						{
-							query: QUERY_GET_USER_PRODUCT,
-							variables: { id: currentProductId}
-						},
-					]
-				});
-				props.onCancel();
-			}
-			catch (err) {
-				console.log(err)
-			}
-
+		if (product.description.length < 10 || product.description.length > 200) {
+			console.log("TOO SHORT OR LONG%%%%%%%%%%%%%%%%%%%%%%%");
+			setDescriptionLengthCheck(false)
 		} else {
-			console.log("TRYING TO ADD A PRODUCT HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
 
-			/* Running the addProduct mutation and passing in the values from the form,
-			then refetching the queries for content update
-			*/
-			try {
-				addProduct({
-					variables: {
-						productData: {
-							productTitle: product.name,
-							productDescription: product.description,
-							productPrice: parseInt(product.price),
-							productImage: product.image,
-							stock: product.stock,
-							tags: product.tags,
-							storeInfo: currentStore,
-		
+			setDescriptionLengthCheck(true)
+
+			if (listingPageCheck) {
+				console.log("UPDATING PRODUCT UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+				console.log(recievedProductData.storeInfo._id)
+				console.log(currentProductId)
+				
+				try {
+					updateProduct({
+						variables: {
+							id: currentProductId,
+							productData: {
+								productTitle: product.name,
+								productDescription: product.description,
+								productPrice: parseInt(product.price),
+								productImage: product.image,
+								tags: product.tags,
+								storeInfo: recievedProductData.storeInfo._id,
+							},
 						},
-					},
-					refetchQueries: [ {
-						query: QUERY_GET_USER_STORE,
-						variables: { id: currentStore }
-					 }],
-				});
-				props.onCancel();
+	
+						refetchQueries: [
+							{
+								query: QUERY_GET_USER_PRODUCT,
+								variables: { id: currentProductId}
+							},
+						]
+					});
+					props.onCancel();
+				}
+				catch (err) {
+					console.log(err)
+				}
+	
+			} else {
+				console.log("TRYING TO ADD A PRODUCT HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+	
+				/* Running the addProduct mutation and passing in the values from the form,
+				then refetching the queries for content update
+				*/
+				try {
+					addProduct({
+						variables: {
+							productData: {
+								productTitle: product.name,
+								productDescription: product.description,
+								productPrice: parseInt(product.price),
+								productImage: product.image,
+								stock: product.stock,
+								tags: product.tags,
+								storeInfo: currentStore,
+			
+							},
+						},
+						refetchQueries: [ {
+							query: QUERY_GET_USER_STORE,
+							variables: { id: currentStore }
+						 }],
+					});
+					props.onCancel();
+				}
+				catch (err) {
+					console.log(err)
+				}
 			}
-			catch (err) {
-				console.log(err)
-			}
+
 		}
+
 	};
 
 	useEffect(() => {
@@ -258,6 +271,9 @@ export default function FormProduct(props) {
 	console.log("TAG ITEM CHECK ABOVE RETURN ~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 	tagsList.map((tagTest) => (console.log([tagTest])))
 
+	console.log("LENGTH CHECK TRUE OR FALSE ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+	console.log(descriptionLengthCheck)
+
 	return (
 		<div className="space-y-8 divide-y divide-gray-200">
 			<div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
@@ -307,6 +323,11 @@ export default function FormProduct(props) {
 									)}
 									defaultValue={""}
 								/>
+								<span
+									className={descriptionLengthCheck ? `hidden` : ``}
+								>
+									Please write a description between 10 - 200 characters
+								</span>
 							</div>
 						</div>
 						<div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
@@ -323,8 +344,8 @@ export default function FormProduct(props) {
 										setProduct({ ...product, price: e.target.value })
 									}
 									value={product.price}
-									id="description"
-									name="description"
+									id="price"
+									name="price"
 									className={generateInputClassName(errors.includes("price"))}
 									defaultValue={""}
 								/>
