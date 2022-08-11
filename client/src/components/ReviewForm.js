@@ -198,7 +198,7 @@ export default function ReviewForm(props) {
 															<textarea
 																id="reviewInput"
 																name="reviewInput"
-																placeholder="Write your review"
+																placeholder={reviewPostCheck ? "Write your review" : "Write your post"}
 																rows={4}
 																value={reviewInput}
 																required
