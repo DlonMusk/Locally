@@ -315,6 +315,8 @@ const resolvers = {
             if (!updatedProduct) {
                 throw new AuthenticationError("Unable to update product");
             }
+            console.log("CHECKING ARGS FOR UPDATE PRODUCT")
+            console.log(args)
 
             await updatedProduct.update({
                 productTitle: args.productData.productTitle,
@@ -322,6 +324,7 @@ const resolvers = {
                 productPrice: args.productData.productPrice,
                 productImage: args.productData.productImage,
                 stock: args.productData.stock,
+                tags: args.productData.tags,
                 storeInfo: args.productData.storeInfo
             
             }, { new: true });

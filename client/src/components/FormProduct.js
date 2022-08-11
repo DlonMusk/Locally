@@ -25,6 +25,23 @@ export default function FormProduct(props) {
 		stock: 10,
 	});
 
+	const tagsList = [
+		// index 0
+		"Clothing",
+		// index 1
+		"Food/Beverage",
+		// index 2
+		"Art",
+		// index 3
+		"Accessories",
+		// index 4
+		"Entertainment",
+		// index 5
+		"Home/Living",
+		// index 6
+		"Odd Jobs",
+	]
+
 	const userArray = [];
 	// Grabbing the current route location of the page and then using it to assign a user id value
 	const location = useLocation();
@@ -66,7 +83,10 @@ export default function FormProduct(props) {
 				description: recievedProductData.productDescription,
 				price: recievedProductData.productPrice,
 				image: recievedProductData.productImage,
+				tags: recievedProductData.tags,
 			})
+			console.log("IF STATEMENT TAGTAGTAGTAGTAG")
+			console.log(recievedProductData.tags)
 	
 		}
 		
@@ -136,6 +156,7 @@ export default function FormProduct(props) {
 							productDescription: product.description,
 							productPrice: parseInt(product.price),
 							productImage: product.image,
+							tags: product.tags,
 							storeInfo: recievedProductData.storeInfo._id,
 						},
 					},
@@ -231,6 +252,12 @@ export default function FormProduct(props) {
 		return className;
 	};
 
+	console.log("PRODUCT STATE CHECK @@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+	console.log(product.tags)
+
+	console.log("TAG ITEM CHECK ABOVE RETURN ~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	tagsList.map((tagTest) => (console.log([tagTest])))
+
 	return (
 		<div className="space-y-8 divide-y divide-gray-200">
 			<div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
@@ -311,21 +338,21 @@ export default function FormProduct(props) {
 								Product Tags
 							</label>
 							<div className="mt-1 sm:mt-0 sm:col-span-2">
-								<input
-									type="text"
-									id="description"
-									name="description"
-									onChange={(e) => {
-										const tagArray = e.target.value.split(",");
-										setProduct({ ...product, tags: tagArray });
-									}}
-									className={generateInputClassName(errors.includes("tags"))}
-									defaultValue={""}
-								/>
-								<p>
-									Press enter tags comma seperated. E.g. clothes, summer,
-									t-shirt
-								</p>
+							{tagsList.map((tagItem) => (
+								<button
+								className={ [product.tags].toString() === tagItem ? `mt-4 ml-4 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800` : `mt-4 ml-4 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800`}
+								onClick={() => setProduct({ ...product, tags: [tagItem] })}
+								>
+									<svg
+										className={ [product.tags].toString() === tagItem ? `mr-1.5 h-2 w-2 text-red-400`: `mr-1.5 h-2 w-2 text-indigo-400` }
+										fill="currentColor"
+										viewBox="0 0 8 8"
+									>
+										<circle cx={4} cy={4} r={3} />
+									</svg>
+									{tagItem}
+								</button>
+							))}
 							</div>
 						</div>
 						<div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
