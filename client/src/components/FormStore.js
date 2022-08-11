@@ -104,6 +104,7 @@ export default function FormStore(props) {
 
 	const [emailCheck, setEmailCheck] = useState(true);
 	const [titleCheck, setTitleCheck] = useState(true);
+	const [phoneCheck, setPhoneCheck] = useState(true);
 
 	// Handling the submit for the store form
 	/* Running the addStore mutation and passing in the values from the form,
@@ -117,16 +118,26 @@ export default function FormStore(props) {
 			console.log("valid check failed")
 			setEmailCheck(false)
 			setTitleCheck(true)
+			setPhoneCheck(true)
 			return;
-		} else if (store.storeTitle.length === 0) {
+		} else if (/\d{10,}/.test(store.phoneNumber) === false && store.phoneNumber.length > 0) {
+			console.log("NOT A NUMBER")
+			setPhoneCheck(false)
+			setEmailCheck(true)
+			setTitleCheck(true)
+			return;
+		}	
+		else if (store.storeTitle.length === 0) {
 			console.log("title check failed")
 			setTitleCheck(false)
 			setEmailCheck(true)
+			setPhoneCheck(true)
 			return;
 		} else {
 
 			setEmailCheck(true)
 			setTitleCheck(true)
+			setPhoneCheck(true)
 
 			if (storeId) {
 			
@@ -229,6 +240,11 @@ export default function FormStore(props) {
 										id="phoneNumber"
 										className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
 									/>
+									<span
+										className={phoneCheck ? `hidden` : ``}
+									>
+										Please enter a valid phone number
+									</span>
 								</div>
 							</div>
 
