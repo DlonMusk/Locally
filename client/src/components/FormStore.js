@@ -120,7 +120,7 @@ export default function FormStore(props) {
 			setTitleCheck(true)
 			setPhoneCheck(true)
 			return;
-		} else if (/\d{10,}/.test(store.phoneNumber) === false && store.phoneNumber.length > 0) {
+		} else if (/^\d{10,}$/.test(store.phoneNumber) === false && store.phoneNumber.length > 0) {
 			console.log("NOT A NUMBER")
 			setPhoneCheck(false)
 			setEmailCheck(true)
