@@ -266,6 +266,48 @@ const resolvers = {
             return updatedStore;
         },
 
+        removeStore: async(parent, {storeId}) => {
+            // find store to remove
+            // go through each post and delete it from the database
+            // remove the store from the database
+
+            const storeToDelete = await Store.findOne({_id: storeId});
+
+            console.log(storeToDelete);
+            console.log(storeToDelete.reviews.length);
+
+            const storeReviews = storeToDelete.reviews;
+
+            const storeProducts = storeToDelete.products;
+
+            if(storeReviews){
+                for(let i = 0; i < storeReviews.length; i++){
+                    const deleted = await Post.findOneAndDelete({_id: storeReviews[i]._id})
+                    console.log(deleted);
+                    if(!deleted) throw new AuthenticationError("Could not delete post")
+                }
+            } else throw new AuthenticationError("No reviews");
+
+            if(storeProducts){
+                for(let i = 0; i < storeProducts.length; i++){
+                    const product = storeProducts[i];
+
+                    for(let j = 0; j < product.reviews.length; j++){
+                        const deletedProductReview = await Post.findOneAndDelete({_id: product.reviews[j]._id})
+                        if(!deletedProductReview) throw new AuthenticationError("could not delete post")
+                    }
+
+                    await Product.findOneAndDelete({_id: product._id});
+                }
+            }
+            
+
+            const deletedStore = await Store.findOneAndDelete({_id: storeId});
+            if(!deletedStore) throw new AuthenticationError("No store was deleted");
+
+            return deletedStore;
+        },
+
 
         
         addProduct: async (parent, { productData }, context) => {
